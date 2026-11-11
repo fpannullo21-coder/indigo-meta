@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face { font-family: "Inter"; font-weight: 400; src: url("fonts/inter-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 500; src: url("fonts/inter-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 600; src: url("fonts/inter-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 700; src: url("fonts/inter-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Grotesk"; font-weight: 500; src: url("fonts/space-grotesk-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Grotesk"; font-weight: 700; src: url("fonts/space-grotesk-latin-700-normal.woff2") format("woff2"); }
+:root { --bg: #15122E; --bg-2: #1E1A40; --line: #2E2961; --ink: #F4F2FF; --ink-2: #B9B3D9; --ink-3: #8A84AD; --accent: #9D8CFF; --accent-2: #6C5CE7; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #000; font-family: "Inter", sans-serif; color: var(--ink); }
+.slide { width: 1080px; height: 1350px; position: relative; overflow: hidden; background: var(--bg); padding: 88px 84px 0; display: flex; flex-direction: column; }
+.slide::before { content: ""; position: absolute; width: 900px; height: 900px; right: -420px; top: -460px;
+  background: radial-gradient(circle, rgba(108,92,231,.32), rgba(108,92,231,0) 65%); }
+.brand { display: flex; align-items: center; gap: 14px; font-family: "Grotesk"; font-weight: 700; font-size: 26px; letter-spacing: .18em; color: var(--ink-2); position: relative; }
+.brand .dot { width: 18px; height: 18px; border-radius: 5px; background: var(--accent-2); box-shadow: 10px 10px 0 -2px var(--accent); }
+.brand .wk { margin-left: auto; letter-spacing: .06em; font-weight: 500; color: var(--ink-3); }
+.foot { position: absolute; left: 84px; right: 84px; bottom: 56px; display: flex; justify-content: space-between; font-size: 20px; color: var(--ink-3); border-top: 1px solid var(--line); padding-top: 24px; }
+.page { font-family: "Grotesk"; font-weight: 500; }
+
+.cover h1 { font-family: "Grotesk"; font-weight: 700; font-size: 150px; line-height: .92; letter-spacing: -.03em; margin-top: 150px; position: relative; }
+.cover h1 span { color: var(--accent); display: block; }
+.cover .dates { font-size: 34px; color: var(--ink-2); margin-top: 30px; position: relative; }
+.areas { margin-top: 70px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; position: relative; }
+.area { background: var(--bg-2); border: 1px solid var(--line); border-radius: 18px; padding: 20px 22px; }
+.area b { display: block; font-family: "Grotesk"; font-size: 46px; font-weight: 700; line-height: 1; }
+.area i { font-style: normal; font-size: 21px; color: var(--ink-2); display: block; margin-top: 8px; }
+.swipe { position: absolute; right: 84px; bottom: 124px; font-size: 26px; color: var(--ink-2); font-weight: 600; }
+
+.list { margin-top: 44px; display: flex; flex-direction: column; position: relative; }
+.sec { display: flex; align-items: baseline; gap: 16px; margin-top: 26px; padding-bottom: 12px; border-bottom: 2px solid var(--accent-2); }
+.sec:first-child { margin-top: 0; }
+.sec h3 { font-family: "Grotesk"; font-size: 40px; font-weight: 700; }
+.sec span { font-size: 21px; color: var(--ink-3); }
+.sec em { margin-left: auto; font-style: normal; font-family: "Grotesk"; font-size: 24px; color: var(--accent); font-weight: 700; }
+.row { display: grid; grid-template-columns: 116px 86px 1fr; column-gap: 18px; align-items: center; height: 64px; border-bottom: 1px solid var(--line); }
+.row .d { font-family: "Grotesk"; font-size: 26px; font-weight: 700; }
+.row .t { font-size: 22px; color: var(--ink-2); }
+.row .w { min-width: 0; }
+.row .w b { display: block; font-size: 25px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row .w small { display: block; font-size: 19px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<section class="slide cover">
+  <div class="brand"><span class="dot"></span>INDIGO META<span class="wk">SETTIMANA {{ week }}</span></div>
+  <h1>League<span>Cup</span></h1>
+  <div class="dates">{{ dates }} · {{ total }} Cup in Italia</div>
+  <div class="areas">
+  {% for name, items in groups %}<div class="area"><b>{{ items|length }}</b><i>{{ name }}</i></div>{% endfor %}
+  </div>
+  <div class="swipe">Trova la tua →</div>
+  <div class="foot"><span>Solo League Cup del Pokémon TCG</span><span class="page">1/{{ n_slides }}</span></div>
+</section>
+
+{% for page in pages %}
+<section class="slide">
+  <div class="brand"><span class="dot"></span>INDIGO META<span class="wk">SETTIMANA {{ week }}</span></div>
+  <div class="list">
+  {% for name, items, regions in page %}
+    <div class="sec"><h3>{{ name }}</h3>{% if regions %}<span>{{ regions }}</span>{% endif %}<em>{{ items|length }}</em></div>
+    {% for c in items %}
+    <div class="row"><span class="d">{{ c.day }}</span><span class="t">{{ c.time }}</span>
+      <span class="w"><b>{{ c.city }}</b><small>{{ c.shop|title }}</small></span></div>
+    {% endfor %}
+  {% endfor %}
+  </div>
+  <div class="foot"><span>Dati: Event Locator Play! Pokémon via pokedata.ovh · verifica sempre con il negozio</span><span class="page">{{ loop.index + 1 }}/{{ n_slides }}</span></div>
+</section>
+{% endfor %}
+
+</body>
+</html>

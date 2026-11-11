@@ -1,0 +1,31 @@
+name: Indigo Meta – League Cup della settimana
+
+on:
+  schedule:
+    - cron: "13 7 * * 2"   # ogni martedì alle 07:13 UTC (08:13 in Italia d'inverno)
+  workflow_dispatch:
+
+jobs:
+  cups:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Dipendenze
+        run: |
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+      - name: Genera la lista delle Cup
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python run_cups.py
+      - name: Salva slide e caption
+        uses: actions/upload-artifact@v4
+        with:
+          name: indigo-cup-${{ github.run_number }}
+          path: |
+            output/*-cup/slide_*.png
+            output/*-cup/caption.txt
