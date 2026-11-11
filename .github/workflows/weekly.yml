@@ -1,0 +1,57 @@
+name: Indigo Meta – report settimanale
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"   # ogni lunedì alle 06:17 UTC (07:17 in Italia d'inverno)
+  workflow_dispatch:         # avvio manuale dal tab Actions
+    inputs:
+      week:
+        description: "Settimana ISO (vuoto = ultima completa)"
+        required: false
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Dipendenze
+        run: |
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Cache classifiche Limitless
+        uses: actions/cache@v4
+        with:
+          path: cache
+          key: limitless-${{ github.run_id }}
+          restore-keys: limitless-
+
+      - name: Aggiorna l'elenco dei set (nuove espansioni)
+        run: python tools/update_setmap.py || echo "Elenco set non aggiornato, uso quello salvato"
+
+      - name: Genera report
+        env:
+          LIMITLESS_API_KEY: ${{ secrets.LIMITLESS_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          if [ -n "${{ github.event.inputs.week }}" ]; then
+            python run_weekly.py --week "${{ github.event.inputs.week }}"
+          else
+            python run_weekly.py
+          fi
+
+      - name: Salva slide e caption
+        uses: actions/upload-artifact@v4
+        with:
+          name: indigo-meta-${{ github.run_number }}
+          path: |
+            output/*/slide_*.png
+            output/*/caption.txt
+            output/*/report.json
