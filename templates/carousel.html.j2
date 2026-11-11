@@ -127,13 +127,15 @@ h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.0
 .card .ph small { font-size: 12px; color: var(--ink-3); line-height: 1.3; padding-bottom: 26px; }
 .card .ph.energy { border: none; background: none; }
 .card .ph.energy span { font-size: 19px; font-weight: 700; }
-.sumtile { border-radius: 9px; background: var(--bg-2); border: 1px solid var(--line); padding: 14px 20px;
-  display: flex; flex-direction: column; justify-content: center; gap: 8px; height: 0; min-height: 100%; overflow: hidden; }
-.sumtile .big { font-family: "Grotesk"; font-size: 46px; font-weight: 700; line-height: 1; letter-spacing: -.02em; }
-.sumtile .big span { font-family: "Inter"; font-size: 20px; font-weight: 600; color: var(--ink-2); margin-left: 8px; letter-spacing: 0; }
-.sumtile .mix { display: flex; flex-direction: column; gap: 3px; font-size: 18px; color: var(--ink-2); }
-.sumtile .mix b { display: inline-block; min-width: 36px; font-family: "Grotesk"; font-size: 20px; color: var(--ink); }
-.sumtile .note { font-size: 15px; color: var(--ink-3); border-top: 1px solid var(--line); padding-top: 8px; }
+.sumtile { border-radius: 9px; background: var(--bg-2); border: 1px solid var(--line); padding: 0 22px;
+  display: flex; flex-direction: row; align-items: center; gap: 22px; height: 0; min-height: 100%; overflow: hidden; }
+.sumtile .tot { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
+.sumtile .big { font-family: "Grotesk"; font-size: 58px; font-weight: 700; line-height: 1; letter-spacing: -.02em; }
+.sumtile .lbl { font-size: 19px; font-weight: 600; color: var(--ink-2); line-height: 1.2; }
+.sumtile .note { font-size: 14px; color: var(--ink-3); line-height: 1.25; margin-top: 4px; }
+.sumtile .mix { display: flex; flex-direction: column; gap: 8px; font-size: 18px; line-height: 1.2; color: var(--ink-2);
+  border-left: 1px solid var(--line); padding-left: 20px; }
+.sumtile .mix b { display: inline-block; min-width: 34px; font-family: "Grotesk"; font-size: 20px; color: var(--ink); }
 .qty { position: absolute; right: 6px; bottom: 6px; background: var(--bg); color: var(--ink); border: 2px solid var(--accent);
   border-radius: 10px; font-family: "Grotesk"; font-size: 24px; font-weight: 700; padding: 2px 10px; line-height: 1.2; }
 
@@ -279,10 +281,13 @@ h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.0
   {% endfor %}
   {% if deck.summary_span %}
     <div class="sumtile" style="grid-column: span {{ deck.summary_span }}">
-      <div class="big">{{ deck.total }}<span>carte</span></div>
+      <div class="tot">
+        <div class="big">{{ deck.total }}</div>
+        <div class="lbl">carte</div>
+        {% if deck.summary_span >= 2 %}<div class="note">{% if deck.price %}circa {{ deck.price }}{% else %}{{ deck.unique }} diverse{% endif %}</div>{% endif %}
+      </div>
       {% if deck.summary_span >= 2 %}
       <div class="mix">{% for label, n in deck.counts %}<div><b>{{ n }}</b>{{ label }}</div>{% endfor %}</div>
-      <div class="note">{% if deck.price %}Costo indicativo {{ deck.price }}{% else %}{{ deck.unique }} carte diverse{% endif %}</div>
       {% endif %}
     </div>
   {% endif %}
