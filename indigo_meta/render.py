@@ -49,7 +49,7 @@ def delta_html(d: float | None) -> Markup:
 
 
 # ---------- dati per le slide ----------
-def build_view(r: WeekReport, handle: str = "@indigometa", min_entries: int = 20,
+def build_view(r: WeekReport, handle: str = "@indigo.meta", min_entries: int = 20,
                conv_min: int = 40, tier_cuts: dict | None = None, deck: dict | None = None) -> dict:
     tier_cuts = tier_cuts or TIER_CUTS
     real = [d for d in r.decks if d.id not in OTHER_IDS]

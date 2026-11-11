@@ -4,7 +4,7 @@
 Uso:
   python run_weekly.py                 # ultima settimana ISO completa
   python run_weekly.py --week 45 --year 2026
-  python run_weekly.py --min-players 64 --handle @indigometa
+  python run_weekly.py --min-players 64 --handle @indigo.meta
 
 Output in output/<anno>-W<settimana>/: report.json, carousel.html, slide_XX.png, caption.txt
 """
@@ -29,7 +29,7 @@ def main():
     ap.add_argument("--year", type=int)
     ap.add_argument("--week", type=int)
     ap.add_argument("--min-players", type=int, default=32)
-    ap.add_argument("--handle", default="@indigometa")
+    ap.add_argument("--handle", default="@indigo.meta")
     ap.add_argument("--no-telegram", action="store_true")
     ap.add_argument("--no-deck", action="store_true", help="salta la slide con la lista della settimana")
     a = ap.parse_args()
