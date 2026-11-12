@@ -2,6 +2,11 @@ name: Indigo Meta – coda di pubblicazione
 
 on:
   workflow_dispatch:
+    inputs:
+      ignore_pause:
+        description: "Ignora la pausa dopo un blocco di Meta"
+        required: false
+        default: "false"
 
 concurrency:
   group: tg-buttons                 # stessa coda dei pulsanti Telegram: mai due pubblicazioni insieme
@@ -29,6 +34,7 @@ jobs:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
           PAGES_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+          IGNORE_PAUSE: ${{ inputs.ignore_pause }}
         run: python publish_queue.py
       - if: always()
         uses: actions/cache/save@v4

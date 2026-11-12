@@ -6,6 +6,7 @@ Telegram (cache/tg_state.json), quindi un post non esce mai due volte, comunque 
 """
 import datetime as dt
 import json
+import os
 from pathlib import Path
 
 from indigo_meta.instagram import InstagramError
@@ -15,7 +16,7 @@ def check() -> None:
     state = json.loads(STATE.read_text()) if STATE.exists() else {"offset": 0, "published": []}
     now = dt.datetime.now(dt.timezone.utc)
     pause = state.get("pause_until")
-    if pause and dt.datetime.fromisoformat(pause) > now:
+    if pause and dt.datetime.fromisoformat(pause) > now and os.getenv("IGNORE_PAUSE") != "true":
         return                                              # Instagram ha bloccato l'accesso: si riprova più tardi
     for item in json.loads(Path("queue.json").read_text()):
         when = dt.datetime.fromisoformat(item["at"].replace("Z", "+00:00"))
@@ -30,6 +31,7 @@ def check() -> None:
         STATE.write_text(json.dumps(state))
         try:
             publish(key)
+            state.pop("pause_until", None)                  # l'accesso funziona di nuovo
         except InstagramError as e:
             state["published"].remove(key)
             if "blocked" in str(e).lower() or "(codice 200)" in str(e):
