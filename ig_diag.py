@@ -31,5 +31,16 @@ if host == "graph.facebook.com":
         out["app"] = call(dbg["app_id"], fields="name,link")
 text = json.dumps(out, ensure_ascii=False, indent=1)
 print(text)
+if os.getenv("QUIET") == "true":                     # controllo quotidiano: scrive solo se c'è un problema
+    import time
+    exp = (out.get("token") or {}).get("expires_at") or 0
+    days = (exp - time.time()) / 86400 if exp else 999
+    blocked = "error" in out["account"]
+    if not blocked and days > 7:
+        raise SystemExit(0)
+    text = ("⛔ Instagram rifiuta il token: rigeneralo (Tool di esplorazione → Estendi token → secret IG_ACCESS_TOKEN)."
+            if blocked else
+            f"⏳ Il token di Instagram scade tra {days:.0f} giorni. Rigeneralo: Tool di esplorazione API Graph → Generate Access Token → "
+            "developers.facebook.com/tools/debug/accesstoken → Estendi → aggiorna il secret IG_ACCESS_TOKEN su GitHub.")
 requests.post(f"https://api.telegram.org/bot{os.environ['TELEGRAM_BOT_TOKEN']}/sendMessage",
               data={"chat_id": os.environ["TELEGRAM_CHAT_ID"], "text": "🩺 Diagnosi Instagram\n\n" + text[:3800]}, timeout=30)

@@ -2,6 +2,11 @@ name: Indigo Meta – diagnosi Instagram
 
 on:
   workflow_dispatch:
+    inputs:
+      quiet:
+        description: "Scrivi su Telegram solo se c'è un problema"
+        required: false
+        default: "false"
 
 jobs:
   diag:
@@ -18,4 +23,5 @@ jobs:
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          QUIET: ${{ inputs.quiet }}
         run: python ig_diag.py

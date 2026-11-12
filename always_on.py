@@ -28,6 +28,7 @@ PLAN = [
     ({5, 6, 0}, list(range(24)), 50, "watch-majors.yml", {}),             # major appena conclusi
     ({1}, list(range(0, 24, 3)), 50, "watch-majors.yml", {}),
     (set(range(7)), list(range(24)), 0, "radar.yml", {}),                 # news
+    (set(range(7)), [10], 5, "ig-diag.yml", {"quiet": "true"}),           # token Instagram: avviso 7 giorni prima
 ]
 
 
