@@ -150,7 +150,7 @@ def _grid(n: int, extra: int) -> tuple[int, int]:
             continue
         free = rows * cols - n
         # una sola cella libera non basta per il riepilogo: meglio griglia piena o riepilogo largo
-        key = (free if free != 1 else 50, cols)
+        key = (free, cols)
         if best is None or key < best[0]:
             best = (key, cols, free)
     if best is None:
@@ -183,6 +183,6 @@ def build_deck(winner: dict, cards: list, remote: bool = False) -> dict:
         player=winner.get("player") or "",
         record=f"{rec.get('wins', 0)}-{rec.get('losses', 0)}-{rec.get('ties', 0)}",
         price=(f"{price:.0f} €" if price is not None and cov >= 0.95 else None),
-        cards=items, cols=cols, summary_span=(free if free >= 2 else 0), total=total, unique=len(items),
+        cards=items, cols=cols, summary_span=0,   # niente riquadro riepilogo: i conteggi vanno nel sottotitolo, per tutti i mazzi total=total, unique=len(items),
         counts=[("Pokémon", counts["pokemon"]), ("Allenatori", counts["trainer"]), ("Energie", counts["energy"])],
     )

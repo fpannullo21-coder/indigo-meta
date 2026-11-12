@@ -3,8 +3,10 @@
   <div class="brand"><svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">{{ brand_right if brand_right is defined else "SETTIMANA " ~ r.week }}</span></div>
   <div class="kicker" style="margin-top:36px">{{ deck.kicker if deck.kicker is defined else "Lista della settimana" }}</div>
   <h2 style="font-size:60px; margin-top:12px">{{ deck.name }}</h2>
-  <div class="sub" style="font-size:23px; margin-top:10px; line-height:1.3">{{ deck.place }}° posto su {{ deck.players }} giocatori · {{ deck.tournament }}<br>
-    {{ deck.player }}{% if deck.country is defined and deck.country %} {{ deck.flag }} {{ deck.country }}{% endif %} · {{ deck.record }}{% if deck.price %} · costo indicativo {{ deck.price }}{% endif %}</div>
+  {% set mix %}{% for label, n in deck.counts %}{{ n }} {{ label }}{% if not loop.last %} · {% endif %}{% endfor %}{% endset %}
+  {% set champ = deck.kicker is defined %}
+  <div class="sub" style="font-size:23px; margin-top:10px; line-height:1.3">{{ deck.place }}° posto su {{ deck.players }} giocatori · {% if champ %}{{ mix }}{% else %}{{ deck.tournament }}{% endif %}<br>
+    {{ deck.player }}{% if deck.country is defined and deck.country %} {{ deck.flag }} {{ deck.country }}{% endif %} · {{ deck.record }}{% if deck.price %} · costo indicativo {{ deck.price }}{% endif %}{% if not champ %} · {{ mix }}{% endif %}</div>
   <div class="cards" style="grid-template-columns: repeat({{ deck.cols }}, minmax(0, 1fr))">
   {% for c in deck.cards %}
     <div class="card">
