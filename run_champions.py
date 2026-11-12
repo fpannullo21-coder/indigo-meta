@@ -40,7 +40,7 @@ def rec_dict(r: str) -> dict:
 CATEGORY = "TCG Masters"
 
 
-def build(tid: int, out_root: Path, cc: str = "") -> Path:
+def build(tid: int, out_root: Path, cc: str = "", top8_only: bool = False) -> Path:
     m = load(tid, ROOT / "cache", lists=8)
     venue = {"cc": cc, "flag": flag(cc), "country": country(cc) if cc else ""}
     c = m.top[0]
@@ -48,7 +48,7 @@ def build(tid: int, out_root: Path, cc: str = "") -> Path:
     r = rec_dict(c.record)
     swiss = f"{r['wins'] - wins}-{r['losses'] - sum(1 for p in c.path if p[3] == 'S')}-{r['ties']}" if c.record else "–"
     decks = []
-    for p in m.top[:8]:
+    for p in ([] if top8_only else m.top[:8]):
         if not p.decklist:
             continue
         cards = resolve_decklist(p.decklist, ROOT / "cache")
@@ -63,13 +63,13 @@ def build(tid: int, out_root: Path, cc: str = "") -> Path:
     slug = re.sub(r"[^a-z0-9]+", "-", unicodedata.normalize("NFKD", m.name).encode("ascii", "ignore").decode().lower()).strip("-")
     if c.opw:
         c.opw = c.opw.replace("%", "").replace(".", ",").rstrip("0").rstrip(",") + "%"
-    out = out_root / f"campioni-{tid}"
+    out = out_root / (f"top8-{tid}" if top8_only else f"campioni-{tid}")
     out.mkdir(parents=True, exist_ok=True)
     env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True)
     html = env.get_template("champions.html.j2").render(
         m=m, decks=decks, deck_counts=deck_counts, italians=italians, swiss=swiss, date_it=date_it(m.date),
         num=num, brand_right=(m.name.upper()[:24] + (" " + venue["flag"] if venue["flag"] else "")), venue=venue,
-        category=CATEGORY, n_slides=3 + len(decks))
+        category=CATEGORY, only_top8=top8_only, n_slides=2 if top8_only else 2 + len(decks))
     (out / "champions.html").write_text(html, encoding="utf-8")
     slides = render_png(out / "champions.html", out)
 
@@ -87,6 +87,13 @@ def build(tid: int, out_root: Path, cc: str = "") -> Path:
     lines += ["Nelle slide le liste di tutta la top 8, carta per carta. Salvale per il prossimo torneo 📌", "",
               "Dati: Limitless TCG · RK9 · immagini carte © Pokémon / Nintendo / Creatures / GAME FREAK", "",
               "#pokemontcg #pokemontcgitalia #ptcg #regionals #decklist #tcgitalia"]
+    if top8_only:
+        lines = [f"🔴 RISULTATI · {m.name}{where} · {CATEGORY}", "",
+                 f"È finito il {m.name}: {num(m.players)} giocatori. Ha vinto {c.name} {c.flag} con {c.deck}! 🏆", "",
+                 "La top 8:"] + [f"{p.place}. {p.name} {p.flag} · {p.deck}" for p in m.top] + [""]
+        lines += [f"🇮🇹 Grande risultato per {p.name}: {'top 4' if p.place <= 4 else 'top 8'} con {p.deck}!" for p in italians]
+        lines += ["", "Domani le liste di tutta la top 8 nei «Mazzi dei campioni» 📌", "", "Dati: Limitless TCG · RK9", "",
+                  "#pokemontcg #pokemontcgitalia #ptcg #regionals #tcgitalia"]
     (out / "caption.txt").write_text("\n".join(lines), encoding="utf-8")
     print(f"Campioni: {m.name} — {len(slides)} slide in {out}")
     return out
@@ -96,12 +103,14 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--tid", type=int)
     ap.add_argument("--season", action="store_true")
+    ap.add_argument("--cc", default="", help="paese della sede, se il torneo non è in majors_ids.json")
+    ap.add_argument("--top8-only", action="store_true", help="solo copertina e top 8 (risultati a caldo)")
     a = ap.parse_args()
     known = {e["tid"]: e.get("cc", "") for e in json.loads((ROOT / "data" / "majors_ids.json").read_text())}
     ids = [a.tid] if a.tid else list(known)
     for tid in ids:
         try:
-            build(tid, ROOT / "output", known.get(tid, ""))
+            build(tid, ROOT / "output", known.get(tid, "") or a.cc, top8_only=a.top8_only)
         except Exception as e:
             print(f"  Torneo {tid} saltato: {e}")
 

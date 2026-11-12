@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+{% include "_style.css.j2" %}
+.r-title { font-family: "Grotesk"; font-weight: 700; font-size: 88px; line-height: 1; letter-spacing: -.02em; margin-top: 24px; position: relative; }
+.r-title em { font-style: normal; color: var(--accent); }
+.r-lead { font-size: 30px; color: var(--ink-2); margin-top: 22px; line-height: 1.35; position: relative; }
+.r-lead b { color: var(--ink); }
+.podium { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 50px; position: relative; }
+.podium .pc { text-align: center; }
+.podium img, .podium .ph { width: 100%; aspect-ratio: 63/88; border-radius: 14px; object-fit: cover; box-shadow: 0 16px 40px rgba(0,0,0,.45); }
+.ph { background: var(--bg-2); border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; text-align: center;
+  padding: 12px; box-sizing: border-box; font-weight: 700; font-size: 20px; color: var(--ink-2); }
+.podium b { display: block; font-family: "Grotesk"; font-size: 54px; margin-top: 16px; }
+.podium i { display: block; font-style: normal; font-size: 22px; color: var(--ink-2); margin-top: 2px; }
+.cgrid { display: grid; gap: 18px 16px; margin-top: 40px; position: relative; }
+.cgrid .cc img, .cgrid .cc .ph { width: 100%; aspect-ratio: 63/88; border-radius: 10px; object-fit: cover; display: block; }
+.cgrid .cc b { display: block; font-family: "Grotesk"; font-size: 34px; margin-top: 10px; }
+.cgrid .cc i { display: block; font-style: normal; font-size: 18px; color: var(--ink-3); line-height: 1.25; }
+.cgrid .cc .nm { font-size: 19px; font-weight: 600; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mov { margin-top: 40px; position: relative; }
+.mov h4, .blk h4 { font-size: 21px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 26px 0 10px; }
+.mrow { display: grid; grid-template-columns: 1fr 140px 150px; align-items: center; height: 74px; border-bottom: 1px solid var(--line); column-gap: 16px; }
+.mrow .nm { font-size: 28px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mrow .v { font-family: "Grotesk"; font-size: 28px; font-weight: 700; text-align: right; }
+.mrow .d { font-size: 24px; text-align: right; color: var(--ink-2); font-weight: 600; }
+.mrow .d .up { color: var(--up); } .mrow .d .dn { color: var(--down); }
+/* heatmap */
+.hm { margin-top: 34px; position: relative; display: grid; gap: 4px; }
+.hm .h { font-size: 17px; font-weight: 700; color: var(--ink-2); display: flex; align-items: flex-end; justify-content: center; text-align: center; line-height: 1.15; padding-bottom: 8px; }
+.hm .rl { font-size: 21px; font-weight: 700; display: flex; align-items: center; line-height: 1.15; padding-right: 8px; }
+.hm .cell { height: 120px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.hm .cell b { font-family: "Grotesk"; font-size: 34px; color: #fff; }
+.hm .cell i { font-style: normal; font-size: 15px; color: rgba(255,255,255,.75); margin-top: 2px; }
+.hm .cell.na { background: transparent; border: 1px dashed var(--line); }
+.hm .cell.na b { color: var(--ink-3); font-size: 28px; }
+.hm .cell.self { background: transparent; }
+.legend { display: flex; gap: 26px; margin-top: 24px; font-size: 20px; color: var(--ink-2); position: relative; align-items: center; flex-wrap: wrap; }
+.legend span { display: inline-flex; align-items: center; gap: 8px; }
+.legend s { width: 26px; height: 18px; border-radius: 4px; display: inline-block; text-decoration: none; }
+/* barre orizzontali (serie singola) */
+.bars { margin-top: 18px; position: relative; }
+.br { display: grid; grid-template-columns: 330px 1fr 80px; align-items: center; column-gap: 16px; height: 56px; }
+.br .nm { font-size: 24px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.br .tr { height: 22px; }
+.br .bar { height: 22px; background: var(--accent); border-radius: 0 4px 4px 0; }
+.br .v { font-family: "Grotesk"; font-size: 26px; font-weight: 700; text-align: right; }
+/* tabelle */
+.tbl { margin-top: 34px; position: relative; }
+.trw { display: grid; align-items: center; column-gap: 16px; min-height: 96px; border-bottom: 1px solid var(--line); padding: 6px 0; }
+.trw .a b { display: block; font-size: 27px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.trw .a i { display: block; font-style: normal; font-size: 20px; color: var(--ink-3); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.trw .n { font-family: "Grotesk"; font-size: 36px; font-weight: 700; text-align: right; }
+.trw .pl { font-family: "Grotesk"; font-size: 34px; font-weight: 700; color: var(--accent); }
+.steps { margin-top: 40px; display: flex; flex-direction: column; gap: 18px; position: relative; }
+.step { display: grid; grid-template-columns: 170px 1fr; column-gap: 22px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 22px; padding: 26px 30px; align-items: center; }
+.step .w { font-family: "Grotesk"; font-size: 30px; font-weight: 700; color: var(--accent); }
+.step p { font-size: 26px; line-height: 1.35; color: var(--ink-2); }
+.step p b { color: var(--ink); }
+.flags { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 30px; position: relative; }
+.flag { background: var(--bg-2); border: 1px solid var(--line); border-radius: 20px; padding: 22px; text-align: center; }
+.flag.it { background: rgba(108,92,231,.25); }
+.flag .e { font-size: 54px; line-height: 1; }
+.flag b { display: block; font-family: "Grotesk"; font-size: 40px; margin-top: 8px; }
+.flag i { display: block; font-style: normal; font-size: 19px; color: var(--ink-2); }
+</style>
+</head>
+<body>
+{% set logo %}<svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>{% endset %}
+{% macro img(c) %}{% if c.src %}<img src="{{ c.src }}" alt="{{ c.name }}">{% else %}<div class="ph">{{ c.name }}</div>{% endif %}{% endmacro %}
+{% macro head(kicker) %}<div class="brand">{{ logo }}INDIGO META<span class="wk">{{ r.brand_right }}</span></div><div class="kicker">{{ kicker }}</div>{% endmacro %}
+{% macro foot(page, note=None) %}<div class="foot"{% if note and note|length > 70 %} style="font-size:17px"{% endif %}><span>{{ note or r.source }}</span><span class="page">{{ page }}/{{ r.n_slides }}</span></div>{% endmacro %}
+
+{# ======================= LE CARTE PIÙ GIOCATE ======================= #}
+{% if r.kind == "carte" %}
+<section class="slide">
+  {{ head("Le carte più giocate · " ~ r.category) }}
+  <div class="r-title">Le carte che <em>non mancano mai</em></div>
+  <div class="r-lead"><b>{{ r.n_lists }} liste</b> arrivate in top 8 in <b>{{ r.n_tournaments }} tornei</b> online · {{ r.dates }}</div>
+  <div class="podium">{% for c in r.podium %}<div class="pc">{{ img(c) }}<b>{{ c.pct }}</b><i>{{ c.name }}</i></div>{% endfor %}</div>
+  <div class="swipe">La classifica →</div>
+  {{ foot(1) }}
+</section>
+<section class="slide">
+  {{ head("Allenatori") }}
+  <h2 style="font-size:60px">I 10 più usati in top 8</h2>
+  <div class="cgrid" style="grid-template-columns: repeat(5, minmax(0, 1fr))">{% for c in r.trainers %}<div class="cc">{{ img(c) }}<b>{{ c.pct }}</b><div class="nm">{{ c.name }}</div><i>{{ c.avg }} copie in media</i></div>{% endfor %}</div>
+  {{ foot(2, "% = liste di top 8 che la usano · " ~ r.source) }}
+</section>
+<section class="slide">
+  {{ head("Pokémon") }}
+  <h2 style="font-size:60px">I Pokémon che entrano in tanti mazzi</h2>
+  <div class="cgrid" style="grid-template-columns: repeat(4, minmax(0, 1fr))">{% for c in r.pokemon %}<div class="cc">{{ img(c) }}<b>{{ c.pct }}</b><div class="nm">{{ c.name }}</div><i>in {{ c.n_decks }} mazzi diversi</i></div>{% endfor %}</div>
+  {{ foot(3, "Esclusi i Pokémon che danno il nome al mazzo · " ~ r.source) }}
+</section>
+<section class="slide">
+  {{ head("Rispetto alla settimana prima") }}
+  <h2 style="font-size:60px">Chi sale e chi scende</h2>
+  <div class="mov">
+    <h4>In crescita</h4>
+    {% for c in r.up %}<div class="mrow"><span class="nm">{{ c.name }}</span><span class="v">{{ c.pct }}</span><span class="d"><span class="up">▲</span> {{ c.delta }}</span></div>{% endfor %}
+    <h4>In calo</h4>
+    {% for c in r.down %}<div class="mrow"><span class="nm">{{ c.name }}</span><span class="v">{{ c.pct }}</span><span class="d"><span class="dn">▼</span> {{ c.delta }}</span></div>{% endfor %}
+  </div>
+  {{ foot(4, "Punti percentuali di liste in top 8 rispetto alla settimana " ~ r.prev_week ~ " · " ~ r.source) }}
+</section>
+{% endif %}
+
+{# ======================= MATCHUP ======================= #}
+{% if r.kind == "matchup" %}
+<section class="slide">
+  {{ head("Matchup della settimana · " ~ r.category) }}
+  <div class="r-title">Chi batte <em>chi</em></div>
+  <div class="r-lead">Le partite tra i {{ r.decks|length }} mazzi più forti della settimana nei tornei online · {{ r.dates }}</div>
+  <div class="headline" style="margin-top:70px">{{ r.headline | safe }}</div>
+  <div class="stats" style="margin-top:40px">
+    <div class="stat"><b>{{ r.games }}</b><i>partite analizzate</i></div>
+    <div class="stat"><b>{{ r.best.short }}</b><i>più matchup vinti</i></div>
+    <div class="stat"><b>{{ r.best.avg }}</b><i>media vittorie</i></div>
+  </div>
+  <div class="swipe">La tabella →</div>
+  {{ foot(1) }}
+</section>
+<section class="slide">
+  {{ head("Percentuale di vittorie") }}
+  <h2 style="font-size:52px">Riga contro colonna</h2>
+  <div class="hm" style="grid-template-columns: 190px repeat({{ r.decks|length }}, 1fr)">
+    <div></div>{% for d in r.decks %}<div class="h">{{ d.short }}</div>{% endfor %}
+    {% for row in r.grid %}
+      <div class="rl">{{ row.deck.short }}</div>
+      {% for c in row.cells %}
+        {% if c.self %}<div class="cell self"></div>
+        {% elif not c.ok %}<div class="cell na"><b>–</b></div>
+        {% else %}<div class="cell" style="background: {{ c.color }}"><b>{{ c.wr }}</b><i>{{ c.games }} part.</i></div>{% endif %}
+      {% endfor %}
+    {% endfor %}
+  </div>
+  <div class="legend"><span><s style="background:#3987e5"></s> favorevole</span><span><s style="background:#383835"></s> 50%</span><span><s style="background:#e66767"></s> sfavorevole</span><span>– meno di {{ r.min_games }} partite</span></div>
+  {{ foot(2, "Pareggi contati come mezza vittoria · " ~ r.source) }}
+</section>
+<section class="slide">
+  {{ head("Classifica") }}
+  <h2 style="font-size:60px">Chi regge meglio il meta</h2>
+  <div class="r-lead" style="font-size:26px">Media delle vittorie contro gli altri mazzi della tabella</div>
+  <div class="bars" style="margin-top:36px">{% for d in r.ranking %}<div class="br"><span class="nm">{{ d.name }}</span><span class="tr"><div class="bar" style="width: {{ d.w }}%"></div></span><span class="v">{{ d.avg }}</span></div>{% endfor %}</div>
+  <div class="headline" style="margin-top:50px; font-size:26px">I numeri dicono chi ha il vantaggio, non chi vince sempre: <b>la lista e chi la gioca contano</b>.</div>
+  {{ foot(3) }}
+</section>
+{% endif %}
+
+{# ======================= ANTEPRIMA MAJOR ======================= #}
+{% if r.kind == "anteprima" %}
+<section class="slide">
+  {{ head("Questo weekend · " ~ r.category) }}
+  <div class="r-title" style="font-size:96px">{{ r.e.label }}<br><em>{{ r.e.name }}</em></div>
+  <div class="r-lead" style="font-size:34px">{{ r.flag }} {{ r.e.country }} · {{ r.when }}</div>
+  <div class="stats" style="margin-top:80px">
+    <div class="stat"><b>{{ r.days }}</b><i>giorni di gara</i></div>
+    <div class="stat"><b>{{ r.top_deck_short }}</b><i>mazzo da battere</i></div>
+    <div class="stat"><b>{{ r.last_winner_short }}</b><i>ha vinto l'ultimo major</i></div>
+  </div>
+  <div class="swipe">I favoriti →</div>
+  {{ foot(1) }}
+</section>
+<section class="slide">
+  {{ head("I mazzi da battere") }}
+  <h2 style="font-size:60px">Chi arriva da favorito</h2>
+  <div class="tbl">{% for d in r.favs %}<div class="trw" style="grid-template-columns: 70px 1fr 170px"><span class="pl">{{ loop.index }}</span><span class="a"><b>{{ d.name }}</b><i>{{ d.note }}</i></span><span class="n">{{ d.top8 }}</span></div>{% endfor %}</div>
+  <div class="headline" style="margin-top:40px; font-size:26px">{{ r.last_line | safe }}</div>
+  {{ foot(2, "% = posti in top 8 nei tornei online della settimana " ~ r.week ~ " · Limitless TCG") }}
+</section>
+<section class="slide">
+  {{ head("Seguilo con noi") }}
+  <h2 style="font-size:60px">Il weekend su Indigo Meta</h2>
+  <div class="steps">
+    <div class="step"><span class="w">Domenica</span><p><b>Top 8 in diretta</b>: chi è arrivato in fondo e con quali mazzi, appena finisce il torneo.</p></div>
+    <div class="step"><span class="w">Lunedì</span><p><b>I mazzi dei campioni</b>: il percorso del vincitore e le liste di tutta la top 8.</p></div>
+  </div>
+  <div class="mov"><h4>I prossimi major</h4>{% for e in r.next %}<div class="mrow" style="grid-template-columns: 1fr 260px"><span class="nm">{{ e.flag }} {{ e.label }} {{ e.name }}</span><span class="d">{{ e.when }}</span></div>{% endfor %}</div>
+  {{ foot(3) }}
+</section>
+{% endif %}
+
+{# ======================= ITALIANI NEI MAJOR ======================= #}
+{% if r.kind == "italiani" %}
+<section class="slide">
+  {{ head("Italiani nei major · " ~ r.category) }}
+  <div class="r-title">Gli <em>italiani</em> nei major</div>
+  <div class="r-lead">Come sono andati i nostri giocatori nei {{ r.n_majors }} major della stagione</div>
+  <div class="stats" style="margin-top:70px">
+    <div class="stat"><b>{{ r.total }}</b><i>piazzamenti italiani</i></div>
+    <div class="stat"><b>{{ r.best_place }}</b><i>miglior risultato</i></div>
+    <div class="stat"><b>{{ r.top8_count }}</b><i>volte in top 8</i></div>
+  </div>
+  <div class="headline" style="margin-top:44px">{{ r.headline | safe }}</div>
+  {{ foot(1) }}
+</section>
+<section class="slide">
+  {{ head("Major per major") }}
+  <h2 style="font-size:60px">Il migliore italiano di ogni major</h2>
+  <div class="tbl">{% for m in r.majors %}<div class="trw" style="grid-template-columns: 1fr 120px"><span class="a"><b>{{ m.flag }} {{ m.short }} · {{ m.who }}</b><i>{{ m.detail }}</i></span><span class="n">{{ m.place }}</span></div>{% endfor %}</div>
+  {{ foot(2, "Posizione del migliore italiano · classifiche pubblicate da Limitless") }}
+</section>
+<section class="slide">
+  {{ head("La classifica") }}
+  <h2 style="font-size:60px">I migliori italiani della stagione</h2>
+  <div class="tbl">{% for p in r.best %}<div class="trw" style="grid-template-columns: 70px 1fr 120px"><span class="pl">{{ loop.index }}</span><span class="a"><b>{{ p.name }}</b><i>{{ p.deck }} · {{ p.major }}</i></span><span class="n">{{ p.place }}°</span></div>{% endfor %}</div>
+  {{ foot(3, "Miglior piazzamento di ogni giocatore nei major della stagione") }}
+</section>
+{% endif %}
+
+{# ======================= LA STAGIONE IN NUMERI ======================= #}
+{% if r.kind == "stagione" %}
+<section class="slide">
+  {{ head("La stagione in numeri · " ~ r.category) }}
+  <div class="r-title">La stagione <em>in numeri</em></div>
+  <div class="r-lead">Tutti i major della stagione {{ r.season }}, dal primo all'ultimo</div>
+  <div class="stats" style="margin-top:70px">
+    <div class="stat"><b>{{ r.n_majors }}</b><i>major giocati</i></div>
+    <div class="stat"><b>{{ r.players }}</b><i>giocatori Masters</i></div>
+    <div class="stat"><b>{{ r.top_wins }}</b><i>vittorie di {{ r.top_deck_short }}</i></div>
+  </div>
+  <div class="headline" style="margin-top:44px">{{ r.headline | safe }}</div>
+  {{ foot(1) }}
+</section>
+<section class="slide">
+  {{ head("Mazzi") }}
+  <h2 style="font-size:56px">Chi vince e chi arriva in fondo</h2>
+  <div class="blk"><h4>Vittorie</h4><div class="bars">{% for d in r.wins %}<div class="br"><span class="nm">{{ d.name }}</span><span class="tr"><div class="bar" style="width: {{ d.w }}%"></div></span><span class="v">{{ d.n }}</span></div>{% endfor %}</div></div>
+  <div class="blk"><h4>Posti in top 8</h4><div class="bars">{% for d in r.top8 %}<div class="br"><span class="nm">{{ d.name }}</span><span class="tr"><div class="bar" style="width: {{ d.w }}%"></div></span><span class="v">{{ d.n }}</span></div>{% endfor %}</div></div>
+  {{ foot(2) }}
+</section>
+<section class="slide">
+  {{ head("Paesi") }}
+  <h2 style="font-size:56px">Le nazioni più forti</h2>
+  <div class="r-lead" style="font-size:26px">Posti in top 8 nei major della stagione</div>
+  <div class="flags">{% for c in r.countries %}<div class="flag{% if c.cc == 'IT' %} it{% endif %}"><div class="e">{{ c.flag }}</div><b>{{ c.n }}</b><i>{{ c.name }}</i></div>{% endfor %}</div>
+  {% if r.italy_line %}<div class="headline" style="margin-top:40px; font-size:26px">{{ r.italy_line | safe }}</div>{% endif %}
+  {{ foot(3) }}
+</section>
+{% endif %}
+</body>
+</html>

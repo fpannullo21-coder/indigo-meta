@@ -5,9 +5,9 @@ from pathlib import Path
 
 from indigo_meta.telegram import send_preview
 
-only = {x.strip() for x in os.getenv("SEND_ONLY", "").split(",") if x.strip()}   # es. "5,6,7,8"
+only = {x.strip() for x in os.getenv("SEND_ONLY", "").split(",") if x.strip()}   # es. "news,carte-hadou-seeker"
 for d in sorted(p for p in Path("_site").iterdir() if p.is_dir()):
-    if only and d.name.split("-")[0] not in only:
+    if only and not any(d.name == x or d.name.startswith(x + "-") or d.name.split("-")[0] == x for x in only):
         continue
     caption = (d / "caption.txt").read_text(encoding="utf-8")
     send_preview(sorted(d.glob("slide_*.jpg")), f"[Post {d.name}]\n\n" + caption, publish_key=d.name)

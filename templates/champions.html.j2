@@ -24,6 +24,8 @@
 .t8row .rc { font-family: "Grotesk"; font-size: 28px; font-weight: 700; text-align: right; }
 .t8row.it { background: rgba(108,92,231,.22); }
 .t8row.it .who i { color: var(--t1); font-weight: 600; }
+.t8row.t8s { height: 74px; grid-template-columns: 56px 1fr 290px 120px; }
+.t8row.t8s .pl { font-size: 32px; } .t8row.t8s .who b { font-size: 26px; } .t8row.t8s .dk { font-size: 23px; } .t8row.t8s .rc { font-size: 25px; }
 .prof-name { font-family: "Grotesk"; font-weight: 700; font-size: 92px; line-height: 1; letter-spacing: -.02em; margin-top: 26px; position: relative; }
 .prof-sub { font-size: 30px; color: var(--ink-2); margin-top: 18px; position: relative; }
 .pstats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 44px; position: relative; }
@@ -46,27 +48,17 @@
 
 <section class="slide">
   <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ brand_right }}</span></div>
-  <div class="kicker">I mazzi dei campioni · {{ category }}</div>
-  <div class="ch-h1">{{ m.name }}</div>
-  <div class="ch-sub">{% if venue.flag %}{{ venue.flag }} {{ venue.country }} · {% endif %}{{ date_it }} · {{ num(m.players) }} giocatori · {{ category }}</div>
-  <div class="champ"><em>Campione</em><b>{{ c.name }}</b><i>{{ c.flag }} {{ c.country }} · {{ c.deck }} · {{ c.record }}</i></div>
-  <div class="kicker" style="margin-top:46px; font-size:21px">Mazzi in top 8</div>
-  <div class="chips" style="margin-top:16px">{% for name, n in deck_counts %}<span class="chip"><b>{{ n }}</b>{{ name }}</span>{% endfor %}</div>
-  <div class="swipe">La top 8 →</div>
-  <div class="foot"><span>Dati: Limitless TCG · RK9</span><span class="page">1/{{ n_slides }}</span></div>
-</section>
-
-<section class="slide">
-  <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ brand_right }}</span></div>
-  <div class="kicker">Top 8 · {{ m.name }} {{ venue.flag }} · {{ category }}</div>
-  <h2>Chi è arrivato in fondo</h2>
-  <div class="t8">
-  {% for p in m.top %}
-    <div class="t8row p{{ p.place }}{% if p.cc == 'IT' %} it{% endif %}"><span class="pl">{{ p.place }}</span>
-      <span class="who"><b>{{ p.name }}</b><i>{{ p.flag }} {{ p.country }}</i></span><span class="dk">{{ p.deck }}</span><span class="rc">{{ p.record }}</span></div>
+  <div class="kicker" style="margin-top:50px">{% if only_top8 %}Risultati · {{ category }}{% else %}I mazzi dei campioni · {{ category }}{% endif %}</div>
+  <div class="ch-h1" style="font-size:92px; margin-top:20px">{{ m.name }}</div>
+  <div class="ch-sub" style="margin-top:16px">{% if venue.flag %}{{ venue.flag }} {{ venue.country }} · {% endif %}{{ date_it }} · {{ num(m.players) }} giocatori · {{ category }}</div>
+  <div class="champ" style="margin-top:34px; padding:26px 34px"><em>Campione</em><b style="font-size:56px">{{ c.name }}</b><i>{{ c.flag }} {{ c.country }} · {{ c.deck }} · {{ c.record }}</i></div>
+  <div class="t8" style="margin-top:22px">
+  {% for p in m.top[1:] %}
+    <div class="t8row t8s p{{ p.place }}{% if p.cc == 'IT' %} it{% endif %}"><span class="pl">{{ p.place }}</span>
+      <span class="who"><b>{{ p.name }} {{ p.flag }}</b></span><span class="dk">{{ p.deck }}</span><span class="rc">{{ p.record }}</span></div>
   {% endfor %}
   </div>
-  <div class="foot"><span>Record complessivo, top cut compresa{% if italians %} · in evidenza gli italiani{% endif %}</span><span class="page">2/{{ n_slides }}</span></div>
+  <div class="foot"><span>Dati: Limitless TCG · RK9{% if italians %} · in evidenza gli italiani{% endif %}</span><span class="page">1/{{ n_slides }}</span></div>
 </section>
 
 <section class="slide">
@@ -86,9 +78,11 @@
   {% endfor %}
   </div>
   {% endif %}
-  <div class="foot"><span>OPW = % di vittorie degli avversari affrontati · fonte: Limitless Labs</span><span class="page">3/{{ n_slides }}</span></div>
+  <div class="foot"><span>OPW = % di vittorie degli avversari affrontati · fonte: Limitless Labs</span><span class="page">2/{{ n_slides }}</span></div>
 </section>
+{% if not only_top8 %}
 
-{% for d in decks %}{% set deck = d %}{% set deck_page = loop.index + 3 %}{% include "_deck_slide.html.j2" %}{% endfor %}
+{% for d in decks %}{% set deck = d %}{% set deck_page = loop.index + 2 %}{% include "_deck_slide.html.j2" %}{% endfor %}
+{% endif %}
 </body>
 </html>

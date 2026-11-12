@@ -7,6 +7,7 @@ Le slide vanno in _site/<n>-<nome>/ come JPEG con la loro caption; send_drafts.p
 from __future__ import annotations
 
 import shutil
+import json
 import subprocess
 import sys
 from pathlib import Path
@@ -117,8 +118,23 @@ def main():
         d = out / f"campioni-{e['tid']}"
         if list(d.glob("slide_*.png")):
             posts.append((d, f"campioni-{slug.replace('regional-', '')}"))
-    for i, (src, name) in enumerate(posts, 1):
-        dst = site / f"{i}-{name}"
+    # News e «carte da tenere d'occhio» preparate a mano (data/news, data/watch)
+    for f in sorted((ROOT / "data" / "news").glob("*.json")):
+        try:
+            run("run_news.py", str(f))
+            k = json.loads(f.read_text())["key"]
+            posts.append((out / k, k))
+        except subprocess.CalledProcessError as e:
+            print("News saltata:", f.name, e)
+    for f in sorted((ROOT / "data" / "watch").glob("*.json")):
+        try:
+            run("run_cards_watch.py", str(f))
+            k = json.loads(f.read_text())["key"]
+            posts.append((out / k, k))
+        except subprocess.CalledProcessError as e:
+            print("Carte saltate:", f.name, e)
+    for src, name in posts:          # chiavi stabili (niente numeri): la coda non si sposta mai
+        dst = site / name
         to_jpeg(sorted(src.glob("slide_*.png")), dst)
         shutil.copy(src / "caption.txt", dst / "caption.txt")
         print(f"Bozza pronta: {dst.name} ({len(list(dst.glob('*.jpg')))} slide)")

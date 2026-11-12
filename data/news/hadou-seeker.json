@@ -1,0 +1,17 @@
+{
+ "key": "news-hadou-seeker",
+ "assets": "assets/news/hadou-seeker",
+ "where": "🇯🇵 GIAPPONE",
+ "category": "Nuovo set · TCG",
+ "title": "Hadou Seeker esce il <em>27 novembre</em>",
+ "lead": "Il nuovo set giapponese ha come protagonista <b style='color:var(--ink)'>Mega Lucario Z ex</b>.",
+ "images": [{"src": "modal_card_bhdzs_card.png", "label": "Mega Lucario Z ex"},
+            {"src": "modal_card_h8s4g_card.png", "label": "Mega Garchomp Z ex"}],
+ "short": "Hadou Seeker in 3 punti",
+ "points": [["📅", "<b>Venerdì 27 novembre</b> in Giappone: buste da 5 carte a ¥200."],
+            ["👊", "<b>Mega Lucario Z ex</b>: un'abilità che cerca una carta Aiuto nel mazzo e un attacco che fa molti danni ai Pokémon ex."],
+            ["🐉", "<b>Mega Garchomp Z ex</b>: 30 danni per ogni Pokémon di tipo Drago nella pila degli scarti."]],
+ "why": "Le City League giapponesi lo useranno da subito: nel <b>City League Report del 3 dicembre</b> vedremo quali carte entrano nel meta, prima dell'uscita internazionale (data non ancora annunciata).",
+ "source": "pokemon-card.com",
+ "caption": "🇯🇵 NUOVO SET · Hadou Seeker esce in Giappone il 27 novembre, con Mega Lucario Z ex come protagonista.\n\nCosa cambia per il competitivo? Le City League giapponesi lo useranno subito: nel City League Report del 3 dicembre vedremo quali carte entrano nel meta.\n\nNomi e testi: traduzione non ufficiale, il set non è ancora annunciato in Italia. Fonte: pokemon-card.com\nCarte © Pokémon / Nintendo / Creatures / GAME FREAK\n\n#pokemontcg #pokemontcgitalia #ptcg #hadouseeker #tcgitalia"
+}

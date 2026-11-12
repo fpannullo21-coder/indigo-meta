@@ -1,0 +1,87 @@
+name: Indigo Meta – rubriche (regista)
+
+on:
+  schedule:
+    - cron: "20 11 * * 0,3,4,5,6"   # mer–dom 12:20 in Italia (inverno): carte, matchup, anteprima, italiani/stagione, lente 2
+    - cron: "20 17 * * 4,5"         # gio e ven 18:20: City League Report, Mazzo sotto la lente
+  workflow_dispatch:
+    inputs:
+      slot:
+        description: "Slot da forzare (es. gio-18). Vuoto = in base all'ora"
+        required: false
+      publish:
+        description: "Pubblica davvero su Instagram"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  slot:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Dipendenze
+        run: |
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+          sudo apt-get install -y fonts-noto-color-emoji
+      - name: Cache classifiche Limitless
+        uses: actions/cache@v4
+        with:
+          path: cache
+          key: limitless-${{ github.run_id }}
+          restore-keys: limitless-
+      - name: Aggiorna l'elenco dei set
+        run: python tools/update_setmap.py || echo "Elenco set non aggiornato"
+      - name: Genera la rubrica dello slot
+        id: make
+        env:
+          LIMITLESS_API_KEY: ${{ secrets.LIMITLESS_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -n "${{ inputs.slot }}" ]; then python run_slot.py --slot "${{ inputs.slot }}" --ignore-queue; else python run_slot.py; fi
+      - name: Conserva i post già in coda sul sito
+        if: steps.make.outputs.key != ''
+        run: python keep_site.py
+      - uses: actions/configure-pages@v5
+        if: steps.make.outputs.key != ''
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.make.outputs.key != ''
+        with:
+          path: _site
+      - name: Pubblica le immagini su GitHub Pages
+        id: deployment
+        if: steps.make.outputs.key != ''
+        uses: actions/deploy-pages@v4
+      - name: Pubblica su Instagram
+        if: steps.make.outputs.key != ''
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          PUBLISH: ${{ github.event_name == 'schedule' || inputs.publish == true }}
+        run: |
+          KEY="${{ steps.make.outputs.key }}"
+          ARGS="--dir _site/$KEY --base-url ${{ steps.deployment.outputs.page_url }}$KEY"
+          if [ "$PUBLISH" = "true" ]; then python publish.py $ARGS; else python publish.py $ARGS --dry-run; fi
+      - name: Salva slide e caption
+        if: steps.make.outputs.key != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: rubrica-${{ github.run_number }}
+          path: _site/${{ steps.make.outputs.key }}
