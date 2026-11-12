@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+{% include "_style.css.j2" %}
+.n-title { font-family: "Grotesk"; font-weight: 700; font-size: 78px; line-height: 1.02; letter-spacing: -.02em; margin-top: 22px; position: relative; }
+.n-title em { font-style: normal; color: var(--accent); }
+.n-lead { font-size: 30px; color: var(--ink-2); margin-top: 22px; line-height: 1.35; position: relative; }
+.n-pic { margin-top: 40px; height: 560px; border-radius: 26px; overflow: hidden; position: relative;
+  background: radial-gradient(ellipse at 30% 20%, rgba(157,140,255,.35), transparent 60%), var(--bg-2); border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center; gap: 34px; }
+.n-pic img { height: 500px; border-radius: 18px; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+.n-pic .ph { width: 330px; height: 460px; border-radius: 18px; border: 2px dashed var(--accent); display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; padding: 30px; box-sizing: border-box; color: var(--ink-2); font-size: 22px; line-height: 1.35; }
+.n-pic .ph b { color: var(--ink); font-size: 30px; margin-bottom: 12px; font-family: "Grotesk"; }
+.n-tag { position: absolute; left: 24px; top: 24px; background: var(--accent-2); border-radius: 999px; padding: 8px 18px; font-size: 20px; font-weight: 700; letter-spacing: .06em; }
+.pts { margin-top: 40px; position: relative; display: flex; flex-direction: column; gap: 18px; }
+.pt { display: grid; grid-template-columns: 64px 1fr; column-gap: 20px; align-items: start; background: var(--bg-2); border: 1px solid var(--line);
+  border-radius: 22px; padding: 26px 30px; }
+.pt .ic { font-family: "Grotesk"; font-size: 40px; font-weight: 700; color: var(--accent); line-height: 1; }
+.pt p { font-size: 27px; line-height: 1.38; color: var(--ink-2); }
+.pt p b { color: var(--ink); }
+.why { margin-top: 26px; position: relative; border-left: 6px solid var(--accent); padding: 6px 0 6px 26px; }
+.why em { font-style: normal; font-size: 21px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+.why p { font-size: 27px; line-height: 1.4; color: var(--ink); margin-top: 8px; }
+</style>
+</head>
+<body>
+{% set logo %}<svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>{% endset %}
+
+<section class="slide">
+  <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ n.where }}</span></div>
+  <div class="kicker">News · {{ n.category }}</div>
+  <div class="n-title">{{ n.title | safe }}</div>
+  <div class="n-lead">{{ n.lead | safe }}</div>
+  <div class="n-pic">
+    {% if n.tag %}<span class="n-tag">{{ n.tag }}</span>{% endif %}
+    {% for im in n.images %}
+      {% if im.src %}<img src="{{ im.src }}" alt="{{ im.label }}">
+      {% else %}<div class="ph"><b>{{ im.label }}</b>immagine ufficiale<br>della carta</div>{% endif %}
+    {% endfor %}
+  </div>
+  <div class="swipe">Cosa sapere →</div>
+  <div class="foot"><span>Fonte: {{ n.source }}</span><span class="page">1/2</span></div>
+</section>
+
+<section class="slide">
+  <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ n.where }}</span></div>
+  <div class="kicker">Cosa sapere</div>
+  <h2 style="font-size:60px">{{ n.short }}</h2>
+  <div class="pts">
+  {% for icon, text in n.points %}
+    <div class="pt"><span class="ic">{{ icon }}</span><p>{{ text | safe }}</p></div>
+  {% endfor %}
+  </div>
+  <div class="why"><em>Perché conta per il competitivo</em><p>{{ n.why | safe }}</p></div>
+  <div class="foot"><span>Fonte: {{ n.source }}</span><span class="page">2/2</span></div>
+</section>
+</body>
+</html>
