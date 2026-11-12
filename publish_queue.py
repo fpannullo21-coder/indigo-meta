@@ -11,24 +11,28 @@ from pathlib import Path
 from indigo_meta.instagram import InstagramError
 from tg_buttons import STATE, publish, say
 
-state = json.loads(STATE.read_text()) if STATE.exists() else {"offset": 0, "published": []}
-now = dt.datetime.now(dt.timezone.utc)
-for item in json.loads(Path("queue.json").read_text()):
-    when = dt.datetime.fromisoformat(item["at"].replace("Z", "+00:00"))
-    key = item["key"]
-    if when > now or key in state["published"]:
-        continue
-    if now - when > dt.timedelta(days=2):              # troppo vecchio: le slide potrebbero non esserci più
-        print(f"Saltato (scaduto): {key}")
-        continue
-    say(f"⏰ Dalla coda: pubblico «{key}»…")
-    state["published"].append(key)
+def check() -> None:
+    state = json.loads(STATE.read_text()) if STATE.exists() else {"offset": 0, "published": []}
+    now = dt.datetime.now(dt.timezone.utc)
+    for item in json.loads(Path("queue.json").read_text()):
+        when = dt.datetime.fromisoformat(item["at"].replace("Z", "+00:00"))
+        key = item["key"]
+        if when > now or key in state["published"]:
+            continue
+        if now - when > dt.timedelta(days=2):              # troppo vecchio: le slide potrebbero non esserci più
+            continue
+        say(f"⏰ Dalla coda: pubblico «{key}»…")
+        state["published"].append(key)
+        STATE.parent.mkdir(parents=True, exist_ok=True)
+        STATE.write_text(json.dumps(state))
+        try:
+            publish(key)
+        except InstagramError:
+            state["published"].remove(key)
     STATE.parent.mkdir(parents=True, exist_ok=True)
     STATE.write_text(json.dumps(state))
-    try:
-        publish(key)
-    except InstagramError:
-        state["published"].remove(key)
-STATE.parent.mkdir(parents=True, exist_ok=True)
-STATE.write_text(json.dumps(state))
-print("Coda controllata.")
+
+
+if __name__ == "__main__":
+    check()
+    print("Coda controllata.")

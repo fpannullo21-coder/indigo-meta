@@ -1,8 +1,6 @@
 name: Indigo Meta – pulsanti Telegram
 
 on:
-  schedule:
-    - cron: "*/5 * * * *"   # ogni 5 minuti (GitHub può ritardare di qualche minuto)
   workflow_dispatch:
 
 concurrency:

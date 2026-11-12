@@ -1,0 +1,26 @@
+name: Indigo Meta – controllo pubblicatore
+
+on:
+  schedule:
+    - cron: "*/20 * * * *"          # se il pubblicatore si è fermato, lo riaccende
+  workflow_dispatch:
+
+permissions:
+  actions: write
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Riaccendi se spento
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          active=$(gh api "repos/${{ github.repository }}/actions/workflows/always-on.yml/runs?per_page=5" \
+            --jq '[.workflow_runs[] | select(.status=="in_progress" or .status=="queued" or .status=="pending" or .status=="waiting")] | length')
+          echo "Pubblicatori attivi: $active"
+          if [ "$active" = "0" ]; then
+            gh api -X POST "repos/${{ github.repository }}/actions/workflows/always-on.yml/dispatches" -f ref=main
+            echo "Riacceso"
+          fi
