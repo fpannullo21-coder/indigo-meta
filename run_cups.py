@@ -71,7 +71,7 @@ def main():
     (out / "caption.txt").write_text(caption, encoding="utf-8")
     print(f"Cup: {len(cups)} in {len(groups)} zone, {len(slides)} slide in {out}")
     if not a.no_telegram:
-        send_preview(slides, caption)
+        send_preview(slides, caption, publish_key=out.name)
 
 
 if __name__ == "__main__":

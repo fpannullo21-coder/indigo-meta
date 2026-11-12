@@ -52,6 +52,7 @@ jobs:
 
       - name: Genera report
         env:
+          PUBLISH: ${{ github.event_name == 'schedule' || inputs.publish == true }}
           LIMITLESS_API_KEY: ${{ secrets.LIMITLESS_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}

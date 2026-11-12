@@ -67,7 +67,7 @@ def main():
     print("Caption salvata.")
 
     if not a.no_telegram:
-        send_preview(slides, caption)
+        send_preview(slides, caption, publish_key=out.name)
 
 
 if __name__ == "__main__":
