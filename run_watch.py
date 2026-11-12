@@ -30,7 +30,7 @@ TZ = ZoneInfo("Europe/Rome")
 SEASON_START = "2026-09-01"
 ARCHIVE_SLOTS = {1, 2, 5}          # mar, mer, sab alle 18:30: dove spostare un post d'archivio
 FRESH = {"top 8 in diretta", "campioni del major"}
-OFFICIAL = re.compile(r"^(Regional|Special Event|.*International|.*World Championships?|Latin America|Europe|North America|Oceania)", re.I)
+OFFICIAL = re.compile(r"(Regional|Special|International|Championships|Worlds|LAIC|EUIC|NAIC|OCIC)", re.I)   # solo il circuito ufficiale
 
 
 def slug(name: str) -> str:
@@ -46,7 +46,7 @@ def pending() -> tuple[list[dict], list[dict]]:
     known = load_json(IDS, [])
     tids = {e["tid"] for e in known}
     new = [m for m in R.completed_majors(CACHE, max_age_h=0)
-           if m["tid"] not in tids and m["format"] == "standard" and m["date"] >= SEASON_START and OFFICIAL.match(m["name"])]
+           if m["tid"] not in tids and m["format"] == "standard" and m["date"] >= SEASON_START and OFFICIAL.search(m["name"])]
     recent = (dt.date.today() - dt.timedelta(days=7)).isoformat()
     for m in sorted(new, key=lambda m: m["date"]):
         e = {"tid": m["tid"], "name": m["name"], "date": m["date"], "cc": m["cc"], "players": m["players"]}
