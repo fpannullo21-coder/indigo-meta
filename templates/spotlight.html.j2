@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+{% include "_style.css.j2" %}
+.sp-h1 { font-family: "Grotesk"; font-weight: 700; font-size: 112px; line-height: .95; letter-spacing: -.03em; margin-top: 40px; position: relative; }
+.sp-why { margin-top: 30px; font-size: 32px; color: var(--ink-2); line-height: 1.35; position: relative; }
+.sp-why b { color: var(--ink); }
+.sp-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 56px; position: relative; }
+.sp-stats .stat b { font-size: 70px; }
+.sp-stats .stat i { font-size: 24px; }
+.verdict { margin-top: 26px; background: linear-gradient(90deg, rgba(108,92,231,.35), rgba(108,92,231,.08)); border: 1px solid var(--line);
+  border-radius: 22px; padding: 30px 34px; font-size: 29px; color: var(--ink-2); line-height: 1.4; position: relative; }
+.verdict b { color: var(--ink); }
+</style>
+</head>
+<body>
+<section class="slide">
+  <div class="brand"><svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
+  <div class="kicker">Mazzo sotto la lente</div>
+  <div class="sp-h1">{{ sp.name }}</div>
+  <div class="sp-why">Ha vinto il torneo più grande della settimana: <b>1° su {{ deck.players }} giocatori</b>.</div>
+  <div class="sp-stats">
+    <div class="stat"><b>{{ pct(sp.share) }}</b><i>meta share</i></div>
+    <div class="stat"><b>{{ pp(sp.delta) if sp.delta is not none else "–" }}</b><i>vs settimana {{ r.week - 1 }}</i></div>
+    <div class="stat"><b>{{ sp.top8 }}</b><i>top 8 su {{ sp.entries }} liste</i></div>
+    <div class="stat"><b>{{ pct(sp.conversion) }}</b><i>conversion (media {{ pct(avg_conv) }})</i></div>
+  </div>
+  <div class="verdict">{{ verdict|safe }}</div>
+  <div class="swipe">La lista →</div>
+  <div class="foot"><span>Dati: Limitless TCG · {{ dates_it }}</span><span class="page">1/{{ n_slides }}</span></div>
+</section>
+
+{% include "_deck_slide.html.j2" %}
+
+</body>
+</html>

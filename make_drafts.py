@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+"""Prepara un pacchetto di post (bozze) da pubblicare a mano con il pulsante Telegram.
+
+1. Benvenuto       2. Meta Report      3. League Cup      4. Mazzo sotto la lente
+Le slide vanno in _site/<n>-<nome>/ come JPEG con la loro caption; send_drafts.py manda le anteprime.
+"""
+from __future__ import annotations
+
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+from jinja2 import Environment, FileSystemLoader
+
+from indigo_meta.instagram import to_jpeg
+from indigo_meta.render import render_png
+
+ROOT = Path(__file__).resolve().parent
+HANDLE = "@indigo.meta"
+WELCOME_CAPTION = """👋 Benvenuto su Indigo Meta!
+
+Il punto di riferimento italiano per chi gioca al Pokémon TCG competitivo, dal primo torneo al Regional.
+
+📊 Ogni lunedì, il Meta Report: analizziamo migliaia di liste dei tornei della settimana. I mazzi più giocati, quelli che arrivano davvero in top 8, chi sale e chi scende, e la lista vincente carta per carta.
+
+🏆 Ogni martedì, le League Cup: tutte le Cup in Italia, regione per regione, così trovi subito quella più vicina.
+
+📰 News appena escono: nuove espansioni, carte rivelate, regole e grandi tornei, partendo dalle fonti ufficiali giapponesi, dove tutto arriva prima.
+
+Numeri veri, spiegati in modo chiaro, in italiano. Niente sensazioni: dati.
+
+Seguici e scrivi nei commenti cosa porti al prossimo torneo 👇
+
+#pokemontcg #pokemontcgitalia #ptcg #metagame #tcgitalia"""
+
+
+def run(*cmd: str) -> None:
+    print("$", " ".join(cmd), flush=True)
+    subprocess.run([sys.executable, *cmd], check=True, cwd=ROOT)
+
+
+def newest(pattern: str) -> Path:
+    dirs = [d for d in (ROOT / "output").glob(pattern) if d.is_dir() and list(d.glob("slide_*.png"))]
+    return max(dirs, key=lambda d: d.stat().st_mtime)
+
+
+def main():
+    out = ROOT / "output"
+    # 1. Benvenuto
+    w = out / "benvenuto"
+    w.mkdir(parents=True, exist_ok=True)
+    env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True)
+    (w / "welcome.html").write_text(env.get_template("welcome.html.j2").render(handle=HANDLE), encoding="utf-8")
+    render_png(w / "welcome.html", w)
+    (w / "caption.txt").write_text(WELCOME_CAPTION, encoding="utf-8")
+    # 2 + 4. Meta Report e Mazzo sotto la lente (ultima settimana completa)
+    run("run_weekly.py", "--no-telegram", "--spotlight")
+    meta = newest("20??-W??")
+    lente = newest("*-lente")
+    # 3. League Cup (settimana in corso)
+    run("run_cups.py", "--no-telegram")
+    cup = newest("*-cup")
+
+    site = ROOT / "_site"
+    for i, (src, name) in enumerate([(w, "benvenuto"), (meta, f"meta-{meta.name}"),
+                                     (cup, f"cup-{cup.name.replace('-cup', '')}"),
+                                     (lente, f"lente-{lente.name.replace('-lente', '')}")], 1):
+        dst = site / f"{i}-{name}"
+        to_jpeg(sorted(src.glob("slide_*.png")), dst)
+        shutil.copy(src / "caption.txt", dst / "caption.txt")
+        print(f"Bozza pronta: {dst.name} ({len(list(dst.glob('*.jpg')))} slide)")
+    (site / "index.html").write_text("<!doctype html><title>Indigo Meta</title><p>Indigo Meta</p>")
+
+
+if __name__ == "__main__":
+    main()

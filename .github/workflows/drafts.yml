@@ -1,0 +1,55 @@
+name: Indigo Meta – pacchetto di post (bozze)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  drafts:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Dipendenze
+        run: |
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+      - name: Cache classifiche Limitless
+        uses: actions/cache@v4
+        with:
+          path: cache
+          key: limitless-${{ github.run_id }}
+          restore-keys: limitless-
+      - name: Prepara i post
+        env:
+          LIMITLESS_API_KEY: ${{ secrets.LIMITLESS_API_KEY }}
+        run: python make_drafts.py
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - name: Pubblica le immagini su GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Manda le anteprime su Telegram
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python send_drafts.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bozze-${{ github.run_number }}
+          path: _site

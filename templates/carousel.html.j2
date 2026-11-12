@@ -3,153 +3,14 @@
 <head>
 <meta charset="utf-8">
 <style>
-@font-face { font-family: "Inter"; font-weight: 400; src: url("fonts/inter-latin-400-normal.woff2") format("woff2"); }
-@font-face { font-family: "Inter"; font-weight: 500; src: url("fonts/inter-latin-500-normal.woff2") format("woff2"); }
-@font-face { font-family: "Inter"; font-weight: 600; src: url("fonts/inter-latin-600-normal.woff2") format("woff2"); }
-@font-face { font-family: "Inter"; font-weight: 700; src: url("fonts/inter-latin-700-normal.woff2") format("woff2"); }
-@font-face { font-family: "Inter"; font-weight: 800; src: url("fonts/inter-latin-800-normal.woff2") format("woff2"); }
-@font-face { font-family: "Grotesk"; font-weight: 500; src: url("fonts/space-grotesk-latin-500-normal.woff2") format("woff2"); }
-@font-face { font-family: "Grotesk"; font-weight: 700; src: url("fonts/space-grotesk-latin-700-normal.woff2") format("woff2"); }
-
-:root {
-  --bg: #15122E;          /* superficie */
-  --bg-2: #1E1A40;        /* card */
-  --line: #2E2961;        /* griglia / bordi */
-  --ink: #F4F2FF;         /* testo primario */
-  --ink-2: #B9B3D9;       /* testo secondario */
-  --ink-3: #8A84AD;       /* testo muted */
-  --accent: #9D8CFF;      /* marca dati (indaco chiaro) */
-  --accent-2: #6C5CE7;    /* indaco pieno */
-  --up: #3DD68C;          /* stato: in crescita (sempre con ▲ e segno +) */
-  --down: #FF7A7A;        /* stato: in calo (sempre con ▼ e segno −) */
-  --t1: #C9C0FF; --t2: #9D8CFF; --t3: #6C5CE7;  /* rampa sequenziale tier */
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: #000; font-family: "Inter", sans-serif; color: var(--ink); }
-.slide {
-  width: 1080px; height: 1350px; position: relative; overflow: hidden;
-  background: var(--bg); padding: 88px 84px 0; display: flex; flex-direction: column;
-}
-.slide::before { /* alone indaco discreto */
-  content: ""; position: absolute; width: 900px; height: 900px; right: -420px; top: -460px;
-  background: radial-gradient(circle, rgba(108,92,231,.32), rgba(108,92,231,0) 65%);
-}
-.brand { display: flex; align-items: center; gap: 14px; font-family: "Grotesk"; font-weight: 700;
-  font-size: 26px; letter-spacing: .18em; color: var(--ink-2); position: relative; }
-.brand .logo { flex-shrink: 0; display: block; }
-.brand .wk { margin-left: auto; letter-spacing: .06em; font-weight: 500; color: var(--ink-3); }
-.kicker { margin-top: 64px; font-size: 26px; font-weight: 600; color: var(--accent); letter-spacing: .08em; text-transform: uppercase; position: relative; }
-h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.02; margin-top: 18px; letter-spacing: -.01em; position: relative; }
-.sub { font-size: 28px; color: var(--ink-2); margin-top: 22px; line-height: 1.35; position: relative; }
-.foot { position: absolute; left: 84px; right: 84px; bottom: 56px; display: flex; justify-content: space-between;
-  font-size: 21px; color: var(--ink-3); border-top: 1px solid var(--line); padding-top: 24px; }
-.page { font-family: "Grotesk"; font-weight: 500; }
-
-/* COVER */
-.cover h1 { font-family: "Grotesk"; font-weight: 700; font-size: 170px; line-height: .9; letter-spacing: -.03em; margin-top: 200px; position: relative; }
-.cover h1 span { color: var(--accent); display: block; }
-.cover .dates { font-size: 34px; color: var(--ink-2); margin-top: 34px; position: relative; }
-.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 110px; position: relative; }
-.stat { background: var(--bg-2); border: 1px solid var(--line); border-radius: 22px; padding: 30px 30px 28px; }
-.stat b { display: block; font-family: "Grotesk"; font-size: 64px; font-weight: 700; letter-spacing: -.02em; }
-.stat i { font-style: normal; font-size: 23px; color: var(--ink-2); }
-.headline { margin-top: 26px; background: linear-gradient(90deg, rgba(108,92,231,.35), rgba(108,92,231,.08));
-  border: 1px solid var(--line); border-radius: 22px; padding: 30px 34px; font-size: 30px; color: var(--ink-2); position: relative; }
-.headline b { color: var(--ink); font-weight: 700; }
-.swipe { position: absolute; right: 84px; bottom: 124px; font-size: 26px; color: var(--ink-2); font-weight: 600; }
-
-/* BAR LIST (una serie: nessuna legenda, il titolo la nomina) */
-.bars { margin-top: 30px; display: flex; flex-direction: column; gap: 16px; position: relative; }
-.row { display: grid; grid-template-columns: 44px 400px 1fr 96px 130px; align-items: center; column-gap: 16px; height: 58px; }
-.row .rk { font-family: "Grotesk"; font-size: 28px; color: var(--ink-3); font-weight: 500; }
-.row .nm { font-size: 29px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.track { height: 26px; position: relative; }
-.bar { height: 26px; background: var(--accent); border-radius: 0 4px 4px 0; }
-.row .val { font-family: "Grotesk"; font-size: 30px; font-weight: 700; text-align: right; }
-.delta { font-size: 23px; color: var(--ink-2); text-align: right; font-weight: 500; white-space: nowrap; }
-.delta .ar { font-size: 17px; margin-right: 4px; position: relative; top: -2px; }
-.delta.up .ar { color: var(--up); } .delta.down .ar { color: var(--down); }
-.delta.flat .ar { color: var(--ink-3); }
-.colhead { display: grid; grid-template-columns: 44px 400px 1fr 96px 130px; column-gap: 16px; margin-top: 48px; white-space: nowrap;
-  font-size: 20px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .08em; position: relative; }
-.colhead span:nth-child(4), .colhead span:nth-child(5) { text-align: right; }
-
-/* TIER */
-.tiers { margin-top: 44px; display: flex; flex-direction: column; gap: 18px; position: relative; }
-.tier { display: grid; grid-template-columns: 150px 1fr; background: var(--bg-2); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; min-height: 150px; }
-.tier .lbl { display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: "Grotesk"; font-weight: 700; color: var(--bg); }
-.tier .lbl b { font-size: 64px; line-height: 1; } .tier .lbl i { font-style: normal; font-size: 19px; letter-spacing: .1em; margin-top: 6px; }
-.tier.t1 .lbl { background: var(--t1); } .tier.t2 .lbl { background: var(--t2); } .tier.t3 .lbl { background: var(--t3); color: var(--ink); }
-.tier .decks { display: flex; flex-wrap: wrap; gap: 12px; padding: 22px 24px; align-content: center; }
-.pill { background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 10px 20px; font-size: 25px; font-weight: 600; white-space: nowrap; }
-.pill small { font-size: 21px; color: var(--ink-3); font-weight: 500; margin-left: 8px; }
-.tier .empty { color: var(--ink-3); font-size: 24px; padding: 26px; }
-
-/* MOVERS */
-.movers { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 56px; position: relative; }
-.mcol h3 { font-size: 26px; font-weight: 700; color: var(--ink-2); margin-bottom: 18px; letter-spacing: .04em; text-transform: uppercase; }
-.mcol h3 .ar { font-size: 20px; margin-right: 6px; }
-.mcol.up h3 .ar { color: var(--up); } .mcol.down h3 .ar { color: var(--down); }
-.mcard { background: var(--bg-2); border: 1px solid var(--line); border-radius: 22px; padding: 34px 30px 30px; margin-bottom: 20px; min-height: 212px; }
-.mcard .nm { font-size: 30px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.mcard .big { font-family: "Grotesk"; font-size: 68px; font-weight: 700; margin-top: 10px; letter-spacing: -.02em; }
-.mcard .big .ar { font-size: 30px; margin-right: 8px; position: relative; top: -8px; }
-.mcol.up .mcard .big .ar { color: var(--up); } .mcol.down .mcard .big .ar { color: var(--down); }
-.mcard .fromto { font-size: 25px; color: var(--ink-2); margin-top: 6px; }
-
-/* CONVERSION: barre con linea di riferimento (media) */
-.conv { margin-top: 40px; position: relative; }
-.crow { display: grid; grid-template-columns: 330px 1fr 120px; column-gap: 18px; align-items: center; height: 92px; border-bottom: 1px solid var(--line); }
-.crow .nm { font-size: 28px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.crow .nm small { display: block; font-size: 20px; color: var(--ink-3); font-weight: 500; margin-top: 4px; }
-.ctrack { position: relative; height: 26px; }
-.ref { position: absolute; top: -18px; bottom: -18px; width: 0; border-left: 2px dashed var(--ink-3); }
-.crow .val { font-family: "Grotesk"; font-size: 32px; font-weight: 700; text-align: right; }
-.reflabel { position: relative; margin-left: 348px; height: 40px; font-size: 20px; color: var(--ink-3); }
-.reflabel span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
-
-/* WINNERS */
-.wsum { display: flex; gap: 20px; margin-top: 44px; position: relative; }
-.wsum .stat { flex: 1; }
-.dots { display: flex; gap: 8px; }
-.dots i { width: 30px; height: 30px; border-radius: 6px; background: var(--accent); display: inline-block; }
-
-/* LISTA */
-.cards { margin-top: 24px; display: grid; grid-template-columns: repeat({{ deck.cols if deck else 6 }}, minmax(0, 1fr)); gap: 10px; position: relative; }
-.card { position: relative; aspect-ratio: 63 / 88; border-radius: 9px; overflow: hidden; background: var(--bg-2); }
-.card img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.card .ph { width: 100%; height: 100%; box-sizing: border-box; border-radius: 9px;
-  background: linear-gradient(160deg, #2A2458, #1A1640); border: 2px solid #3A3378;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 12px 10px; gap: 8px; }
-.card .ph em { font-style: normal; font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
-.card .ph span { font-size: 19px; font-weight: 700; line-height: 1.2; }
-.card .ph small { font-size: 12px; color: var(--ink-3); line-height: 1.3; padding-bottom: 26px; }
-.card .ph.energy { border: none; background: none; }
-.card .ph.energy span { font-size: 19px; font-weight: 700; }
-.sumtile { border-radius: 9px; background: var(--bg-2); border: 1px solid var(--line); padding: 0 22px;
-  display: flex; flex-direction: row; align-items: center; gap: 22px; height: 0; min-height: 100%; overflow: hidden; }
-.sumtile .tot { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
-.sumtile .big { font-family: "Grotesk"; font-size: 58px; font-weight: 700; line-height: 1; letter-spacing: -.02em; }
-.sumtile .lbl { font-size: 19px; font-weight: 600; color: var(--ink-2); line-height: 1.2; }
-.sumtile .note { font-size: 14px; color: var(--ink-3); line-height: 1.25; margin-top: 4px; }
-.sumtile .mix { display: flex; flex-direction: column; gap: 8px; font-size: 18px; line-height: 1.2; color: var(--ink-2);
-  border-left: 1px solid var(--line); padding-left: 20px; }
-.sumtile .mix b { display: inline-block; min-width: 34px; font-family: "Grotesk"; font-size: 20px; color: var(--ink); }
-.qty { position: absolute; right: 6px; bottom: 6px; background: var(--bg); color: var(--ink); border: 2px solid var(--accent);
-  border-radius: 10px; font-family: "Grotesk"; font-size: 24px; font-weight: 700; padding: 2px 10px; line-height: 1.2; }
-
-/* CTA */
-.cta h2 { font-size: 92px; margin-top: 170px; }
-.cta .handle { font-family: "Grotesk"; font-size: 64px; font-weight: 700; color: var(--accent); margin-top: 40px; position: relative; }
-.method { margin-top: 90px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 22px; padding: 34px 36px; font-size: 24px; line-height: 1.5; color: var(--ink-2); position: relative; }
-.method b { color: var(--ink); }
+{% include "_style.css.j2" %}
 </style>
 </head>
 <body>
 
 {# ---------- 1. COVER ---------- #}
 <section class="slide cover" id="s1">
-  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
+  <div class="brand"><svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
   <h1>Meta<span>Report</span></h1>
   <div class="dates">{{ dates_it }} · Pokémon TCG Standard</div>
   <div class="stats">
@@ -165,7 +26,7 @@ h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.0
 
 {# ---------- 2. META SHARE ---------- #}
 <section class="slide" id="s2">
-  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
+  <div class="brand"><svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
   <div class="kicker">Meta share</div>
   <h2>I 10 mazzi più giocati</h2>
   <div class="colhead"><span>#</span><span>Mazzo</span><span>% delle liste</span><span></span><span>vs sett. {{ r.week - 1 }}</span></div>
@@ -185,7 +46,7 @@ h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.0
 
 {# ---------- 3. TIER LIST ---------- #}
 <section class="slide" id="s3">
-  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
+  <div class="brand"><svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
   <div class="kicker">Tier list</div>
   <h2>Chi porta risultati</h2>
   <div class="sub">Classifica per presenza nelle top 8, non per popolarità.</div>
@@ -204,7 +65,7 @@ h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.0
 
 {# ---------- 4. MOVERS ---------- #}
 <section class="slide" id="s4">
-  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
+  <div class="brand"><svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
   <div class="kicker">Trend</div>
   <h2>Chi sale e chi scende</h2>
   <div class="sub">Variazione della meta share rispetto alla settimana {{ r.week - 1 }}.</div>
@@ -225,7 +86,7 @@ h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.0
 
 {# ---------- 5. CONVERSION ---------- #}
 <section class="slide" id="s5">
-  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
+  <div class="brand"><svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
   <div class="kicker">Performance</div>
   <h2>Chi converte in top 8</h2>
   <div class="sub">% di liste arrivate in top 8. La linea tratteggiata è la media ({{ pct(avg_conv) }}).</div>
@@ -244,7 +105,7 @@ h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.0
 
 {# ---------- 6. WINNERS ---------- #}
 <section class="slide" id="s6">
-  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
+  <div class="brand"><svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
   <div class="kicker">Vittorie</div>
   <h2>Chi ha alzato la coppa</h2>
   <div class="sub">{{ r.tournaments }} tornei, {{ winning_decks }} mazzi vincitori diversi.</div>
@@ -262,43 +123,13 @@ h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.0
 </section>
 
 {% if deck %}
-{# ---------- LISTA DELLA SETTIMANA ---------- #}
-<section class="slide deck" id="s{{ deck_page }}">
-  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
-  <div class="kicker" style="margin-top:36px">Lista della settimana</div>
-  <h2 style="font-size:60px; margin-top:12px">{{ deck.name }}</h2>
-  <div class="sub" style="font-size:23px; margin-top:10px; line-height:1.3">1° posto su {{ deck.players }} giocatori · {{ deck.tournament }}<br>
-    {{ deck.player }} · {{ deck.record }}{% if deck.price %} · costo indicativo {{ deck.price }}{% endif %}</div>
-  <div class="cards">
-  {% for c in deck.cards %}
-    <div class="card">
-      {% if c.src %}<img src="{{ c.src }}" alt="{{ c.name }}">
-      {% elif c.energy_color %}<div class="ph energy" style="background: {{ c.energy_color }}"><span style="color: {{ c.energy_ink }}">{{ c.name }}</span></div>
-      {% else %}<div class="ph"><em>{{ c.section }}</em><span>{{ c.name }}</span><small>{{ c.set_code }} {{ c.number }} · immagine in arrivo</small></div>{% endif %}
-      <b class="qty">×{{ c.count }}</b>
-    </div>
-  {% endfor %}
-  {% if deck.summary_span %}
-    <div class="sumtile" style="grid-column: span {{ deck.summary_span }}">
-      <div class="tot">
-        <div class="big">{{ deck.total }}</div>
-        <div class="lbl">carte</div>
-        {% if deck.summary_span >= 2 %}<div class="note">{% if deck.price %}circa {{ deck.price }}{% else %}{{ deck.unique }} diverse{% endif %}</div>{% endif %}
-      </div>
-      {% if deck.summary_span >= 2 %}
-      <div class="mix">{% for label, n in deck.counts %}<div><b>{{ n }}</b>{{ label }}</div>{% endfor %}</div>
-      {% endif %}
-    </div>
-  {% endif %}
-  </div>
-  <div class="foot" style="font-size:17px"><span>Carte © Pokémon / Nintendo / Creatures / GAME FREAK · immagini TCGdex e Limitless TCG</span><span class="page">{{ deck_page }}/{{ n_slides }}</span></div>
-</section>
+{% include "_deck_slide.html.j2" %}
 {% endif %}
 
 {% if show_it %}
 {# ---------- META ITALIA ---------- #}
 <section class="slide" id="s7">
-  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
+  <div class="brand"><svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
   <div class="kicker">Meta Italia</div>
   <h2>Cosa giocano gli italiani</h2>
   <div class="sub">Le liste dei {{ r.it_players }} giocatori italiani in questi tornei, a confronto con il meta globale.</div>
@@ -320,7 +151,7 @@ h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.0
 
 {# ---------- CTA ---------- #}
 <section class="slide cta" id="s{{ n_slides }}">
-  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
+  <div class="brand"><svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
   <h2>Il meta, ogni lunedì.<br>In italiano.</h2>
   <div class="handle">{{ handle }}</div>
   <div class="method"><b>Come leggiamo i dati.</b> Tornei Standard su Play Limitless con almeno {{ r.min_players }} giocatori,
