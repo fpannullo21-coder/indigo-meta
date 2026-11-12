@@ -96,6 +96,27 @@ def main():
     posts = [(w, "benvenuto"), (meta, f"meta-{meta.name}"), (cup, f"cup-{cup.name.replace('-cup', '')}"),
              (lente, f"lente-{lente.name.replace('-lente', '')}"), (cal, "calendario-2027"), (cl, "city-league")]
     posts += [(d, f"lente{d.name[-1]}-{d.name.split('-lente')[0]}") for d in extra]
+    # 9. City League Report (stessa settimana del Meta Report)  ·  10+. I mazzi dei campioni, dal più recente
+    import datetime as _dt
+    y, w = int(meta.name[:4]), int(meta.name[-2:])
+    try:   # i post nuovi non devono mai bloccare quelli già in coda
+        run("run_cityleague.py", "--no-telegram", "--start", _dt.date.fromisocalendar(y, w, 1).isoformat())
+    except subprocess.CalledProcessError as e:
+        print("City League Report saltato:", e)
+    clr = out / f"{meta.name}-cityleague"
+    if list(clr.glob("slide_*.png")):
+        posts.append((clr, f"cityleague-{meta.name}"))
+    try:
+        run("run_champions.py", "--season")
+    except subprocess.CalledProcessError as e:
+        print("Mazzi dei campioni saltati:", e)
+    import json as _json
+    for e in reversed(_json.loads((ROOT / "data" / "majors_ids.json").read_text())):
+        import unicodedata, re as _re
+        slug = _re.sub(r"[^a-z0-9]+", "-", unicodedata.normalize("NFKD", e["name"]).encode("ascii", "ignore").decode().lower()).strip("-")
+        d = out / f"campioni-{e['tid']}"
+        if list(d.glob("slide_*.png")):
+            posts.append((d, f"campioni-{slug.replace('regional-', '')}"))
     for i, (src, name) in enumerate(posts, 1):
         dst = site / f"{i}-{name}"
         to_jpeg(sorted(src.glob("slide_*.png")), dst)

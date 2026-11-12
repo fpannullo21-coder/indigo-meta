@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+{% include "_style.css.j2" %}
+.r-h1 { font-family: "Grotesk"; font-weight: 700; font-size: 128px; line-height: .92; letter-spacing: -.03em; margin-top: 110px; position: relative; }
+.r-h1 span { color: var(--accent); display: block; }
+.r-sub { font-size: 32px; color: var(--ink-2); margin-top: 28px; position: relative; }
+.cmp { margin-top: 40px; position: relative; }
+.crow2 { display: grid; grid-template-columns: 330px 1fr; column-gap: 18px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.crow2 .nm { font-size: 27px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pair { display: flex; flex-direction: column; gap: 8px; }
+.pair div { display: grid; grid-template-columns: 70px 1fr 90px; column-gap: 12px; align-items: center; font-size: 19px; color: var(--ink-3); }
+.pair .b { height: 20px; border-radius: 0 4px 4px 0; }
+.pair .jp .b { background: var(--accent); }
+.pair .eu .b { background: var(--t3); }
+.pair span.v { font-family: "Grotesk"; font-size: 22px; font-weight: 700; color: var(--ink); text-align: right; }
+.legend2 { display: flex; gap: 26px; margin-top: 34px; font-size: 22px; color: var(--ink-2); position: relative; }
+.legend2 i { display: inline-block; width: 22px; height: 14px; border-radius: 3px; margin-right: 8px; vertical-align: middle; }
+.points { margin-top: 46px; display: flex; flex-direction: column; gap: 26px; position: relative; }
+.pt { border-left: 4px solid var(--accent); padding: 4px 0 4px 26px; }
+.pt b { display: block; font-family: "Grotesk"; font-size: 36px; font-weight: 700; }
+.pt i { font-style: normal; display: block; font-size: 27px; color: var(--ink-2); margin-top: 6px; line-height: 1.38; }
+</style>
+</head>
+<body>
+{% set logo %}<svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>{% endset %}
+
+<section class="slide cover">
+  <div class="brand">{{ logo }}INDIGO META<span class="wk">GIAPPONE · {{ dates }}</span></div>
+  <div class="r-h1">City League<span>Report</span></div>
+  <div class="r-sub">{{ dates }} · i tornei giapponesi della settimana</div>
+  <div class="stats">
+    <div class="stat"><b>{{ s.n }}</b><i>City League</i></div>
+    <div class="stat"><b>{{ s.prefectures }}</b><i>prefetture</i></div>
+    <div class="stat"><b>{{ s.wins|length }}</b><i>mazzi diversi<br>hanno vinto</i></div>
+  </div>
+  <div class="headline">Il mazzo che vince di più: <b>{{ s.wins[0][0] }}</b>, {{ s.wins[0][1] }} City League su {{ s.n }}.</div>
+  <div class="swipe">Scorri →</div>
+  <div class="foot"><span>Dati: Limitless TCG · City League ufficiali Pokémon Card Game</span><span class="page">1/{{ n_slides }}</span></div>
+</section>
+
+<section class="slide">
+  <div class="brand">{{ logo }}INDIGO META<span class="wk">GIAPPONE · {{ dates }}</span></div>
+  <div class="kicker">Vittorie</div>
+  <h2>Chi vince in Giappone</h2>
+  <div class="colhead"><span>#</span><span>Mazzo</span><span>City League vinte</span><span></span><span></span></div>
+  <div class="bars">
+  {% for name, n in s.wins[:10] %}
+    <div class="row"><span class="rk">{{ loop.index }}</span><span class="nm">{{ name }}</span>
+      <div class="track"><div class="bar" style="width: {{ (n / s.wins[0][1] * 100)|round(1) }}%"></div></div>
+      <span class="val">{{ n }}</span><span class="delta">{{ pct(n / s.n) }}</span></div>
+  {% endfor %}
+  </div>
+  <div class="foot"><span>% = quota dei tornei vinti</span><span class="page">2/{{ n_slides }}</span></div>
+</section>
+
+<section class="slide">
+  <div class="brand">{{ logo }}INDIGO META<span class="wk">GIAPPONE · {{ dates }}</span></div>
+  <div class="kicker">Presenza</div>
+  <h2>I mazzi in top 16</h2>
+  <div class="colhead"><span>#</span><span>Mazzo</span><span>% dei posti in top 16</span><span></span><span>in top 4</span></div>
+  <div class="bars">
+  {% for name, n in s.top16[:10] %}
+    <div class="row"><span class="rk">{{ loop.index }}</span><span class="nm">{{ name }}</span>
+      <div class="track"><div class="bar" style="width: {{ (n / s.top16[0][1] * 100)|round(1) }}%"></div></div>
+      <span class="val">{{ pct(n / s.slots16) }}</span><span class="delta">{{ top4.get(name, 0) }}</span></div>
+  {% endfor %}
+  </div>
+  <div class="foot"><span>Su {{ num(s.slots16) }} posti in top 16 · ultima colonna: volte in top 4</span><span class="page">3/{{ n_slides }}</span></div>
+</section>
+
+{% if cmp %}
+<section class="slide">
+  <div class="brand">{{ logo }}INDIGO META<span class="wk">GIAPPONE · {{ dates }}</span></div>
+  <div class="kicker">Giappone vs resto del mondo</div>
+  <h2>Due meta a confronto</h2>
+  <div class="legend2"><span><i style="background:var(--accent)"></i>Giappone: % posti in top 16</span><span><i style="background:var(--t3)"></i>Tornei online: meta share</span></div>
+  <div class="cmp">
+  {% for name, jp, eu in cmp %}
+    <div class="crow2"><span class="nm">{{ name }}</span>
+      <div class="pair">
+        <div class="jp"><span>JP</span><span><span class="b" style="display:block; width: {{ (jp / cmp_max * 100)|round(1) }}%"></span></span><span class="v">{{ pct(jp) }}</span></div>
+        <div class="eu"><span>Online</span><span><span class="b" style="display:block; width: {{ (eu / cmp_max * 100)|round(1) }}%"></span></span><span class="v">{{ pct(eu) if eu else "–" }}</span></div>
+      </div></div>
+  {% endfor %}
+  </div>
+  <div class="foot"><span>Online: tornei su Play Limitless, settimana {{ week }} · – = archetipo assente o con nome diverso</span><span class="page">4/{{ n_slides }}</span></div>
+</section>
+{% endif %}
+
+<section class="slide">
+  <div class="brand">{{ logo }}INDIGO META<span class="wk">GIAPPONE · {{ dates }}</span></div>
+  <div class="kicker">Come leggere questi dati</div>
+  <h2>Prima di copiare una lista</h2>
+  <div class="points">
+    <div class="pt"><b>Partite secche, al meglio di una</b><i>Nelle City League c'è una partita sola da 25 minuti: vanno forte i mazzi veloci, e la fortuna pesa di più.</i></div>
+    <div class="pt"><b>Il Giappone è avanti con le espansioni</b><i>Alcune carte delle liste giapponesi da noi non sono ancora uscite: controlla sempre che il mazzo sia legale qui.</i></div>
+    <div class="pt"><b>Conta la tendenza</b><i>Un mazzo che entra in top 16 in decine di tornei dice molto più di una singola vittoria.</i></div>
+  </div>
+  <div class="foot"><span>{{ handle }} · ogni settimana il meta giapponese in italiano</span><span class="page">{{ n_slides }}/{{ n_slides }}</span></div>
+</section>
+</body>
+</html>

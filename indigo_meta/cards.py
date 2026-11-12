@@ -149,7 +149,12 @@ class TCGdex:
 
 
 def resolve_decklist(decklist: dict, cache_dir: Path, download: bool = True) -> list[DeckCard]:
-    """Unisce le stampe diverse della stessa carta (stesso nome) e risolve immagini e nomi."""
+    """Unisce le stampe diverse della stessa carta (stesso nome) e risolve immagini e nomi.
+    INDIGO_OFFLINE=1 salta la rete (prove in locale: le carte escono come riquadri col nome)."""
+    import os
+    if os.getenv("INDIGO_OFFLINE"):
+        return [DeckCard(c["count"], c["name"], c["name"], sec, c.get("set", ""), c.get("number", ""), None, None, None)
+                for sec in ("pokemon", "trainer", "energy") for c in decklist.get(sec, [])]
     tc = TCGdex(cache_dir)
     out: list[DeckCard] = []
     for section in ("pokemon", "trainer", "energy"):
