@@ -16,7 +16,10 @@ from .web import get
 BASE = "https://limitlesstcg.com"
 
 
-ALIASES = {"Zoroark": "N's Zoroark", "Ogerpon Hydrapple": "Ogerpon Meganium Hydrapple"}
+ALIASES = {"Zoroark": "N's Zoroark", "Ogerpon Hydrapple": "Ogerpon Meganium Hydrapple",
+           # stesso nome dei tornei online, così il confronto Giappone/online li riconosce
+           "Mega Kangaskhan Mega Rayquaza": "Mega Rayquaza", "Mega Rayquaza Mega Kangaskhan": "Mega Rayquaza",
+           "Mega Rayquaza": "Mega Rayquaza"}
 
 
 def deck_name(icons: list[str]) -> str:
