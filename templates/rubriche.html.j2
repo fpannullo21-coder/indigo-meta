@@ -65,11 +65,35 @@
 .flag .e { font-size: 54px; line-height: 1; }
 .flag b { display: block; font-family: "Grotesk"; font-size: 40px; margin-top: 8px; }
 .flag i { display: block; font-style: normal; font-size: 19px; color: var(--ink-2); }
+.vs { display: grid; grid-template-columns: 1fr 120px 1fr; align-items: center; margin-top: 34px; position: relative; }
+.vs .side { text-align: center; }
+.vs .side img, .vs .side .ph { width: 250px; aspect-ratio: 63/88; border-radius: 16px; object-fit: cover; box-shadow: 0 22px 54px rgba(0,0,0,.55); }
+.vs .side.l img, .vs .side.l .ph { transform: rotate(-5deg); }
+.vs .side.r img, .vs .side.r .ph { transform: rotate(5deg); filter: saturate(.8) brightness(.85); }
+.vs .side b { display: block; font-family: "Grotesk"; font-size: 46px; margin-top: 18px; }
+.vs .side.r b { color: var(--ink-3); }
+.vs .side i { display: block; font-style: normal; font-size: 24px; color: var(--ink-2); margin-top: 2px; }
+.vs .mid { width: 110px; height: 110px; border-radius: 50%; background: var(--accent-2); display: flex; align-items: center; justify-content: center;
+  font-family: "Grotesk"; font-weight: 700; font-size: 40px; box-shadow: 0 0 0 10px rgba(108,92,231,.25); justify-self: center; }
+.fan3 { position: relative; height: 430px; margin-top: 30px; }
+.fan3 .fc { position: absolute; top: 10px; width: 260px; text-align: center; }
+.fan3 .fc img, .fan3 .fc .ph { width: 260px; aspect-ratio: 63/88; border-radius: 16px; object-fit: cover; box-shadow: 0 22px 54px rgba(0,0,0,.55); }
+.fan3 .fc:nth-child(1) { left: 60px; transform: rotate(-8deg); top: 40px; }
+.fan3 .fc:nth-child(2) { left: 326px; z-index: 2; }
+.fan3 .fc:nth-child(3) { left: 592px; transform: rotate(8deg); top: 40px; }
+.fan3 .fc em { position: absolute; left: 14px; top: 14px; background: var(--accent-2); border-radius: 999px; padding: 6px 14px; font-style: normal; font-weight: 700; font-size: 20px; }
+.fav { display: grid; grid-template-columns: 70px 92px 1fr 150px; column-gap: 18px; align-items: center; min-height: 150px; border-bottom: 1px solid var(--line); }
+.fav img, .fav .ph { width: 92px; aspect-ratio: 63/88; border-radius: 8px; object-fit: cover; }
+.fav .ph { font-size: 12px; padding: 4px; }
+.fav .a b { display: block; font-size: 30px; font-weight: 700; } .fav .a i { display: block; font-style: normal; font-size: 21px; color: var(--ink-3); margin-top: 4px; }
+.fav .pl { font-family: "Grotesk"; font-size: 40px; font-weight: 700; color: var(--accent); }
+.fav .n { font-family: "Grotesk"; font-size: 40px; font-weight: 700; text-align: right; }
+.podium .pc small { display: block; font-size: 19px; color: var(--ink-3); margin-top: 2px; }
 </style>
 </head>
 <body>
 {% set logo %}<svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>{% endset %}
-{% macro img(c) %}{% if c.src %}<img src="{{ c.src }}" alt="{{ c.name }}">{% else %}<div class="ph">{{ c.name }}</div>{% endif %}{% endmacro %}
+{% macro img(c) %}{% if c.src %}<img src="{{ c.src }}" alt="{{ c.name }}">{% else %}<div class="ph">{{ c.ph or c.name }}</div>{% endif %}{% endmacro %}
 {% macro head(kicker) %}<div class="brand">{{ logo }}INDIGO META<span class="wk">{{ r.brand_right }}</span></div><div class="kicker">{{ kicker }}</div>{% endmacro %}
 {% macro foot(page, note=None) %}<div class="foot"{% if note and note|length > 70 %} style="font-size:17px"{% endif %}><span>{{ note or r.source }}</span><span class="page">{{ page }}/{{ r.n_slides }}</span></div>{% endmacro %}
 
@@ -114,8 +138,15 @@
   {{ head("Matchup della settimana · " ~ r.category) }}
   <div class="r-title">Chi batte <em>chi</em></div>
   <div class="r-lead">Le partite tra i {{ r.decks|length }} mazzi più forti della settimana nei tornei online · {{ r.dates }}</div>
-  <div class="headline" style="margin-top:70px">{{ r.headline | safe }}</div>
-  <div class="stats" style="margin-top:40px">
+  {% if r.vs %}
+  <div class="vs">
+    <div class="side l">{{ img(r.vs.a) }}<b>{{ r.vs.a.wr }}</b><i>{{ r.vs.a.name }}</i></div>
+    <div class="mid">VS</div>
+    <div class="side r">{{ img(r.vs.b) }}<b>{{ r.vs.b.wr }}</b><i>{{ r.vs.b.name }}</i></div>
+  </div>
+  <div class="r-lead" style="text-align:center; font-size:23px; margin-top:12px">il matchup più sbilanciato · {{ r.vs.games }} partite</div>
+  {% else %}<div class="headline" style="margin-top:70px">{{ r.headline | safe }}</div>{% endif %}
+  <div class="stats" style="margin-top:28px">
     <div class="stat"><b>{{ r.games }}</b><i>partite analizzate</i></div>
     <div class="stat"><b>{{ r.best.short }}</b><i>più matchup vinti</i></div>
     <div class="stat"><b>{{ r.best.avg }}</b><i>media vittorie</i></div>
@@ -156,7 +187,8 @@
   {{ head("Questo weekend · " ~ r.category) }}
   <div class="r-title" style="font-size:96px">{{ r.e.label }}<br><em>{{ r.e.name }}</em></div>
   <div class="r-lead" style="font-size:34px">{{ r.flag }} {{ r.e.country }} · {{ r.when }}</div>
-  <div class="stats" style="margin-top:80px">
+  {% if r.favs and r.favs[0].src %}<div class="fan3">{% for d in r.favs[:3] %}<div class="fc">{{ img(d) }}<em>{{ loop.index }}</em></div>{% endfor %}</div>{% endif %}
+  <div class="stats" style="margin-top:{% if r.favs and r.favs[0].src %}10{% else %}80{% endif %}px">
     <div class="stat"><b>{{ r.days }}</b><i>giorni di gara</i></div>
     <div class="stat"><b>{{ r.top_deck_short }}</b><i>mazzo da battere</i></div>
     <div class="stat"><b>{{ r.last_winner_short }}</b><i>ha vinto l'ultimo major</i></div>
@@ -167,7 +199,7 @@
 <section class="slide">
   {{ head("I mazzi da battere") }}
   <h2 style="font-size:60px">Chi arriva da favorito</h2>
-  <div class="tbl">{% for d in r.favs %}<div class="trw" style="grid-template-columns: 70px 1fr 170px"><span class="pl">{{ loop.index }}</span><span class="a"><b>{{ d.name }}</b><i>{{ d.note }}</i></span><span class="n">{{ d.top8 }}</span></div>{% endfor %}</div>
+  <div class="tbl">{% for d in r.favs %}<div class="fav"><span class="pl">{{ loop.index }}</span>{{ img(d) }}<span class="a"><b>{{ d.name }}</b><i>{{ d.note }}</i></span><span class="n">{{ d.top8 }}</span></div>{% endfor %}</div>
   <div class="headline" style="margin-top:40px; font-size:26px">{{ r.last_line | safe }}</div>
   {{ foot(2, "% = posti in top 8 nei tornei online della settimana " ~ r.week ~ " · Limitless TCG") }}
 </section>
@@ -194,7 +226,8 @@
     <div class="stat"><b>{{ r.best_place }}</b><i>miglior risultato</i></div>
     <div class="stat"><b>{{ r.top8_count }}</b><i>volte in top 8</i></div>
   </div>
-  <div class="headline" style="margin-top:44px">{{ r.headline | safe }}</div>
+  {% if r.podium %}<div class="podium" style="margin-top:40px">{% for c in r.podium %}<div class="pc">{{ img(c) }}<b style="font-size:44px">{{ c.pct }}</b><i>{{ c.name }}</i><small>{{ c.sub }}</small></div>{% endfor %}</div>
+  {% else %}<div class="headline" style="margin-top:44px">{{ r.headline | safe }}</div>{% endif %}
   {{ foot(1) }}
 </section>
 <section class="slide">
@@ -222,7 +255,8 @@
     <div class="stat"><b>{{ r.players }}</b><i>giocatori Masters</i></div>
     <div class="stat"><b>{{ r.top_wins }}</b><i>vittorie di {{ r.top_deck_short }}</i></div>
   </div>
-  <div class="headline" style="margin-top:44px">{{ r.headline | safe }}</div>
+  <div class="headline" style="margin-top:36px">{{ r.headline | safe }}</div>
+  {% if r.podium %}<div class="podium" style="margin-top:34px; grid-template-columns: repeat(3, 230px); justify-content: center; gap: 40px">{% for c in r.podium %}<div class="pc">{{ img(c) }}<b style="font-size:36px">{{ c.pct }}</b><i>{{ c.name }}</i></div>{% endfor %}</div>{% endif %}
   {{ foot(1) }}
 </section>
 <section class="slide">

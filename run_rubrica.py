@@ -72,6 +72,33 @@ def card_images(cards: list[dict]) -> list[dict]:
     return out
 
 
+def mascots(names: list[str], lists: list[dict] | None = None) -> dict:
+    """Carta simbolo di ogni mazzo (il Pokémon che gli dà il nome), presa dalle liste dei tornei online."""
+    if lists is None:
+        y, w = last_completed_week()
+        lists = R.week_top_lists(Limitless(CACHE, verbose=False), y, w)[0]
+    out = {}
+    for name in names:
+        words = name.replace("'s", "").split()
+        token = " ".join(words[:2]) if words and words[0] == "Mega" else (words[-1] if words and words[0] in ("N", "Team") else words[0] if words else "")
+        if not token or token.lower() in ("basic", "festival", "other", "altro"):
+            continue
+        best = None
+        own = [p for p in lists if p["deck"]["name"].lower() == name.lower()] or lists
+        for p in own:
+            for c in p["decklist"].get("pokemon", []):
+                if token.lower() in c["name"].lower():
+                    score = (" ex" in c["name"], c["count"])
+                    if best is None or score > best[0]:
+                        best = (score, {"section": "pokemon", "name": c["name"], "set": c.get("set", ""), "number": c.get("number", "")})
+            if best and own is not lists:
+                break
+        if best:
+            out[name] = best[1]
+    imgs = card_images(list(out.values()))
+    return {k: v for k, v in zip(out.keys(), imgs)}
+
+
 def render(r: dict, key: str, caption: str) -> Path:
     out = ROOT / "output" / key
     out.mkdir(parents=True, exist_ok=True)
@@ -180,9 +207,13 @@ def matchup(a) -> str | None:
     avgs.sort(key=lambda x: -x[0])
     best = avgs[0]
     big = max(((c["wr"], k, c["games"]) for k, c in g.items() if c["games"] >= 30), default=None)
+    vs = None
     if big:
         wr, (x, y_), n = big
         headline = f"<b>{names[x]}</b> ha battuto <b>{names[y_]}</b> nel <b>{pct(wr)}</b> delle partite ({n} partite)."
+        ms = mascots([names[x], names[y_]], lists)
+        vs = {"a": {"name": names[x], "wr": pct(wr), "src": ms.get(names[x], {}).get("src")},
+              "b": {"name": names[y_], "wr": pct(1 - wr), "src": ms.get(names[y_], {}).get("src")}, "games": n}
     else:
         headline = f"<b>{best[1]['name']}</b> è il mazzo con i matchup migliori della settimana."
     mx = max(v for v, _ in avgs) or 1
@@ -190,7 +221,7 @@ def matchup(a) -> str | None:
     dates = dates_it(start.date(), (end - dt.timedelta(days=1)).date())
     r = {"kind": "matchup", "category": f"settimana {w} · TCG", "brand_right": f"SETTIMANA {w}", "n_slides": 3,
          "dates": dates, "decks": decks, "grid": grid, "games": num(games), "min_games": a.min_games,
-         "headline": headline, "best": {"short": short(best[1]["name"], 10), "avg": pct(best[0])},
+         "headline": headline, "vs": vs, "best": {"short": short(best[1]["name"], 10), "avg": pct(best[0])},
          "ranking": [{"name": d["name"], "avg": pct(v), "w": round(v / mx * 100)} for v, d in avgs],
          "source": "Partite dei tornei online · dati: Limitless TCG"}
     cap = "\n".join([
@@ -224,6 +255,9 @@ def anteprima(a) -> str | None:
         favs = [{"name": d["name"], "top8": pct(d["top8_share"]),
                  "note": f"Tier {d['tier']} · {pct(d['share'])} dei giocatori online" if d.get("tier") else f"{pct(d['share'])} dei giocatori online"}
                 for d in ds]
+        ms = mascots([d["name"] for d in favs])
+        for d in favs:
+            d["src"] = ms.get(d["name"], {}).get("src")
     last = R.majors_list()[-1]
     done = {m["tid"]: m for m in R.completed_majors(CACHE, max_age_h=6)}
     lp = R.major_players(last["tid"], CACHE)
@@ -270,10 +304,12 @@ def italiani(a) -> str | None:
     best = list(best.values())[:8]
     top = best[0] if best else None
     top8 = sum(1 for p in allp if p["place"] <= 8)
+    ms = mascots([p["deck"] for p in best[:3]])
+    podium = [{"name": p["name"], "pct": f"{p['place']}°", "src": ms.get(p["deck"], {}).get("src"), "ph": p["deck"], "sub": f"{p['major']} · {p['deck']}"} for p in best[:3]]
     headline = (f"Miglior risultato: <b>{top['name']}</b>, {top['place']}° al {top['major']} con {top['deck']}." if top else "")
     r = {"kind": "italiani", "category": "TCG Masters", "brand_right": "STAGIONE 2027", "n_slides": 3,
          "n_majors": len(data), "total": len(allp), "best_place": f"{top['place']}°" if top else "–",
-         "top8_count": top8, "headline": headline, "majors": rows[:8], "best": best,
+         "top8_count": top8, "headline": headline, "podium": podium, "majors": rows[:8], "best": best,
          "source": "Classifiche dei major · dati: Limitless TCG"}
     cap = "\n".join([
         f"🇮🇹 GLI ITALIANI NEI MAJOR · stagione 2027 · TCG Masters", "",
@@ -303,7 +339,9 @@ def stagione(a) -> str | None:
     others = [d for d, n in s["wins"] if n == top_wins]
     headline = (f"<b>{top_deck}</b> ha vinto {top_wins} major su {len(s['majors'])}: è il mazzo della stagione finora."
                 if len(others) == 1 else f"Nessun mazzo domina: <b>{', '.join(others)}</b> hanno vinto {top_wins} major a testa.")
-    r = {"kind": "stagione", "category": "TCG Masters", "brand_right": "STAGIONE 2027", "n_slides": 3, "season": "2027",
+    ms = mascots([d for d, _ in s["wins"][:3]])
+    podium = [{"name": d, "pct": f"{n} {'vittoria' if n == 1 else 'vittorie'}", "src": ms.get(d, {}).get("src"), "sub": ""} for d, n in s["wins"][:3]]
+    r = {"kind": "stagione", "podium": podium, "category": "TCG Masters", "brand_right": "STAGIONE 2027", "n_slides": 3, "season": "2027",
          "n_majors": len(s["majors"]), "players": num(players), "top_wins": top_wins, "top_deck_short": short(top_deck, 12),
          "headline": headline,
          "wins": [{"name": d, "n": n, "w": round(n / mw * 100)} for d, n in s["wins"][:5]],
