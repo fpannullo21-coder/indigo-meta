@@ -11,6 +11,7 @@ Output in output/<anno>-W<settimana>/: report.json, carousel.html, slide_XX.png,
 from __future__ import annotations
 
 import argparse
+import re
 import json
 from pathlib import Path
 
@@ -33,6 +34,7 @@ def main():
     ap.add_argument("--no-telegram", action="store_true")
     ap.add_argument("--no-deck", action="store_true", help="salta la slide con la lista della settimana")
     ap.add_argument("--spotlight", action="store_true", help="genera anche il post «Mazzo sotto la lente»")
+    ap.add_argument("--spotlight-extra", type=int, default=2, help="quanti altri mazzi raccontare")
     a = ap.parse_args()
 
     y, w = last_completed_week()
@@ -71,10 +73,24 @@ def main():
         send_preview(slides, caption, publish_key=out.name)
 
     if a.spotlight and deck:
-        render_spotlight(view, deck, ROOT / "output" / f"{year}-W{week:02d}-lente", a.handle)
+        render_spotlight(view, deck, ROOT / "output" / f"{year}-W{week:02d}-lente", a.handle,
+                         why=f"Ha vinto il torneo più grande della settimana: <b>1° su {deck['players']} giocatori</b>.")
+        # altri mazzi: i più presenti nelle top 8, escluso quello già raccontato
+        others = [d for d in sorted(report.decks, key=lambda d: d.top8_share, reverse=True)
+                  if d.name != deck["name"] and d.tier and d.best_list][:a.spotlight_extra]
+        for i, d in enumerate(others, 2):
+            try:
+                cards = resolve_decklist(d.best_list["decklist"], ROOT / "cache")
+                dk = build_deck(d.best_list, cards)
+                rank = sorted(report.decks, key=lambda x: x.top8_share, reverse=True).index(d) + 1
+                why = (f"Tier {d.tier}: <b>{d.top8} posti in top 8</b> questa settimana, "
+                       f"{'il dato più alto' if rank == 1 else f'il {rank}° dato più alto'} del meta.")
+                render_spotlight(view, dk, ROOT / "output" / f"{year}-W{week:02d}-lente{i}", a.handle, why=why)
+            except Exception as e:
+                print(f"  Spotlight {d.name} saltato: {e}")
 
 
-def render_spotlight(view: dict, deck: dict, out: Path, handle: str) -> None:
+def render_spotlight(view: dict, deck: dict, out: Path, handle: str, why: str = "") -> None:
     """Post «Mazzo sotto la lente»: il mazzo vincitore del torneo più grande, numeri + lista."""
     from jinja2 import Environment, FileSystemLoader
     from indigo_meta.render import pct, pp
@@ -90,19 +106,22 @@ def render_spotlight(view: dict, deck: dict, out: Path, handle: str) -> None:
         verdict = ("<b>In forte crescita</b>, ma converte ancora sotto la media: lo stanno provando in tanti. "
                    "I risultati arriveranno?")
     else:
-        verdict = "Ha vinto il torneo più grande, ma nel resto della settimana i numeri sono nella media."
+        verdict = ("Numeri <b>nella media</b>: si gioca tanto e converte come gli altri. Un mazzo solido, "
+                   "non ancora dominante.") if sp.conversion >= avg * 0.8 else (
+                   "Converte <b>sotto la media</b>: arriva in top 8 meno spesso di quanto si gioca. Serve la lista giusta.")
     out.mkdir(parents=True, exist_ok=True)
     env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True)
     html = env.get_template("spotlight.html.j2").render(
-        **{**view, "sp": sp, "verdict": verdict, "deck": deck, "deck_page": 2, "n_slides": 2})
+        **{**view, "sp": sp, "verdict": verdict, "deck": deck, "deck_page": 2, "n_slides": 2, "why": why})
     (out / "spotlight.html").write_text(html, encoding="utf-8")
     slides = render_png(out / "spotlight.html", out)
     caption = "\n".join([
         f"🔎 MAZZO SOTTO LA LENTE · {sp.name}", "",
-        f"1° posto al torneo più grande della settimana: {deck['players']} giocatori ({deck['tournament']}).", "",
+        re.sub(r"<[^>]+>", "", why), "",
+        f"Lista: {deck['place']}° posto su {deck['players']} giocatori ({deck['tournament']}).", "",
         f"📊 Meta share: {pct(sp.share)}" + (f" ({pp(sp.delta)} vs settimana prima)" if sp.delta is not None else ""),
         f"🎯 Top 8: {sp.top8} su {sp.entries} liste · conversion {pct(sp.conversion)} (media {pct(avg)})", "",
-        "Nella seconda slide la lista vincente, carta per carta. Lo porteresti al prossimo torneo? 👇", "",
+        "Nella seconda slide la lista, carta per carta. Lo porteresti al prossimo torneo? 👇", "",
         "Dati: Limitless TCG · immagini carte © Pokémon / Nintendo / Creatures / GAME FREAK", "",
         "#pokemontcg #pokemontcgitalia #ptcg #decklist #metagame #tcgitalia"])
     (out / "caption.txt").write_text(caption, encoding="utf-8")

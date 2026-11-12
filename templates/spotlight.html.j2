@@ -20,7 +20,7 @@
   <div class="brand"><svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
   <div class="kicker">Mazzo sotto la lente</div>
   <div class="sp-h1">{{ sp.name }}</div>
-  <div class="sp-why">Ha vinto il torneo più grande della settimana: <b>1° su {{ deck.players }} giocatori</b>.</div>
+  <div class="sp-why">{{ why|safe }}</div>
   <div class="sp-stats">
     <div class="stat"><b>{{ pct(sp.share) }}</b><i>meta share</i></div>
     <div class="stat"><b>{{ pp(sp.delta) if sp.delta is not none else "–" }}</b><i>vs settimana {{ r.week - 1 }}</i></div>

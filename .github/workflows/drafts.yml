@@ -2,6 +2,10 @@ name: Indigo Meta – pacchetto di post (bozze)
 
 on:
   workflow_dispatch:
+    inputs:
+      send_only:
+        description: "Numeri dei post da mandare su Telegram (es. 5,6,7,8). Vuoto = tutti"
+        required: false
 
 permissions:
   contents: read
@@ -48,6 +52,7 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SEND_ONLY: ${{ inputs.send_only }}
         run: python send_drafts.py
       - uses: actions/upload-artifact@v4
         with:

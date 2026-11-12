@@ -29,6 +29,7 @@ class DeckStats:
     prev_share: float | None = None
     delta: float | None = None   # punti percentuali vs settimana precedente
     tier: str | None = None
+    best_list: dict | None = None   # lista meglio piazzata della settimana
 
 
 @dataclass
@@ -91,6 +92,12 @@ def _aggregate(api: Limitless, start, end, min_players: int):
                 ds.it_entries += 1
                 it_players += 1
             pl = p.get("placing")
+            if pl and p.get("decklist"):
+                cand = {"deck": d["name"], "placing": pl, "tournament": t["name"], "players": t["players"],
+                        "player": p.get("name"), "record": p.get("record"), "decklist": p.get("decklist")}
+                cur = ds.best_list
+                if cur is None or (pl, -t["players"]) < (cur["placing"], -cur["players"]):
+                    ds.best_list = cand
             if pl and pl <= 8:
                 ds.top8 += 1
                 top8_slots += 1

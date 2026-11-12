@@ -15,6 +15,7 @@ from jinja2 import Environment, FileSystemLoader
 
 from indigo_meta.instagram import to_jpeg
 from indigo_meta.render import render_png
+from indigo_meta import majors
 
 ROOT = Path(__file__).resolve().parent
 HANDLE = "@indigo.meta"
@@ -33,6 +34,25 @@ Numeri veri, spiegati in modo chiaro, in italiano. Niente sensazioni: dati.
 Seguici e scrivi nei commenti cosa porti al prossimo torneo 👇
 
 #pokemontcg #pokemontcgitalia #ptcg #metagame #tcgitalia"""
+
+
+CITY_CAPTION = """🇯🇵 COSA SONO LE CITY LEAGUE?
+
+Sono i tornei ufficiali giapponesi del Pokémon TCG, giocati nei negozi. Li seguiamo perché in Giappone le espansioni escono mesi prima: le liste che vincono lì spesso arrivano da noi con il set successivo.
+
+Come funzionano:
+• Partite al meglio di una (BO1), da 25 minuti
+• Turni svizzeri e poi top 8 a eliminazione diretta
+• Ogni giocatore può partecipare a un solo torneo a stagione
+• Chi vince ottiene la priorità per i Japan Championships
+
+Come leggerle: il BO1 premia i mazzi veloci e lascia più spazio alla fortuna. Per questo guardiamo i trend su tante City League, non il singolo risultato.
+
+Presto qui: i mazzi che vincono in Giappone, spiegati in italiano. Seguici per non perderli 👀
+
+Fonte: regolamento ufficiale Pokémon Card Game (Giappone)
+
+#pokemontcg #pokemontcgitalia #ptcg #cityleague #pokemoncardgame #tcgitalia"""
 
 
 def run(*cmd: str) -> None:
@@ -58,14 +78,24 @@ def main():
     run("run_weekly.py", "--no-telegram", "--spotlight")
     meta = newest("20??-W??")
     lente = newest("*-lente")
+    extra = sorted((d for d in out.glob("*-lente[0-9]") if list(d.glob("slide_*.png"))), key=lambda d: d.name)
+    # Calendario dei major e spiegazione delle City League
+    cal = out / "calendario"
+    majors.build(cal, HANDLE)
+    cl = out / "cityleague"
+    cl.mkdir(parents=True, exist_ok=True)
+    (cl / "c.html").write_text(env.get_template("cityleague.html.j2").render(handle=HANDLE), encoding="utf-8")
+    render_png(cl / "c.html", cl)
+    (cl / "caption.txt").write_text(CITY_CAPTION, encoding="utf-8")
     # 3. League Cup (settimana in corso)
     run("run_cups.py", "--no-telegram")
     cup = newest("*-cup")
 
     site = ROOT / "_site"
-    for i, (src, name) in enumerate([(w, "benvenuto"), (meta, f"meta-{meta.name}"),
-                                     (cup, f"cup-{cup.name.replace('-cup', '')}"),
-                                     (lente, f"lente-{lente.name.replace('-lente', '')}")], 1):
+    posts = [(w, "benvenuto"), (meta, f"meta-{meta.name}"), (cup, f"cup-{cup.name.replace('-cup', '')}"),
+             (lente, f"lente-{lente.name.replace('-lente', '')}"), (cal, "calendario-2027"), (cl, "city-league")]
+    posts += [(d, f"lente{d.name[-1]}-{d.name.split('-lente')[0]}") for d in extra]
+    for i, (src, name) in enumerate(posts, 1):
         dst = site / f"{i}-{name}"
         to_jpeg(sorted(src.glob("slide_*.png")), dst)
         shutil.copy(src / "caption.txt", dst / "caption.txt")

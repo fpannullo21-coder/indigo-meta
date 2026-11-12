@@ -178,6 +178,7 @@ def build_deck(winner: dict, cards: list, remote: bool = False) -> dict:
     cols, free = _grid(len(items), 1)
     return dict(
         name=winner["deck"], tournament=winner["tournament"], players=winner["players"],
+        place=winner.get("placing", 1),
         player=winner.get("player") or "",
         record=f"{rec.get('wins', 0)}-{rec.get('losses', 0)}-{rec.get('ties', 0)}",
         price=(f"{price:.0f} €" if price is not None and cov >= 0.95 else None),

@@ -1,6 +1,42 @@
 [
-  {"at": "2026-11-12T00:00:00Z", "key": "1-benvenuto", "nota": "subito, poi fissalo in alto"},
-  {"at": "2026-11-13T11:30:00Z", "key": "3-cup-2026-W46", "nota": "venerdì 12:30, prima del weekend"},
-  {"at": "2026-11-13T17:30:00Z", "key": "2-meta-2026-W45", "nota": "venerdì 18:30"},
-  {"at": "2026-11-14T11:30:00Z", "key": "4-lente-2026-W45", "nota": "sabato 12:30"}
+ {
+  "at": "2026-11-12T00:00:00Z",
+  "key": "1-benvenuto",
+  "nota": "pubblicato"
+ },
+ {
+  "at": "2026-11-12T11:30:00Z",
+  "key": "3-cup-2026-W46",
+  "nota": "gio 12:30"
+ },
+ {
+  "at": "2026-11-12T17:30:00Z",
+  "key": "2-meta-2026-W45",
+  "nota": "gio 18:30"
+ },
+ {
+  "at": "2026-11-13T11:30:00Z",
+  "key": "5-calendario-2027",
+  "nota": "ven 12:30"
+ },
+ {
+  "at": "2026-11-13T17:30:00Z",
+  "key": "4-lente-2026-W45",
+  "nota": "ven 18:30"
+ },
+ {
+  "at": "2026-11-14T11:30:00Z",
+  "key": "6-city-league",
+  "nota": "sab 12:30"
+ },
+ {
+  "at": "2026-11-14T17:30:00Z",
+  "key": "7-lente2-2026-W45",
+  "nota": "sab 18:30"
+ },
+ {
+  "at": "2026-11-15T11:30:00Z",
+  "key": "8-lente3-2026-W45",
+  "nota": "dom 12:30"
+ }
 ]
