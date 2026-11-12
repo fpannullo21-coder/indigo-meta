@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+{% include "_style.css.j2" %}
+.st-slide { padding: 0 !important; }
+.bg { position: absolute; inset: 0; background-size: cover; background-repeat: no-repeat; }
+.bg.zoom { background-size: 175%; filter: saturate(1.1); }
+.bg.soft { background-size: 260%; filter: blur(26px) brightness(.45) saturate(1.3); transform: scale(1.1); }
+.shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,11,34,.15) 0%, rgba(14,11,34,.05) 30%, rgba(14,11,34,.85) 58%, #0e0b22 78%); }
+.shade.full { background: linear-gradient(180deg, rgba(14,11,34,.55) 0%, rgba(14,11,34,.35) 40%, rgba(14,11,34,.9) 62%, #0e0b22 80%); }
+.top { position: absolute; left: 84px; right: 84px; top: 64px; display: flex; justify-content: space-between; align-items: center; z-index: 3;
+  font-weight: 800; letter-spacing: .18em; font-size: 22px; text-shadow: 0 2px 12px rgba(0,0,0,.6); }
+.top span:last-child { color: var(--ink-2); font-weight: 700; letter-spacing: .12em; }
+.top .lg { display: inline-flex; align-items: center; gap: 12px; }
+.body { position: absolute; left: 84px; right: 84px; bottom: 150px; z-index: 3; }
+.kick { font-size: 22px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+.big { font-family: "Grotesk"; font-weight: 700; font-size: 100px; line-height: .98; letter-spacing: -.025em; margin-top: 16px; text-shadow: 0 4px 30px rgba(0,0,0,.5); }
+.big em, .h em, .txt em { font-style: normal; color: var(--accent); }
+.sub { font-size: 40px; font-weight: 600; color: var(--ink); margin-top: 34px; }
+.h { font-family: "Grotesk"; font-weight: 700; font-size: 68px; line-height: 1.02; letter-spacing: -.02em; }
+.txt { font-size: 30px; line-height: 1.45; color: var(--ink-2); margin-top: 20px; }
+.txt b { color: var(--ink); }
+.cards { position: absolute; left: 0; right: 0; top: 150px; display: flex; justify-content: center; align-items: flex-start; gap: 26px; z-index: 2; }
+.cards img { border-radius: 18px; box-shadow: 0 26px 70px rgba(0,0,0,.65); }
+.cards.n1 img { width: 430px; }
+.cards.n2 img { width: 380px; }
+.cards.n2 img:first-child { transform: rotate(-4deg); } .cards.n2 img:last-child { transform: rotate(4deg); }
+.cards.n3 img { width: 292px; }
+.cards.n3 img:nth-child(2) { margin-top: -18px; }
+.bottom { position: absolute; left: 84px; right: 84px; bottom: 60px; display: flex; justify-content: space-between; align-items: center; z-index: 3;
+  font-size: 20px; color: var(--ink-3); }
+.bottom .swp { font-size: 26px; font-weight: 600; color: var(--ink); font-style: italic; }
+.acts { display: flex; justify-content: center; gap: 70px; margin-top: 50px; }
+.acts div { text-align: center; font-size: 22px; font-weight: 600; color: var(--ink); }
+.acts svg { display: block; margin: 0 auto 10px; }
+.center { text-align: center; }
+</style>
+</head>
+<body>
+{% set logo %}<svg width="34" height="34" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>{% endset %}
+{% for s in story.slides %}
+<section class="slide st-slide">
+  {% if s.bg %}<div class="bg {{ s.bg_mode or 'zoom' }}" style="background-image: url('{{ s.bg }}'); background-position: {{ s.bg_pos or '50% 16%' }}"></div>{% endif %}
+  <div class="shade{% if s.cards %} full{% endif %}"></div>
+  <div class="top"><span class="lg">{{ logo }}INDIGO META</span><span>{{ story.where }}</span></div>
+  {% if s.cards %}<div class="cards n{{ s.cards|length }}">{% for c in s.cards %}<img src="{{ c }}" alt="">{% endfor %}</div>{% endif %}
+  <div class="body{% if s.cta %} center{% endif %}">
+    {% if s.kicker %}<div class="kick">{{ s.kicker }}</div>{% endif %}
+    {% if s.big %}<div class="big">{{ s.big | safe }}</div>{% endif %}
+    {% if s.sub %}<div class="sub">{{ s.sub | safe }}</div>{% endif %}
+    {% if s.title %}<div class="h">{{ s.title | safe }}</div>{% endif %}
+    {% if s.text %}<div class="txt">{{ s.text | safe }}</div>{% endif %}
+    {% if s.cta %}
+    <div class="acts">
+      <div><svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M12 21s-7-4.4-9.3-8.6C1 9 2.8 5 6.6 5c2.2 0 3.6 1.3 4.4 2.6.8-1.3 2.2-2.6 4.4-2.6C19.2 5 21 9 21.3 12.4 19 16.6 12 21 12 21z"/></svg>Like</div>
+      <div><svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.4-4A8 8 0 1 1 20 11.5z"/></svg>Commenta</div>
+      <div><svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M22 3 9.5 13.5M22 3l-7 18-4-8-8-4 19-6z"/></svg>Condividi</div>
+      <div><svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M6 3h12v18l-6-4-6 4z"/></svg>Salva</div>
+    </div>
+    {% endif %}
+  </div>
+  <div class="bottom"><span>{{ s.note or ("Fonte: " ~ story.source) }}</span>{% if not loop.last %}<span class="swp">scorri →</span>{% else %}<span>{{ story.handle }}</span>{% endif %}</div>
+</section>
+{% endfor %}
+</body>
+</html>

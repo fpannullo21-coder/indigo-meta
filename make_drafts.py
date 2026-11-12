@@ -133,6 +133,13 @@ def main():
             posts.append((out / k, k))
         except subprocess.CalledProcessError as e:
             print("Carte saltate:", f.name, e)
+    for f in sorted((ROOT / "data" / "stories").glob("*.json")):
+        try:
+            run("run_story.py", str(f))
+            k = json.loads(f.read_text())["key"]
+            posts.append((out / k, k))
+        except subprocess.CalledProcessError as e:
+            print("Storia saltata:", f.name, e)
     try:                             # guide senza scadenza
         run("run_guide.py")
         posts.append((out / "guida-come-iniziare", "guida-come-iniziare"))
