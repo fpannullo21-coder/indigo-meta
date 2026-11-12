@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+{% include "_style.css.j2" %}
+.g-title { font-family: "Grotesk"; font-weight: 700; font-size: 92px; line-height: .98; letter-spacing: -.02em; margin-top: 24px; position: relative; }
+.g-title em { font-style: normal; color: var(--accent); }
+.g-lead { font-size: 30px; color: var(--ink-2); margin-top: 22px; line-height: 1.38; position: relative; }
+.g-lead b { color: var(--ink); }
+.ph { background: var(--bg-2); border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; text-align: center;
+  padding: 12px; box-sizing: border-box; font-weight: 700; font-size: 22px; color: var(--ink-2); }
+.fan { position: relative; height: 560px; margin-top: 30px; }
+.fan .fc { position: absolute; width: 330px; }
+.fan .fc img, .fan .fc .ph { width: 330px; aspect-ratio: 63/88; border-radius: 18px; object-fit: cover; box-shadow: 0 24px 60px rgba(0,0,0,.55); display: block; }
+.fan .fc:nth-child(1) { left: 20px; top: 70px; transform: rotate(-9deg); }
+.fan .fc:nth-child(2) { left: 291px; top: 20px; z-index: 2; }
+.fan .fc:nth-child(3) { left: 562px; top: 70px; transform: rotate(9deg); }
+.pts { margin-top: 40px; display: flex; flex-direction: column; gap: 20px; position: relative; }
+.pt { display: grid; grid-template-columns: 84px 1fr; column-gap: 22px; align-items: center; background: var(--bg-2); border: 1px solid var(--line); border-radius: 24px; padding: 32px 30px; }
+.pt .ic { font-size: 46px; line-height: 1; text-align: center; }
+.pt p { font-size: 29px; line-height: 1.4; color: var(--ink-2); }
+.pt .ic.t { font-family: "Grotesk"; font-weight: 700; font-size: 44px; color: var(--accent); }
+.pt p b { color: var(--ink); }
+.types { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin-top: 36px; position: relative; }
+.types .t img, .types .t .ph { width: 100%; aspect-ratio: 63/88; border-radius: 14px; object-fit: cover; box-shadow: 0 16px 40px rgba(0,0,0,.45); display: block; }
+.types .t h3 { font-family: "Grotesk"; font-size: 36px; margin-top: 18px; color: var(--accent); }
+.types .t p { font-size: 22px; line-height: 1.38; color: var(--ink-2); margin-top: 6px; }
+.types .t p b { color: var(--ink); }
+/* campo di gioco */
+.field { margin-top: 34px; position: relative; background: rgba(108,92,231,.10); border: 1px solid var(--line); border-radius: 26px; padding: 28px; height: 560px; box-sizing: border-box; }
+.zone { position: absolute; border: 2px dashed rgba(157,140,255,.55); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.zone b { font-family: "Grotesk"; font-size: 24px; color: var(--ink); }
+.zone i { font-style: normal; font-size: 17px; color: var(--ink-2); margin-top: 4px; line-height: 1.25; padding: 0 6px; }
+.zone.on { background: rgba(108,92,231,.35); border-style: solid; border-color: var(--accent); }
+.prize { position: absolute; width: 70px; height: 98px; border-radius: 8px; background: linear-gradient(135deg, #6C5CE7, #3a2f9a); border: 2px solid rgba(255,255,255,.25); }
+.lbl { position: absolute; font-size: 18px; font-weight: 700; color: var(--accent); letter-spacing: .08em; text-transform: uppercase; }
+.steps { margin-top: 30px; display: flex; flex-direction: column; gap: 12px; position: relative; }
+.st { display: grid; grid-template-columns: 64px 1fr; column-gap: 18px; align-items: center; background: var(--bg-2); border: 1px solid var(--line); border-radius: 20px; padding: 18px 24px; }
+.st .n { width: 52px; height: 52px; border-radius: 50%; background: var(--accent-2); display: flex; align-items: center; justify-content: center; font-family: "Grotesk"; font-weight: 700; font-size: 26px; }
+.st p { font-size: 25px; line-height: 1.35; color: var(--ink-2); }
+.st p b { color: var(--ink); }
+.note { margin-top: 22px; position: relative; border-left: 6px solid var(--accent); padding: 6px 0 6px 24px; font-size: 24px; line-height: 1.4; color: var(--ink-2); }
+.note b { color: var(--ink); }
+.wins { display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 40px; position: relative; }
+.win { display: grid; grid-template-columns: 120px 1fr; column-gap: 24px; align-items: center; background: var(--bg-2); border: 1px solid var(--line); border-radius: 24px; padding: 40px 32px; }
+.win .big { font-family: "Grotesk"; font-size: 64px; font-weight: 700; color: var(--accent); text-align: center; line-height: 1; }
+.win h3 { font-family: "Grotesk"; font-size: 34px; }
+.win p { font-size: 26px; line-height: 1.38; color: var(--ink-2); margin-top: 6px; }
+.dmg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 34px; position: relative; }
+.dmg .stat b { font-size: 50px; }
+.cta { margin-top: 70px; display: flex; flex-direction: column; gap: 22px; position: relative; }
+.cta div { display: flex; align-items: center; gap: 24px; font-size: 32px; color: var(--ink-2); background: var(--bg-2); border: 1px solid var(--line); border-radius: 22px; padding: 26px 28px; }
+.cta div span { font-size: 46px; width: 64px; text-align: center; }
+.cta div b { color: var(--ink); }
+</style>
+</head>
+<body>
+{% set logo %}<svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>{% endset %}
+{% macro img(c) %}{% if c.src %}<img src="{{ c.src }}" alt="{{ c.name }}">{% else %}<div class="ph">{{ c.name }}</div>{% endif %}{% endmacro %}
+{% macro head(k) %}<div class="brand">{{ logo }}INDIGO META<span class="wk">GUIDA PER INIZIARE</span></div><div class="kicker">{{ k }}</div>{% endmacro %}
+{% macro foot(n, note="Regole semplificate per chi inizia · regolamento completo su pokemon.com") %}<div class="foot" style="font-size:17px"><span>{{ note }}</span><span class="page">{{ n }}/10</span></div>{% endmacro %}
+
+<!-- 1 · copertina -->
+<section class="slide">
+  {{ head("Guida per principianti · TCG") }}
+  <div class="g-title">Come iniziare a giocare a <em>Pokémon TCG</em></div>
+  <div class="g-lead">Tutto quello che serve sapere per la tua prima partita, spiegato <b>in modo semplice</b>.</div>
+  <div class="fan">{% for c in g.cover %}<div class="fc">{{ img(c) }}</div>{% endfor %}</div>
+  <div class="swipe">Iniziamo →</div>
+  {{ foot(1, "Salva il post e ritrovalo quando ti serve 📌") }}
+</section>
+
+<!-- 2 · cos'è -->
+<section class="slide">
+  {{ head("Che cos'è") }}
+  <h2 style="font-size:66px">Una sfida tra due Allenatori</h2>
+  <div class="pts">
+    <div class="pt"><span class="ic">🃏</span><p>Ogni giocatore ha il suo <b>mazzo di carte</b>: i suoi Pokémon, gli strumenti per aiutarli e l'Energia per farli attaccare.</p></div>
+    <div class="pt"><span class="ic">⚔️</span><p>I Pokémon si affrontano <b>uno contro uno</b>: quello in prima fila attacca, gli altri aspettano il loro turno in panchina.</p></div>
+    <div class="pt"><span class="ic">🏆</span><p>Ogni volta che <b>metti KO</b> un Pokémon avversario prendi una ricompensa: una <b>carta Premio</b>. Chi le prende tutte vince.</p></div>
+    <div class="pt"><span class="ic">⏱️</span><p>Una partita dura <b>20–30 minuti</b>. Si gioca dal vivo con le carte o gratis sull'app <b>Pokémon TCG Live</b>.</p></div>
+  </div>
+  {{ foot(2) }}
+</section>
+
+<!-- 3 · cosa serve -->
+<section class="slide">
+  {{ head("Cosa serve") }}
+  <h2 style="font-size:66px">Il tuo mazzo: 60 carte</h2>
+  <div class="pts">
+    <div class="pt"><span class="ic t">60</span><p>Un mazzo ha <b>esattamente 60 carte</b>, né una di più né una di meno.</p></div>
+    <div class="pt"><span class="ic t">×4</span><p>Massimo <b>4 copie</b> della stessa carta (con lo stesso nome). Solo le <b>Energie base</b> non hanno limiti.</p></div>
+    <div class="pt"><span class="ic">🪙</span><p>Una <b>moneta</b> per chi inizia e per gli attacchi che dicono "lancia una moneta".</p></div>
+    <div class="pt"><span class="ic">🔴</span><p>Dei <b>segnalini</b> per contare i danni sui Pokémon: ognuno vale 10 danni.</p></div>
+  </div>
+  <div class="note">Il consiglio: <b>non costruirlo da zero</b>. Parti da un mazzo già pronto (lo vediamo alla fine).</div>
+  {{ foot(3) }}
+</section>
+
+<!-- 4 · tipi di carte -->
+<section class="slide">
+  {{ head("Le carte") }}
+  <h2 style="font-size:66px">Tre tipi di carte</h2>
+  <div class="types">
+    {% for c in g.types %}<div class="t">{{ img(c) }}<h3>{{ c.title }}</h3><p>{{ c.text | safe }}</p></div>{% endfor %}
+  </div>
+  {{ foot(4) }}
+</section>
+
+<!-- 5 · il campo -->
+<section class="slide">
+  {{ head("Prima di iniziare") }}
+  <h2 style="font-size:60px">Come si prepara il campo</h2>
+  <div class="field">
+    <span class="lbl" style="left:30px; top:20px">Premi</span>
+    {% for i in range(6) %}<div class="prize" style="left: {{ 30 + (i % 2) * 82 }}px; top: {{ 56 + (i // 2) * 110 }}px"></div>{% endfor %}
+    <div class="zone on" style="left: 340px; top: 40px; width: 180px; height: 250px"><b>Attivo</b><i>il Pokémon che combatte</i></div>
+    <div class="zone" style="left: 650px; top: 40px; width: 150px; height: 120px"><b>Mazzo</b></div>
+    <div class="zone" style="left: 650px; top: 175px; width: 150px; height: 120px"><b>Scarti</b><i>carte usate</i></div>
+    <span class="lbl" style="left:250px; top:340px">Panchina · fino a 5 Pokémon</span>
+    {% for i in range(5) %}<div class="zone" style="left: {{ 250 + i * 112 }}px; top: 376px; width: 100px; height: 140px"><i>{{ i + 1 }}</i></div>{% endfor %}
+  </div>
+  <div class="steps" style="margin-top:22px">
+    <div class="st"><span class="n">1</span><p>Mescola e <b>pesca 7 carte</b>. Metti un <b>Pokémon Base</b> come Attivo e, se vuoi, altri in Panchina.</p></div>
+    <div class="st"><span class="n">2</span><p>Metti da parte, coperte, le prime <b>6 carte del mazzo</b>: sono i tuoi Premi.</p></div>
+  </div>
+  {{ foot(5, "Nessun Pokémon Base in mano? Mostri la mano, rimescoli e ripeschi 7 carte") }}
+</section>
+
+<!-- 6 · il turno -->
+<section class="slide">
+  {{ head("Il turno") }}
+  <h2 style="font-size:60px">Cosa fai nel tuo turno</h2>
+  <div class="steps">
+    <div class="st"><span class="n">1</span><p><b>Pesca 1 carta.</b> Sempre, all'inizio di ogni turno.</p></div>
+    <div class="st"><span class="n">2</span><p>Metti in Panchina i <b>Pokémon Base</b> che vuoi (fino a 5) ed <b>evolvi</b> quelli in gioco dal turno prima.</p></div>
+    <div class="st"><span class="n">3</span><p>Assegna <b>1 Energia</b> a un tuo Pokémon (una sola per turno).</p></div>
+    <div class="st"><span class="n">4</span><p>Gioca le carte <b>Allenatore</b>: Oggetti quanti vuoi, 1 Strumento per Pokémon, ma <b>1 solo Aiuto</b> e 1 solo Stadio per turno.</p></div>
+    <div class="st"><span class="n">5</span><p>Se vuoi, <b>ritira</b> l'Attivo: scarti l'Energia indicata e lo scambi con uno della Panchina.</p></div>
+    <div class="st"><span class="n">6</span><p><b>Attacca!</b> Dopo l'attacco il turno finisce.</p></div>
+  </div>
+  <div class="note">Chi inizia per primo, nel suo primo turno <b>non può attaccare</b> né giocare carte Aiuto. E nessuno può evolvere nel suo primo turno.</div>
+  {{ foot(6) }}
+</section>
+
+<!-- 7 · attacchi e KO -->
+<section class="slide">
+  {{ head("Attaccare") }}
+  <h2 style="font-size:60px">Danni, KO e carte Premio</h2>
+  <div class="pts">
+    <div class="pt"><span class="ic">⚡</span><p>Ogni attacco ha un <b>costo in Energia</b>: i simboli a sinistra del nome. Il tuo Pokémon deve avere quelle Energie assegnate.</p></div>
+    <div class="pt"><span class="ic">💥</span><p>I danni si sommano. Quando arrivano ai <b>PS</b> del Pokémon (il numero in alto a destra), è <b>KO</b> e va negli scarti.</p></div>
+    <div class="pt"><span class="ic">🎯</span><p>Attento a <b>Debolezza</b> (danni ×2) e <b>Resistenza</b> (−30): sono scritte in basso sulla carta.</p></div>
+  </div>
+  <div class="dmg">
+    <div class="stat"><b>1</b><i>Premio per un Pokémon normale</i></div>
+    <div class="stat"><b>2</b><i>Premi per un Pokémon ex</i></div>
+    <div class="stat"><b>3</b><i>Premi per un Pokémon Mega ex</i></div>
+  </div>
+  {{ foot(7) }}
+</section>
+
+<!-- 8 · come si vince -->
+<section class="slide">
+  {{ head("Come si vince") }}
+  <h2 style="font-size:66px">Tre modi per vincere</h2>
+  <div class="wins">
+    <div class="win"><span class="big">6</span><div><h3>Prendi tutti i Premi</h3><p>Il modo più comune: metti KO abbastanza Pokémon da prendere tutte e 6 le carte Premio.</p></div></div>
+    <div class="win"><span class="big">0</span><div><h3>L'avversario resta senza Pokémon</h3><p>Se metti KO il suo Attivo e non ha nessun Pokémon in Panchina per sostituirlo, hai vinto.</p></div></div>
+    <div class="win"><span class="big">∅</span><div><h3>Il suo mazzo finisce</h3><p>Se all'inizio del suo turno l'avversario non ha più carte da pescare, perde.</p></div></div>
+  </div>
+  {{ foot(8) }}
+</section>
+
+<!-- 9 · da dove iniziare -->
+<section class="slide">
+  {{ head("Da dove iniziare") }}
+  <h2 style="font-size:60px">I primi passi, in ordine</h2>
+  <div class="steps">
+    <div class="st"><span class="n">1</span><p>Scarica <b>Pokémon TCG Live</b>, l'app ufficiale gratuita: c'è un tutorial e giochi subito con mazzi già pronti.</p></div>
+    <div class="st"><span class="n">2</span><p>Compra un <b>mazzo già pronto</b> in fumetteria o in negozio: sono pensati per chi inizia e si gioca appena aperti.</p></div>
+    <div class="st"><span class="n">3</span><p>Gioca con un amico o alla <b>Lega Pokémon</b> della tua fumetteria: lì trovi giocatori disposti a insegnarti.</p></div>
+    <div class="st"><span class="n">4</span><p>Quando ti senti pronto, prova un <b>torneo per principianti</b>: li trovi su <b>events.pokemon.com</b>.</p></div>
+    <div class="st"><span class="n">5</span><p>Vuoi migliorare? Su <b>Indigo Meta</b> ogni settimana trovi i mazzi più forti e le liste dei campioni.</p></div>
+  </div>
+  {{ foot(9) }}
+</section>
+
+<!-- 10 · chiusura -->
+<section class="slide">
+  {{ head("E adesso?") }}
+  <div class="g-title" style="font-size:84px">Pronto per la tua <em>prima partita</em>?</div>
+  <div class="g-lead">Il modo migliore per imparare è giocare: le regole diventano naturali dopo due o tre partite.</div>
+  <div class="cta">
+    <div><span>📌</span><p><b>Salva</b> questo post per rileggerlo</p></div>
+    <div><span>📤</span><p><b>Mandalo</b> all'amico che vuoi far iniziare</p></div>
+    <div><span>💬</span><p>Hai dubbi? <b>Scrivili nei commenti</b>, rispondiamo a tutti</p></div>
+    <div><span>🔔</span><p><b>Segui {{ g.handle }}</b> per meta, tornei e novità</p></div>
+  </div>
+  {{ foot(10, "Pokémon TCG competitivo, in italiano 🇮🇹") }}
+</section>
+</body>
+</html>

@@ -133,6 +133,11 @@ def main():
             posts.append((out / k, k))
         except subprocess.CalledProcessError as e:
             print("Carte saltate:", f.name, e)
+    try:                             # guide senza scadenza
+        run("run_guide.py")
+        posts.append((out / "guida-come-iniziare", "guida-come-iniziare"))
+    except subprocess.CalledProcessError as e:
+        print("Guida saltata:", e)
     for src, name in posts:          # chiavi stabili (niente numeri): la coda non si sposta mai
         dst = site / name
         to_jpeg(sorted(src.glob("slide_*.png")), dst)
