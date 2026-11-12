@@ -1,0 +1,33 @@
+{
+ "key": "news-pokemon-day-2027-ufficiale",
+ "where": "POKÉMON DAY 2027",
+ "category": "Ufficiale · Prodotti · TCG",
+ "title": "Il box del Pokémon Day 2027 è <em>ufficiale</em>",
+ "lead": "Dentro c'è un <b style='color:var(--ink)'>Pikachu promo</b> con il timbro del Pokémon Day.",
+ "images": [
+  {"src": "2.png", "label": "Pokémon Day 2027 Collection", "cut": true},
+  {"src": "4.png", "label": "Il contenuto del box", "cut": true}
+ ],
+ "short": "Cosa c'è nel box",
+ "points": [
+  ["📦", "<b>1 promo Pikachu</b> olografica con il timbro, <b>1 moneta</b> celebrativa, <b>3 buste</b> e un codice per <b>Pokémon TCG Live</b>."],
+  ["⚡", "Il Pikachu è la carta <b>055/217 di Ascesa Eroica</b> (Base, 70 PS), ristampata con il timbro. Nelle foto ufficiali le buste sono di <b>Delta Reign</b>."],
+  ["📅", "Negli <b>Stati Uniti</b> esce il <b>29 gennaio 2027</b> a <b>14,99 $</b>. Per l'Italia data e prezzo non sono ancora annunciati."]
+ ],
+ "why": "Nessun cambiamento per i tornei: è una <b>ristampa</b> con gli stessi attacchi. Il timbro la rende un pezzo da <b>collezionisti</b>.",
+ "source": "PocketMonsters.net · immagini The Pokémon Company",
+ "caption": "📦 UFFICIALE · Ecco il box del Pokémon Day 2027!\n\nDentro ci sono una promo Pikachu olografica con il timbro del Pokémon Day (la carta 055/217 di Ascesa Eroica), una moneta celebrativa, 3 buste e un codice per Pokémon TCG Live.\n\n📅 Negli Stati Uniti esce il 29 gennaio 2027 a 14,99 $. Per l'Italia data e prezzo non sono ancora annunciati: vi aggiorniamo appena escono.\n\n🃏 Per il competitivo non cambia nulla: è una ristampa con gli stessi attacchi. È un pezzo per collezionisti.\n\nLo prenderete? 👇\n\nFonte: PocketMonsters.net · Immagini © The Pokémon Company International\nCarte © Pokémon / Nintendo / Creatures / GAME FREAK\n\n#pokemontcg #pokemontcgitalia #pokemonday #pikachu #pokemoncards #tcgitalia",
+ "assets": "assets/news/pokemon-day-2027-ufficiale",
+ "gallery": {
+  "kicker": "La tradizione",
+  "title": "Una promo col timbro ogni anno",
+  "cards": [
+   {"card": {"name": "Ceruledge", "set": "PAF", "number": "40"}, "year": "2024", "label": "Ceruledge"},
+   {"card": {"name": "Eevee", "set": "PRE", "number": "74"}, "year": "2025", "label": "Eevee"},
+   {"card": {"name": "Pikachu", "set": "TEF", "number": "51"}, "year": "2026", "label": "Pikachu"}
+  ],
+  "text": "Il <b>Pokémon Day</b> si festeggia il <b>27 febbraio</b>, l'anniversario dei primi giochi Pokémon. Ogni anno esce una carta già vista, <b>ristampata con il timbro</b>: nel 2027 tocca di nuovo a <b>Pikachu</b>.",
+  "note": "Carte © Pokémon / Nintendo / Creatures / GAME FREAK"
+ },
+ "manual": true
+}
