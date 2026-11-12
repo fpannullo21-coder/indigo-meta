@@ -36,8 +36,7 @@ body { background: #000; font-family: "Inter", sans-serif; color: var(--ink); }
 }
 .brand { display: flex; align-items: center; gap: 14px; font-family: "Grotesk"; font-weight: 700;
   font-size: 26px; letter-spacing: .18em; color: var(--ink-2); position: relative; }
-.brand .dot { width: 18px; height: 18px; border-radius: 5px; background: var(--accent-2);
-  box-shadow: 10px 10px 0 -2px var(--accent); }
+.brand .logo { flex-shrink: 0; display: block; }
 .brand .wk { margin-left: auto; letter-spacing: .06em; font-weight: 500; color: var(--ink-3); }
 .kicker { margin-top: 64px; font-size: 26px; font-weight: 600; color: var(--accent); letter-spacing: .08em; text-transform: uppercase; position: relative; }
 h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.02; margin-top: 18px; letter-spacing: -.01em; position: relative; }
@@ -150,7 +149,7 @@ h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.0
 
 {# ---------- 1. COVER ---------- #}
 <section class="slide cover" id="s1">
-  <div class="brand"><span class="dot"></span>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
+  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
   <h1>Meta<span>Report</span></h1>
   <div class="dates">{{ dates_it }} · Pokémon TCG Standard</div>
   <div class="stats">
@@ -166,7 +165,7 @@ h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.0
 
 {# ---------- 2. META SHARE ---------- #}
 <section class="slide" id="s2">
-  <div class="brand"><span class="dot"></span>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
+  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
   <div class="kicker">Meta share</div>
   <h2>I 10 mazzi più giocati</h2>
   <div class="colhead"><span>#</span><span>Mazzo</span><span>% delle liste</span><span></span><span>vs sett. {{ r.week - 1 }}</span></div>
@@ -186,7 +185,7 @@ h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.0
 
 {# ---------- 3. TIER LIST ---------- #}
 <section class="slide" id="s3">
-  <div class="brand"><span class="dot"></span>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
+  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
   <div class="kicker">Tier list</div>
   <h2>Chi porta risultati</h2>
   <div class="sub">Classifica per presenza nelle top 8, non per popolarità.</div>
@@ -205,7 +204,7 @@ h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.0
 
 {# ---------- 4. MOVERS ---------- #}
 <section class="slide" id="s4">
-  <div class="brand"><span class="dot"></span>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
+  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
   <div class="kicker">Trend</div>
   <h2>Chi sale e chi scende</h2>
   <div class="sub">Variazione della meta share rispetto alla settimana {{ r.week - 1 }}.</div>
@@ -226,7 +225,7 @@ h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.0
 
 {# ---------- 5. CONVERSION ---------- #}
 <section class="slide" id="s5">
-  <div class="brand"><span class="dot"></span>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
+  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
   <div class="kicker">Performance</div>
   <h2>Chi converte in top 8</h2>
   <div class="sub">% di liste arrivate in top 8. La linea tratteggiata è la media ({{ pct(avg_conv) }}).</div>
@@ -245,7 +244,7 @@ h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.0
 
 {# ---------- 6. WINNERS ---------- #}
 <section class="slide" id="s6">
-  <div class="brand"><span class="dot"></span>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
+  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
   <div class="kicker">Vittorie</div>
   <h2>Chi ha alzato la coppa</h2>
   <div class="sub">{{ r.tournaments }} tornei, {{ winning_decks }} mazzi vincitori diversi.</div>
@@ -265,7 +264,7 @@ h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.0
 {% if deck %}
 {# ---------- LISTA DELLA SETTIMANA ---------- #}
 <section class="slide deck" id="s{{ deck_page }}">
-  <div class="brand"><span class="dot"></span>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
+  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
   <div class="kicker" style="margin-top:36px">Lista della settimana</div>
   <h2 style="font-size:60px; margin-top:12px">{{ deck.name }}</h2>
   <div class="sub" style="font-size:23px; margin-top:10px; line-height:1.3">1° posto su {{ deck.players }} giocatori · {{ deck.tournament }}<br>
@@ -299,7 +298,7 @@ h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.0
 {% if show_it %}
 {# ---------- META ITALIA ---------- #}
 <section class="slide" id="s7">
-  <div class="brand"><span class="dot"></span>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
+  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
   <div class="kicker">Meta Italia</div>
   <h2>Cosa giocano gli italiani</h2>
   <div class="sub">Le liste dei {{ r.it_players }} giocatori italiani in questi tornei, a confronto con il meta globale.</div>
@@ -321,7 +320,7 @@ h2 { font-family: "Grotesk"; font-weight: 700; font-size: 74px; line-height: 1.0
 
 {# ---------- CTA ---------- #}
 <section class="slide cta" id="s{{ n_slides }}">
-  <div class="brand"><span class="dot"></span>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
+  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
   <h2>Il meta, ogni lunedì.<br>In italiano.</h2>
   <div class="handle">{{ handle }}</div>
   <div class="method"><b>Come leggiamo i dati.</b> Tornei Standard su Play Limitless con almeno {{ r.min_players }} giocatori,

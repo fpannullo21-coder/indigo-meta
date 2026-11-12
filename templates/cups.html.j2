@@ -16,7 +16,7 @@ body { background: #000; font-family: "Inter", sans-serif; color: var(--ink); }
 .slide::before { content: ""; position: absolute; width: 900px; height: 900px; right: -420px; top: -460px;
   background: radial-gradient(circle, rgba(108,92,231,.32), rgba(108,92,231,0) 65%); }
 .brand { display: flex; align-items: center; gap: 14px; font-family: "Grotesk"; font-weight: 700; font-size: 26px; letter-spacing: .18em; color: var(--ink-2); position: relative; }
-.brand .dot { width: 18px; height: 18px; border-radius: 5px; background: var(--accent-2); box-shadow: 10px 10px 0 -2px var(--accent); }
+.brand .logo { flex-shrink: 0; display: block; }
 .brand .wk { margin-left: auto; letter-spacing: .06em; font-weight: 500; color: var(--ink-3); }
 .foot { position: absolute; left: 84px; right: 84px; bottom: 56px; display: flex; justify-content: space-between; font-size: 20px; color: var(--ink-3); border-top: 1px solid var(--line); padding-top: 24px; }
 .page { font-family: "Grotesk"; font-weight: 500; }
@@ -47,7 +47,7 @@ body { background: #000; font-family: "Inter", sans-serif; color: var(--ink); }
 <body>
 
 <section class="slide cover">
-  <div class="brand"><span class="dot"></span>INDIGO META<span class="wk">SETTIMANA {{ week }}</span></div>
+  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ week }}</span></div>
   <h1>League<span>Cup</span></h1>
   <div class="dates">{{ dates }} · {{ total }} Cup in Italia</div>
   <div class="areas">
@@ -59,7 +59,7 @@ body { background: #000; font-family: "Inter", sans-serif; color: var(--ink); }
 
 {% for page in pages %}
 <section class="slide">
-  <div class="brand"><span class="dot"></span>INDIGO META<span class="wk">SETTIMANA {{ week }}</span></div>
+  <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ week }}</span></div>
   <div class="list">
   {% for name, items, regions in page %}
     <div class="sec"><h3>{{ name }}</h3>{% if regions %}<span>{{ regions }}</span>{% endif %}<em>{{ items|length }}</em></div>
