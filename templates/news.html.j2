@@ -24,6 +24,15 @@
 .why { margin-top: 26px; position: relative; border-left: 6px solid var(--accent); padding: 6px 0 6px 26px; }
 .why em { font-style: normal; font-size: 21px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
 .why p { font-size: 27px; line-height: 1.4; color: var(--ink); margin-top: 8px; }
+.strip { margin-top: 22px; position: relative; flex-shrink: 0; }
+.pts, .why { flex-shrink: 0; }
+.strip h4 { font-size: 20px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+.strip .srow { display: flex; gap: 26px; }
+.strip .it { text-align: center; }
+.strip img, .strip .ph { width: 128px; aspect-ratio: 63/88; border-radius: 12px; object-fit: cover; box-shadow: 0 14px 34px rgba(0,0,0,.45); display: block; }
+.strip .ph { border: 2px dashed var(--accent); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--ink-2); padding: 10px; box-sizing: border-box; }
+.strip b { display: block; font-family: "Grotesk"; font-size: 24px; margin-top: 8px; }
+.strip i { display: block; font-style: normal; font-size: 18px; color: var(--ink-3); }
 </style>
 </head>
 <body>
@@ -54,6 +63,7 @@
   {% endfor %}
   </div>
   <div class="why"><em>Perché conta per il competitivo</em><p>{{ n.why | safe }}</p></div>
+  {% if n.strip %}<div class="strip"><h4>{{ n.strip_title }}</h4><div class="srow">{% for c in n.strip %}<div class="it">{% if c.src %}<img src="{{ c.src }}" alt="">{% else %}<div class="ph">{{ c.label }}</div>{% endif %}<b>{{ c.year }}</b><i>{{ c.label }}</i></div>{% endfor %}</div></div>{% endif %}
   <div class="foot"><span>Fonte: {{ n.source }}</span><span class="page">2/2</span></div>
 </section>
 </body>

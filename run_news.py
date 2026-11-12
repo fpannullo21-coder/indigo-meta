@@ -12,8 +12,14 @@ ROOT = Path(__file__).resolve().parent
 n = json.loads(Path(sys.argv[1]).read_text())
 A = (ROOT / n.get("assets", "assets")).resolve()
 for im in n.get("images", []):
-    if im.get("src"):
+    if isinstance(im.get("card"), dict):                 # carta ufficiale (TCGdex / Limitless)
+        from run_rubrica import card_images
+        im["src"] = card_images([dict({"section": "pokemon"}, **im["card"])])[0].get("src")
+    elif im.get("src"):
         im["src"] = (A / im["src"]).as_uri()
+for c in n.get("strip", []):
+    from run_rubrica import card_images
+    c["src"] = card_images([dict({"section": "pokemon"}, **c["card"])])[0].get("src")
 out = ROOT / "output" / n["key"]
 out.mkdir(parents=True, exist_ok=True)
 env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True)
