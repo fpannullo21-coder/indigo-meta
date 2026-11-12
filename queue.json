@@ -45,8 +45,43 @@
   "nota": "dom 18:30"
  },
  {
+  "at": "2026-11-16T17:30:00Z",
+  "key": "15-campioni-frankfurt",
+  "nota": "lun 18:30"
+ },
+ {
+  "at": "2026-11-17T17:30:00Z",
+  "key": "13-campioni-louisville",
+  "nota": "mar 18:30"
+ },
+ {
   "at": "2026-11-18T17:30:00Z",
   "key": "10-campioni-gdansk",
   "nota": "mer 18:30"
+ },
+ {
+  "at": "2026-11-19T17:30:00Z",
+  "key": "16-campioni-brisbane",
+  "nota": "gio 18:30"
+ },
+ {
+  "at": "2026-11-20T17:30:00Z",
+  "key": "12-campioni-nice",
+  "nota": "ven 18:30"
+ },
+ {
+  "at": "2026-11-21T17:30:00Z",
+  "key": "14-campioni-recife",
+  "nota": "sab 18:30"
+ },
+ {
+  "at": "2026-11-22T17:30:00Z",
+  "key": "11-campioni-puebla",
+  "nota": "dom 18:30"
+ },
+ {
+  "at": "2026-11-23T17:30:00Z",
+  "key": "17-campioni-baltimore",
+  "nota": "lun 18:30"
  }
 ]
