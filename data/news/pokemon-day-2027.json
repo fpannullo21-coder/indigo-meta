@@ -36,35 +36,40 @@
  "why": "Nessun cambiamento per i tornei: è una <b>ristampa</b> con gli stessi attacchi. Il timbro la rende speciale per i <b>collezionisti</b>.",
  "source": "immagine non ufficiale circolata online e schede dei rivenditori",
  "caption": "⚡ LEAK · Il box del Pokémon Day 2027 avrà un nuovo Pikachu!\n\nNella prima immagine circolata online si vedono una carta promo Pikachu con il timbro del Pokémon Day (il Pikachu di Ascesa Eroica), una moneta celebrativa e 3 buste.\n\n📅 Diversi rivenditori europei lo elencano per il 29 gennaio 2027. Per l'Italia non c'è ancora una data.\n\n🃏 Per il competitivo non cambia nulla: è una ristampa con gli stessi attacchi. È un pezzo per collezionisti.\n\n⚠️ Non è ancora un annuncio ufficiale: aggiorneremo appena arriva la conferma.\n\nTi piace il nuovo Pikachu promo? 👇\n\nCarte © Pokémon / Nintendo / Creatures / GAME FREAK\n\n#pokemontcg #pokemontcgitalia #pokemonday #pikachu #pokemoncards #tcgitalia",
- "strip_title": "La tradizione: una promo col timbro ogni anno",
- "strip": [
-  {
-   "card": {
-    "name": "Ceruledge",
-    "set": "PAF",
-    "number": "40"
+ "assets": "assets/news/pokemon-day-2027",
+ "gallery": {
+  "kicker": "La tradizione",
+  "title": "Una promo col timbro ogni anno",
+  "cards": [
+   {
+    "card": {
+     "name": "Ceruledge",
+     "set": "PAF",
+     "number": "40"
+    },
+    "year": "2024",
+    "label": "Ceruledge"
    },
-   "year": "2024",
-   "label": "Ceruledge"
-  },
-  {
-   "card": {
-    "name": "Eevee",
-    "set": "PRE",
-    "number": "74"
+   {
+    "card": {
+     "name": "Eevee",
+     "set": "PRE",
+     "number": "74"
+    },
+    "year": "2025",
+    "label": "Eevee"
    },
-   "year": "2025",
-   "label": "Eevee"
-  },
-  {
-   "card": {
-    "name": "Pikachu",
-    "set": "TEF",
-    "number": "51"
-   },
-   "year": "2026",
-   "label": "Pikachu"
-  }
- ],
- "assets": "assets/news/pokemon-day-2027"
+   {
+    "card": {
+     "name": "Pikachu",
+     "set": "TEF",
+     "number": "51"
+    },
+    "year": "2026",
+    "label": "Pikachu"
+   }
+  ],
+  "text": "Il <b>Pokémon Day</b> si festeggia il <b>27 febbraio</b>, l'anniversario dei primi giochi Pokémon. Ogni anno esce una carta già vista, <b>ristampata con il timbro</b>: nel 2027 tocca di nuovo a <b>Pikachu</b>.",
+  "note": "Carte © Pokémon / Nintendo / Creatures / GAME FREAK"
+ }
 }

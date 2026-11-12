@@ -24,15 +24,16 @@
 .why { margin-top: 26px; position: relative; border-left: 6px solid var(--accent); padding: 6px 0 6px 26px; }
 .why em { font-style: normal; font-size: 21px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
 .why p { font-size: 27px; line-height: 1.4; color: var(--ink); margin-top: 8px; }
-.strip { margin-top: 22px; position: relative; flex-shrink: 0; }
 .pts, .why { flex-shrink: 0; }
-.strip h4 { font-size: 20px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
-.strip .srow { display: flex; gap: 26px; }
-.strip .it { text-align: center; }
-.strip img, .strip .ph { width: 128px; aspect-ratio: 63/88; border-radius: 12px; object-fit: cover; box-shadow: 0 14px 34px rgba(0,0,0,.45); display: block; }
-.strip .ph { border: 2px dashed var(--accent); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--ink-2); padding: 10px; box-sizing: border-box; }
-.strip b { display: block; font-family: "Grotesk"; font-size: 24px; margin-top: 8px; }
-.strip i { display: block; font-style: normal; font-size: 18px; color: var(--ink-3); }
+.gal { display: flex; justify-content: center; gap: 30px; margin-top: 70px; position: relative; flex-shrink: 0; }
+.gal .it { text-align: center; }
+.gal img, .gal .ph { width: 280px; aspect-ratio: 63/88; border-radius: 16px; object-fit: cover; box-shadow: 0 22px 54px rgba(0,0,0,.55); display: block; }
+.gal .it:nth-child(2) img, .gal .it:nth-child(2) .ph { transform: translateY(-24px); }
+.gal .ph { border: 2px dashed var(--accent); display: flex; align-items: center; justify-content: center; font-size: 22px; color: var(--ink-2); box-sizing: border-box; }
+.gal b { display: block; font-family: "Grotesk"; font-size: 46px; margin-top: 18px; color: var(--accent); }
+.gal i { display: block; font-style: normal; font-size: 24px; color: var(--ink-2); margin-top: 2px; }
+.gal-text { font-size: 29px; line-height: 1.42; color: var(--ink-2); margin-top: 46px; position: relative; text-align: center; }
+.gal-text b { color: var(--ink); }
 </style>
 </head>
 <body>
@@ -50,7 +51,7 @@
     {% endfor %}
   </div>
   <div class="swipe">Cosa sapere →</div>
-  <div class="foot"><span>Fonte: {{ n.source }}</span><span class="page">1/2</span></div>
+  <div class="foot"><span>Fonte: {{ n.source }}</span><span class="page">1/{{ 3 if n.gallery else 2 }}</span></div>
 </section>
 
 <section class="slide">
@@ -63,8 +64,17 @@
   {% endfor %}
   </div>
   <div class="why"><em>Perché conta per il competitivo</em><p>{{ n.why | safe }}</p></div>
-  {% if n.strip %}<div class="strip"><h4>{{ n.strip_title }}</h4><div class="srow">{% for c in n.strip %}<div class="it">{% if c.src %}<img src="{{ c.src }}" alt="">{% else %}<div class="ph">{{ c.label }}</div>{% endif %}<b>{{ c.year }}</b><i>{{ c.label }}</i></div>{% endfor %}</div></div>{% endif %}
-  <div class="foot"><span>Fonte: {{ n.source }}</span><span class="page">2/2</span></div>
+  <div class="foot"><span>Fonte: {{ n.source }}</span><span class="page">2/{{ 3 if n.gallery else 2 }}</span></div>
 </section>
+{% if n.gallery %}
+<section class="slide">
+  <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ n.where }}</span></div>
+  <div class="kicker">{{ n.gallery.kicker }}</div>
+  <h2 style="font-size:64px">{{ n.gallery.title }}</h2>
+  <div class="gal">{% for c in n.gallery.cards %}<div class="it">{% if c.src %}<img src="{{ c.src }}" alt="{{ c.label }}">{% else %}<div class="ph">{{ c.label }}</div>{% endif %}<b>{{ c.year }}</b><i>{{ c.label }}</i></div>{% endfor %}</div>
+  <div class="gal-text">{{ n.gallery.text | safe }}</div>
+  <div class="foot"><span>{{ n.gallery.note or ("Fonte: " ~ n.source) }}</span><span class="page">3/3</span></div>
+</section>
+{% endif %}
 </body>
 </html>
