@@ -1,0 +1,37 @@
+name: Indigo Meta – scarica immagini ufficiali
+
+on:
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: "URL delle immagini, separati da spazio"
+        required: true
+      folder:
+        description: "Cartella di destinazione in assets/"
+        required: true
+        default: "news"
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scarica
+        env:
+          URLS: ${{ inputs.urls }}
+          FOLDER: ${{ inputs.folder }}
+        run: |
+          mkdir -p "assets/$FOLDER"
+          for u in $URLS; do
+            curl -sfL -A "IndigoMeta/0.1" -o "assets/$FOLDER/$(basename "$u")" "$u" && echo "ok $u" || echo "ERRORE $u"
+          done
+      - name: Salva nel repository
+        run: |
+          git config user.name "indigo-meta-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add assets
+          git commit -m "Immagini ufficiali: ${{ inputs.folder }}" || echo "niente di nuovo"
+          git push
