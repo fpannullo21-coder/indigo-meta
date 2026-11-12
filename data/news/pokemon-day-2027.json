@@ -6,6 +6,10 @@
  "lead": "È circolata la prima immagine: <b style='color:var(--ink)'>non è ancora un annuncio ufficiale</b>.",
  "images": [
   {
+   "src": "box.jpg",
+   "label": "Pokémon Day 2027 Collection"
+  },
+  {
    "card": {
     "name": "Pikachu",
     "set": "ASC",
@@ -18,7 +22,7 @@
  "points": [
   [
    "📦",
-   "Nel box si vedono una <b>promo Pikachu</b> con il timbro del Pokémon Day, una <b>moneta</b> celebrativa e <b>3 buste</b>."
+   "Nel box: una <b>promo Pikachu</b> con il timbro del Pokémon Day, una <b>moneta</b> celebrativa e <b>3 buste</b>, tra cui una di Delta Reign."
   ],
   [
    "⚡",
@@ -61,5 +65,6 @@
    "year": "2026",
    "label": "Pikachu"
   }
- ]
+ ],
+ "assets": "assets/news/pokemon-day-2027"
 }
