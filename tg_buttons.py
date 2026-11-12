@@ -22,6 +22,7 @@ PAGES = os.environ["PAGES_URL"].rstrip("/")
 
 
 def say(text: str) -> None:
+    print(text)                                     # resta anche nel log di GitHub
     requests.post(f"{API}/sendMessage", data={"chat_id": CHAT, "text": text}, timeout=30)
 
 
