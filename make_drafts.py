@@ -43,7 +43,8 @@ Sono i tornei ufficiali giapponesi del Pokémon TCG, giocati nei negozi. Li segu
 Come funzionano:
 • Partite al meglio di una (BO1), da 25 minuti
 • Turni svizzeri e poi top 8 a eliminazione diretta
-• Ogni giocatore può partecipare a un solo torneo a stagione
+• Ogni anno ci sono più stagioni di City League, e in ognuna ogni giocatore può fare un solo torneo
+• Le iscrizioni sono a sorteggio: con un torneo a testa i posti vanno a più giocatori, e nessuno accumula punti giocandone tanti
 • Chi vince ottiene la priorità per i Japan Championships
 
 Come leggerle: il BO1 premia i mazzi veloci e lascia più spazio alla fortuna. Per questo guardiamo i trend su tante City League, non il singolo risultato.
