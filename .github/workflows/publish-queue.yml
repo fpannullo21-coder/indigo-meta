@@ -1,0 +1,39 @@
+name: Indigo Meta – coda di pubblicazione
+
+on:
+  schedule:
+    - cron: "7,22,37,52 * * * *"   # ogni 15 minuti
+  workflow_dispatch:
+
+concurrency:
+  group: tg-buttons                 # stessa coda dei pulsanti Telegram: mai due pubblicazioni insieme
+  cancel-in-progress: false
+
+jobs:
+  queue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - uses: actions/cache/restore@v4
+        with:
+          path: cache/tg_state.json
+          key: tg-${{ github.run_id }}
+          restore-keys: tg-
+      - name: Pubblica i post in scadenza
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          PAGES_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+        run: python publish_queue.py
+      - if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: cache/tg_state.json
+          key: tg-${{ github.run_id }}
