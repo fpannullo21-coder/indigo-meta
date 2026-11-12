@@ -2,8 +2,8 @@ name: Indigo Meta – major appena conclusi
 
 on:
   schedule:
-    - cron: "35 * * * 6,0,1"     # sab, dom, lun: ogni ora
-    - cron: "35 */3 * * 2"       # mar: ogni 3 ore (le liste a volte arrivano tardi)
+    - cron: "50 * * * 6,0,1"     # sab, dom, lun: ogni ora (minuto 50: non si sovrappone al regista)
+    - cron: "50 */3 * * 2"       # mar: ogni 3 ore (le liste a volte arrivano tardi)
   workflow_dispatch:
 
 permissions:
