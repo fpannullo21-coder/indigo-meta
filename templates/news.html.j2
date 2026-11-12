@@ -7,10 +7,10 @@
 .n-title { font-family: "Grotesk"; font-weight: 700; font-size: 78px; line-height: 1.02; letter-spacing: -.02em; margin-top: 22px; position: relative; }
 .n-title em { font-style: normal; color: var(--accent); }
 .n-lead { font-size: 30px; color: var(--ink-2); margin-top: 22px; line-height: 1.35; position: relative; }
-.n-pic { margin-top: 40px; height: 560px; border-radius: 26px; overflow: hidden; position: relative;
+.n-pic { margin-top: 40px; height: 600px; border-radius: 26px; overflow: hidden; position: relative;
   background: radial-gradient(ellipse at 30% 20%, rgba(157,140,255,.35), transparent 60%), var(--bg-2); border: 1px solid var(--line);
   display: flex; align-items: center; justify-content: center; gap: 34px; }
-.n-pic img { height: 500px; border-radius: 18px; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+.n-pic img { height: 540px; border-radius: 18px; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
 .n-pic .ph { width: 330px; height: 460px; border-radius: 18px; border: 2px dashed var(--accent); display: flex; flex-direction: column;
   align-items: center; justify-content: center; text-align: center; padding: 30px; box-sizing: border-box; color: var(--ink-2); font-size: 22px; line-height: 1.35; }
 .n-pic .ph b { color: var(--ink); font-size: 30px; margin-bottom: 12px; font-family: "Grotesk"; }
@@ -35,7 +35,6 @@
   <div class="n-title">{{ n.title | safe }}</div>
   <div class="n-lead">{{ n.lead | safe }}</div>
   <div class="n-pic">
-    {% if n.tag %}<span class="n-tag">{{ n.tag }}</span>{% endif %}
     {% for im in n.images %}
       {% if im.src %}<img src="{{ im.src }}" alt="{{ im.label }}">
       {% else %}<div class="ph"><b>{{ im.label }}</b>immagine ufficiale<br>della carta</div>{% endif %}
