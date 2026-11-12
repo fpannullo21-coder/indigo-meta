@@ -78,7 +78,7 @@ jobs:
         run: |
           KEY="${{ steps.make.outputs.key }}"
           ARGS="--dir _site/$KEY --base-url ${{ steps.deployment.outputs.page_url }}$KEY"
-          if [ "$PUBLISH" = "true" ]; then python publish.py $ARGS; else python publish.py $ARGS --dry-run; fi
+          if [ "$PUBLISH" = "true" ]; then python publish.py $ARGS; else python publish.py $ARGS --dry-run; python tg_preview.py "_site/$KEY" --button; fi
       - name: Salva slide e caption
         if: steps.make.outputs.key != ''
         uses: actions/upload-artifact@v4
