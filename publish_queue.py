@@ -14,6 +14,9 @@ from tg_buttons import STATE, publish, say
 def check() -> None:
     state = json.loads(STATE.read_text()) if STATE.exists() else {"offset": 0, "published": []}
     now = dt.datetime.now(dt.timezone.utc)
+    pause = state.get("pause_until")
+    if pause and dt.datetime.fromisoformat(pause) > now:
+        return                                              # Instagram ha bloccato l'accesso: si riprova più tardi
     for item in json.loads(Path("queue.json").read_text()):
         when = dt.datetime.fromisoformat(item["at"].replace("Z", "+00:00"))
         key = item["key"]
@@ -27,8 +30,13 @@ def check() -> None:
         STATE.write_text(json.dumps(state))
         try:
             publish(key)
-        except InstagramError:
+        except InstagramError as e:
             state["published"].remove(key)
+            if "blocked" in str(e).lower() or "(codice 200)" in str(e):
+                state["pause_until"] = (now + dt.timedelta(hours=1)).isoformat()
+                say("⏸️ Instagram ha bloccato l'accesso alle API: metto in pausa la coda e riprovo tra un'ora. "
+                    "Controlla gli avvisi dell'app su developers.facebook.com.")
+                break
     STATE.parent.mkdir(parents=True, exist_ok=True)
     STATE.write_text(json.dumps(state))
 
