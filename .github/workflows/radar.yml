@@ -1,0 +1,39 @@
+name: Indigo Meta – radar news
+
+on:
+  schedule:
+    - cron: "0 * * * *"    # ogni ora
+  workflow_dispatch:
+
+concurrency:
+  group: radar
+  cancel-in-progress: false
+
+jobs:
+  radar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Ripristina le notizie già viste
+        uses: actions/cache/restore@v4
+        with:
+          path: cache/radar_seen.json
+          key: radar-${{ github.run_id }}
+          restore-keys: radar-
+      - name: Controlla le fonti
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python run_radar.py
+      - name: Salva le notizie già viste
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: cache/radar_seen.json
+          key: radar-${{ github.run_id }}
