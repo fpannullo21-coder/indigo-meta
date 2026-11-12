@@ -1,0 +1,72 @@
+{
+ "key": "carte-hadou-seeker",
+ "assets": "assets/news/hadou-seeker",
+ "where": "🇯🇵 GIAPPONE",
+ "kicker": "Competitivo · Hadou Seeker · TCG",
+ "title": "Le carte che possono <em>cambiare il meta</em>",
+ "lead": "Il nuovo set giapponese esce il 27 novembre. Ecco cosa interessa a chi gioca i tornei.",
+ "cover": [
+  "m7-031-ukyke.webp",
+  "modal_card_be3fz_card.png",
+  "m7-075-h3g27.webp"
+ ],
+ "source": "pokemon-card.com",
+ "singles": [
+  {
+   "tag": "Anti-Mega",
+   "name": "Sigilyph ex",
+   "img": "m7-031-ukyke.webp",
+   "meta": "Pokémon Base · 210 PS · Psico",
+   "what": "Abilità <b>Mega Protettore</b>: non subisce danni dagli attacchi dei <b>Pokémon Mega ex</b> avversari.<br>Attacco da 3 Energie: <b>140 danni</b> e sposta un'Energia su un Pokémon in panchina.",
+   "why": "Il meta è pieno di Mega: contro questi mazzi Sigilyph diventa un muro, e l'avversario deve trovare un attaccante non Mega per abbatterlo."
+  },
+  {
+   "tag": "Blocco",
+   "name": "Mega Absol Z ex",
+   "img": "modal_card_be3fz_card.png",
+   "meta": "Pokémon Base · 270 PS · Psico",
+   "what": "Attacco <b>Paura Cremisi</b> da 3 Energie: <b>160 danni</b>. Nel turno successivo l'avversario <b>non può giocare Stadi</b> né assegnare <b>Energie speciali</b> dalla mano.",
+   "why": "Un Mega che non deve evolvere e che blocca per un turno due risorse chiave di molti mazzi. Attenzione: se va KO, l'avversario prende 3 carte Premio."
+  },
+  {
+   "tag": "Rimonta",
+   "name": "Ornella fa sul serio",
+   "img": "m7-075-h3g27.webp",
+   "meta": "Carta Allenatore · Aiuto",
+   "what": "In questo turno gli attacchi dei tuoi <b>Pokémon Mega ex</b> fanno <b>20 danni in più</b> al Pokémon attivo avversario <b>per ogni carta Premio</b> che l'avversario ha già preso.",
+   "why": "Più sei indietro, più colpisci forte: fino a <b>+100 danni</b>. E Mega Lucario Z ex, dal Posto attivo, può cercarla nel mazzo con la sua abilità."
+  }
+ ],
+ "pair_title": "Altre due carte da seguire",
+ "pair": [
+  {
+   "name": "Meloetta",
+   "img": "m7-032-xpuwk.webp",
+   "meta": "Pokémon Base · 90 PS",
+   "what": "Con <b>1 Energia</b> cerca fino a <b>3 Pokémon Base</b> nel mazzo e li mette in panchina. Ottima per prepararsi al primo turno."
+  },
+  {
+   "name": "Machamp",
+   "img": "m7-039-m9hfb.webp",
+   "meta": "Fase 2 · 180 PS · Lotta",
+   "what": "Abilità: i suoi danni <b>ignorano Resistenza ed effetti</b> sul Pokémon attivo avversario. Attacco da 4 Energie: <b>250 danni</b> (20 a sé stesso)."
+  }
+ ],
+ "outro_title": "Le vedremo presto <em>nelle City League</em>",
+ "outro": "Dal 28 novembre i giocatori giapponesi useranno queste carte nei tornei. Nel <b style='color:var(--ink)'>City League Report del 3 dicembre</b> vedremo quali sono entrate davvero nel meta.",
+ "cta": "Quale carta ti incuriosisce di più? <b>Scrivilo nei commenti</b> e salva il post 📌",
+ "stats": [
+  [
+   "27/11",
+   "uscita in Giappone"
+  ],
+  [
+   "78",
+   "carte nel set base"
+  ],
+  [
+   "3/12",
+   "City League Report"
+  ]
+ ]
+}

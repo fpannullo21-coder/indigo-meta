@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+{% include "_style.css.j2" %}
+.w-title { font-family: "Grotesk"; font-weight: 700; font-size: 84px; line-height: 1; letter-spacing: -.02em; margin-top: 24px; position: relative; }
+.w-title em { font-style: normal; color: var(--accent); }
+.w-lead { font-size: 30px; color: var(--ink-2); margin-top: 22px; line-height: 1.35; position: relative; }
+.fan { position: relative; height: 640px; margin-top: 30px; }
+.fan img { position: absolute; top: 40px; width: 380px; border-radius: 18px; box-shadow: 0 24px 60px rgba(0,0,0,.55); }
+.fan img:nth-child(1) { left: 30px; transform: rotate(-9deg); top: 70px; }
+.fan img:nth-child(2) { left: 266px; z-index: 2; }
+.fan img:nth-child(3) { left: 502px; transform: rotate(9deg); top: 70px; }
+.one { display: grid; grid-template-columns: 470px 1fr; column-gap: 36px; margin-top: 44px; position: relative; align-items: start; }
+.one img { width: 470px; border-radius: 18px; box-shadow: 0 20px 50px rgba(0,0,0,.5); }
+.info .meta { font-size: 24px; color: var(--ink-3); font-weight: 600; letter-spacing: .02em; }
+.info h4 { font-size: 20px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-top: 26px; }
+.info p { font-size: 27px; line-height: 1.4; color: var(--ink-2); margin-top: 8px; }
+.info p b { color: var(--ink); }
+.why { margin-top: 30px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 20px; padding: 24px 26px; }
+.why h4 { margin-top: 0; }
+.why p { color: var(--ink); }
+.two { display: grid; grid-template-columns: 1fr 1fr; column-gap: 36px; margin-top: 36px; position: relative; }
+.two .c img { width: 370px; border-radius: 16px; box-shadow: 0 18px 44px rgba(0,0,0,.5); display: block; margin: 0 auto; }
+.two .c h3 { font-family: "Grotesk"; font-size: 38px; margin-top: 22px; }
+.two .c .meta { font-size: 21px; color: var(--ink-3); font-weight: 600; margin-top: 4px; }
+.two .c p { font-size: 25px; line-height: 1.38; color: var(--ink-2); margin-top: 12px; }
+.two .c p b { color: var(--ink); }
+.num { color: var(--accent); }
+</style>
+</head>
+<body>
+{% set logo %}<svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>{% endset %}
+{% set foot_note = "Carte © Pokémon / Nintendo / Creatures / GAME FREAK · nomi e testi: traduzione non ufficiale" %}
+{% set n = 2 + w.singles|length + (1 if w.pair else 0) %}
+
+<section class="slide">
+  <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ w.where }}</span></div>
+  <div class="kicker">{{ w.kicker }}</div>
+  <div class="w-title">{{ w.title | safe }}</div>
+  <div class="w-lead">{{ w.lead | safe }}</div>
+  <div class="fan">{% for c in w.cover %}<img src="{{ c }}" alt="">{% endfor %}</div>
+  <div class="swipe">Le carte →</div>
+  <div class="foot"><span>Fonte: {{ w.source }}</span><span class="page">1/{{ n }}</span></div>
+</section>
+
+{% for c in w.singles %}
+<section class="slide">
+  <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ w.where }}</span></div>
+  <div class="kicker"><span class="num">{{ loop.index }}</span> · {{ c.tag }}</div>
+  <h2 style="font-size:66px">{{ c.name }}</h2>
+  <div class="one">
+    <img src="{{ c.img }}" alt="{{ c.name }}">
+    <div class="info">
+      <div class="meta">{{ c.meta }}</div>
+      <h4>Cosa fa</h4>
+      <p>{{ c.what | safe }}</p>
+      <div class="why"><h4>Perché conta</h4><p>{{ c.why | safe }}</p></div>
+    </div>
+  </div>
+  <div class="foot" style="font-size:17px"><span>{{ foot_note }}</span><span class="page">{{ loop.index + 1 }}/{{ n }}</span></div>
+</section>
+{% endfor %}
+
+{% if w.pair %}
+<section class="slide">
+  <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ w.where }}</span></div>
+  <div class="kicker">Da tenere d'occhio</div>
+  <h2 style="font-size:60px">{{ w.pair_title }}</h2>
+  <div class="two">
+  {% for c in w.pair %}
+    <div class="c"><img src="{{ c.img }}" alt="{{ c.name }}"><h3>{{ c.name }}</h3><div class="meta">{{ c.meta }}</div><p>{{ c.what | safe }}</p></div>
+  {% endfor %}
+  </div>
+  <div class="foot" style="font-size:17px"><span>{{ foot_note }}</span><span class="page">{{ n - 1 }}/{{ n }}</span></div>
+</section>
+{% endif %}
+
+<section class="slide">
+  <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ w.where }}</span></div>
+  <div class="kicker">E adesso?</div>
+  <div class="w-title" style="font-size:72px">{{ w.outro_title | safe }}</div>
+  <div class="w-lead">{{ w.outro | safe }}</div>
+  {% if w.stats %}<div class="stats" style="margin-top:70px">{% for b, i in w.stats %}<div class="stat"><b>{{ b }}</b><i>{{ i }}</i></div>{% endfor %}</div>{% endif %}
+  <div class="headline" style="margin-top:50px">{{ w.cta | safe }}</div>
+  <div class="foot"><span>Fonte: {{ w.source }}</span><span class="page">{{ n }}/{{ n }}</span></div>
+</section>
+</body>
+</html>
