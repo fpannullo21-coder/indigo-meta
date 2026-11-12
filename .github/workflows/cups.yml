@@ -2,12 +2,29 @@ name: Indigo Meta – League Cup della settimana
 
 on:
   schedule:
-    - cron: "13 7 * * 2"   # ogni martedì alle 07:13 UTC (08:13 in Italia d'inverno)
+    - cron: "47 11 * * 2"  # ogni martedì alle 11:47 UTC (12:47 in Italia d'inverno)
   workflow_dispatch:
+    inputs:
+      publish:
+        description: "Pubblica davvero su Instagram (altrimenti solo prova)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   cups:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -22,6 +39,29 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python run_cups.py
+      - name: Prepara le immagini per Instagram
+        id: site
+        run: echo "dir=$(python prepare_site.py)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - name: Pubblica le immagini su GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Pubblica su Instagram
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          PUBLISH: ${{ github.event_name == 'schedule' || inputs.publish == true }}
+        run: |
+          ARGS="--dir _site/${{ steps.site.outputs.dir }} --base-url ${{ steps.deployment.outputs.page_url }}${{ steps.site.outputs.dir }}"
+          if [ "$PUBLISH" = "true" ]; then python publish.py $ARGS; else python publish.py $ARGS --dry-run; fi
+
       - name: Salva slide e caption
         uses: actions/upload-artifact@v4
         with:

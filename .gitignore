@@ -3,3 +3,4 @@ output/
 cache/
 templates/_render.html
 .env
+_site/
