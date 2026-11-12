@@ -1,8 +1,6 @@
 name: Indigo Meta – League Cup della settimana
 
-on:
-  schedule:
-    - cron: "47 11 * * 2"  # ogni martedì alle 11:47 UTC (12:47 in Italia d'inverno)
+on:                 # avviato all'orario giusto dal «pubblicatore sempre acceso» (always_on.py)
   workflow_dispatch:
     inputs:
       publish:

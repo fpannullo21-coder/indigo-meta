@@ -1,8 +1,6 @@
 name: Indigo Meta – report settimanale
 
-on:
-  schedule:
-    - cron: "47 11 * * 1"  # ogni lunedì alle 11:47 UTC (12:47 in Italia d'inverno)
+on:                 # avviato all'orario giusto dal «pubblicatore sempre acceso» (always_on.py)
   workflow_dispatch:         # avvio manuale dal tab Actions
     inputs:
       week:

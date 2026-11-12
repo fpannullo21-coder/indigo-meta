@@ -1,8 +1,6 @@
 name: Indigo Meta – radar news
 
-on:
-  schedule:
-    - cron: "0 * * * *"    # ogni ora
+on:                 # avviato all'orario giusto dal «pubblicatore sempre acceso» (always_on.py)
   workflow_dispatch:
 
 concurrency:

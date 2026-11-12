@@ -1,9 +1,6 @@
 name: Indigo Meta – rubriche (regista)
 
-on:
-  schedule:
-    - cron: "20 11 * * 0,3,4,5,6"   # mer–dom 12:20 in Italia (inverno): carte, matchup, anteprima, italiani/stagione, lente 2
-    - cron: "20 17 * * 4,5"         # gio e ven 18:20: City League Report, Mazzo sotto la lente
+on:                 # avviato all'orario giusto dal «pubblicatore sempre acceso» (always_on.py)
   workflow_dispatch:
     inputs:
       slot:

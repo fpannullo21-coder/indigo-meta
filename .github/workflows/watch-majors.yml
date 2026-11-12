@@ -1,9 +1,6 @@
 name: Indigo Meta – major appena conclusi
 
-on:
-  schedule:
-    - cron: "50 * * * 6,0,1"     # sab, dom, lun: ogni ora (minuto 50: non si sovrappone al regista)
-    - cron: "50 */3 * * 2"       # mar: ogni 3 ore (le liste a volte arrivano tardi)
+on:                 # avviato all'orario giusto dal «pubblicatore sempre acceso» (always_on.py)
   workflow_dispatch:
 
 permissions:
