@@ -1,5 +1,5 @@
 """«I mazzi dei campioni»: top 8 di un major (Regional, Special, Internazionale) con profilo del campione
-e liste dei primi quattro. Fonti: limitlesstcg.com (classifica, mazzi, liste) e labs.limitlesstcg.com
+e liste di tutta la top 8. Fonti: limitlesstcg.com (classifica, mazzi, liste) e labs.limitlesstcg.com
 (record, OPW%, percorso nella top cut). Solo divisione Masters (giocatori adulti).
 """
 from __future__ import annotations
@@ -98,7 +98,7 @@ def parse_decklists(page: str, n: int) -> list[tuple[str, dict, str]]:
     return out
 
 
-def load(tid: int, cache: Path, top_n: int = 8, lists: int = 4) -> Major:
+def load(tid: int, cache: Path, top_n: int = 8, lists: int = 8) -> Major:
     page = get(f"{BASE}/tournaments/{tid}", cache)
     name = clean(re.search(r"<title>(.*?)(?:–|\|)", page, re.S).group(1))
     name = re.sub(r",\s*[A-Z]{2}$", "", name)          # «Regional Louisville, KY» → «Regional Louisville»

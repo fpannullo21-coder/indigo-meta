@@ -21,7 +21,7 @@ from indigo_meta.champions import load, flag, country
 from indigo_meta.render import build_deck, render_png, num, MESI
 
 ROOT = Path(__file__).resolve().parent
-ORD = {1: "1° posto", 2: "2° posto", 3: "3°–4° posto", 4: "3°–4° posto"}
+ORD = {1: "1° posto", 2: "2° posto", 3: "3°–4° posto", 4: "3°–4° posto", **{i: "5°–8° posto" for i in range(5, 9)}}
 
 
 def date_it(s: str) -> str:
@@ -41,14 +41,14 @@ CATEGORY = "TCG Masters"
 
 
 def build(tid: int, out_root: Path, cc: str = "") -> Path:
-    m = load(tid, ROOT / "cache")
+    m = load(tid, ROOT / "cache", lists=8)
     venue = {"cc": cc, "flag": flag(cc), "country": country(cc) if cc else ""}
     c = m.top[0]
     wins = sum(1 for p in c.path if p[3] == "V")
     r = rec_dict(c.record)
     swiss = f"{r['wins'] - wins}-{r['losses'] - sum(1 for p in c.path if p[3] == 'S')}-{r['ties']}" if c.record else "–"
     decks = []
-    for p in m.top[:4]:
+    for p in m.top[:8]:
         if not p.decklist:
             continue
         cards = resolve_decklist(p.decklist, ROOT / "cache")
@@ -84,7 +84,7 @@ def build(tid: int, out_root: Path, cc: str = "") -> Path:
         lines.append(f"🇮🇹 Grande risultato per {p.name}: {'top 4' if p.place <= 4 else 'top 8'} con {p.deck}!")
     if italians:
         lines.append("")
-    lines += ["Nelle slide le liste dei primi quattro, carta per carta. Salvale per il prossimo torneo 📌", "",
+    lines += ["Nelle slide le liste di tutta la top 8, carta per carta. Salvale per il prossimo torneo 📌", "",
               "Dati: Limitless TCG · RK9 · immagini carte © Pokémon / Nintendo / Creatures / GAME FREAK", "",
               "#pokemontcg #pokemontcgitalia #ptcg #regionals #decklist #tcgitalia"]
     (out / "caption.txt").write_text("\n".join(lines), encoding="utf-8")
