@@ -92,7 +92,21 @@ def parse(text: str, start: dt.date, end: dt.date) -> list[Cup]:
                        (row.get("city") or "").split(" / ")[0].strip(),
                        (row.get("shop") or "").strip(), (row.get("name") or "").strip(),
                        row.get("pokemon_url") or ""))
-    return sorted(out, key=lambda c: c.when)
+    return dedupe(sorted(out, key=lambda c: c.when))
+
+
+def dedupe(cups: list[Cup]) -> list[Cup]:
+    """Un negozio fa al massimo una League Cup TCG al giorno: se ne compaiono due, è quasi sempre
+    lo stesso torneo registrato due volte. Teniamo la prima in ordine di orario."""
+    out, seen = [], {}
+    for c in cups:
+        key = (c.shop.upper(), c.when.date())
+        if key in seen:
+            print(f"  doppione scartato: {c.shop} {c.when:%d/%m %H:%M} «{c.name}» (tengo «{seen[key].name}»)")
+            continue
+        seen[key] = c
+        out.append(c)
+    return out
 
 
 def group(cups: list[Cup]) -> list[tuple[str, list[Cup]]]:

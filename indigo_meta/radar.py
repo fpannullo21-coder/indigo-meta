@@ -62,6 +62,37 @@ def fetch_japan() -> list[Item]:
     return out
 
 
+# Feed RSS: (nome, url, etichetta, categorie che contano, categorie da escludere).
+# Se il feed non ha categorie, si filtra sul titolo con TCG_WORDS.
+FEEDS = [
+    ("PocketMonsters.net", "https://www.pocketmonsters.net/rss", "🌍 Internazionale", None, None),
+    ("Pokémon Millennium", "https://www.pokemonmillennium.net/feed/", "🇮🇹 Italia",
+     {"GCC Pokémon", "Carte Pokémon", "espansioni", "espansione giapponese", "Carte", "Carte promozionali"},
+     {"GCC Pokémon Pocket"}),
+    ("Pokémon Blog", "https://pokemonblog.com/feed/", "🇬🇧 Inglese",
+     {"Pokemon TCG", "TCG", "Pokemon Trading Card Game"}, {"Pokémon TCG Pocket", "TCG Pocket"}),
+]
+
+
+def fetch_feed(name: str, url: str, tag: str, include: set | None, exclude: set | None) -> list[Item]:
+    r = requests.get(url, headers=UA, timeout=30)
+    r.raise_for_status()
+    root = ET.fromstring(r.content)
+    out = []
+    for it in root.iter("item"):
+        title = html.unescape((it.findtext("title") or "").strip())
+        link = (it.findtext("link") or "").strip()
+        cats = {(c.text or "").strip() for c in it.findall("category")}
+        if include is not None:
+            if not (cats & include) or (exclude and cats & exclude) or SKIP_WORDS.search(title):
+                continue
+        elif not TCG_WORDS.search(title) or SKIP_WORDS.search(title):
+            continue
+        out.append(Item(f"{name}:{it.findtext('guid') or link}", name, title, link, tag,
+                        (it.findtext("pubDate") or "")[:16]))
+    return out
+
+
 def fetch_pocketmonsters() -> list[Item]:
     r = requests.get(PM_URL, headers=UA, timeout=30)
     r.raise_for_status()
@@ -114,28 +145,42 @@ def send(text: str) -> None:
 
 
 def run(state_file: Path) -> None:
-    seen = set(json.loads(state_file.read_text())) if state_file.exists() else None
-    items, errors = [], []
-    for name, fn in (("sito giapponese", fetch_japan), ("PocketMonsters", fetch_pocketmonsters)):
+    state = json.loads(state_file.read_text()) if state_file.exists() else None
+    if isinstance(state, list):                        # formato vecchio: solo gli id
+        state = {"ids": state, "sources": ["Pokémon Card Game (JP, ufficiale)", "PocketMonsters.net"]}
+    first_run = state is None
+    state = state or {"ids": [], "sources": []}
+    seen, known_sources = set(state["ids"]), set(state["sources"])
+
+    sources = [("Pokémon Card Game (JP, ufficiale)", fetch_japan)]
+    sources += [(f[0], (lambda f=f: fetch_feed(*f))) for f in FEEDS]
+    items, errors, fresh_sources = [], [], []
+    for name, fn in sources:
         try:
             got = fn()
             print(f"{name}: {len(got)} notizie TCG")
+            if name not in known_sources:              # fonte appena aggiunta: niente arretrati
+                seen |= {i.id for i in got}
+                known_sources.add(name)
+                fresh_sources.append(name)
             items += got
         except Exception as e:
             errors.append(f"{name}: {e}")
             print(f"  errore {name}: {e}")
 
-    if seen is None:                                   # prima esecuzione
+    def save():
         state_file.parent.mkdir(parents=True, exist_ok=True)
-        state_file.write_text(json.dumps(sorted(i.id for i in items)))
-        send(f"📡 Radar Indigo Meta attivo.\nControllo ogni ora il sito ufficiale giapponese e PocketMonsters.net: "
-             f"ti scrivo qui appena esce una notizia nuova sul TCG.\n({len(items)} notizie già presenti, non te le mando.)")
-        return
+        state_file.write_text(json.dumps({"ids": sorted(seen | {i.id for i in items})[-3000:],
+                                          "sources": sorted(known_sources)}))
 
+    if first_run or fresh_sources:
+        names = ", ".join(fresh_sources)
+        send(f"📡 Radar Indigo Meta: nuove fonti attive → {names}.\nTi scrivo qui appena esce una notizia nuova "
+             f"sul TCG (le notizie già pubblicate non te le mando).")
     new = [i for i in items if i.id not in seen]
     if new:
         tr = translate(new)
-        for it in reversed(new):                       # dalla più vecchia alla più recente
+        for it in reversed(new):
             lines = [f"📡 {it.tag} · {it.source}", "", tr.get(it.id, it.title)]
             if it.id in tr and tr[it.id] != it.title:
                 lines.append(f"({it.title})")
@@ -144,7 +189,6 @@ def run(state_file: Path) -> None:
         print(f"Inviate {len(new)} notizie nuove.")
     else:
         print("Nessuna notizia nuova.")
-    seen |= {i.id for i in items}
-    state_file.write_text(json.dumps(sorted(seen)[-2000:]))
+    save()
     if errors and not items:
         raise SystemExit("Nessuna fonte raggiungibile: " + "; ".join(errors))
