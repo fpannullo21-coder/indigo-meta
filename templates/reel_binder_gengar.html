@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face { font-family: "Inter"; font-weight: 400; src: url("fonts/inter-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 600; src: url("fonts/inter-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 700; src: url("fonts/inter-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Grotesk"; font-weight: 500; src: url("fonts/space-grotesk-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Grotesk"; font-weight: 700; src: url("fonts/space-grotesk-latin-700-normal.woff2") format("woff2"); }
+:root { --bg:#15122E; --bg-2:#1E1A40; --line:#2E2961; --ink:#F4F2FF; --ink-2:#B9B3D9; --ink-3:#8A84AD; --accent:#9D8CFF; --accent-2:#6C5CE7; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+body { font-family: "Inter", sans-serif; color: var(--ink); }
+#stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+.glow { position: absolute; border-radius: 50%; pointer-events: none; }
+#g1 { width: 1300px; height: 1300px; right: -620px; top: -560px; background: radial-gradient(circle, rgba(108,92,231,.42), rgba(108,92,231,0) 65%); }
+#g2 { width: 1200px; height: 1200px; left: -640px; bottom: -520px; background: radial-gradient(circle, rgba(157,140,255,.22), rgba(157,140,255,0) 65%); }
+.brand { position: absolute; left: 84px; right: 84px; top: 150px; display: flex; align-items: center; gap: 16px;
+  font-family: "Grotesk"; font-weight: 700; font-size: 32px; letter-spacing: .18em; color: var(--ink-2); z-index: 5; }
+.brand .h { margin-left: auto; letter-spacing: .04em; font-weight: 500; color: var(--ink-3); font-size: 30px; }
+.scene { position: absolute; inset: 0; display: none; }
+.abs { position: absolute; }
+.kick { font-size: 34px; font-weight: 700; color: var(--accent); letter-spacing: .12em; text-transform: uppercase; }
+.big { font-family: "Grotesk"; font-weight: 700; letter-spacing: -.02em; line-height: 1.0; }
+.big em, .t em { font-style: normal; color: var(--accent); }
+.t { font-family: "Grotesk"; font-weight: 700; font-size: 104px; line-height: 1.02; letter-spacing: -.02em; }
+.s { font-size: 42px; line-height: 1.32; color: var(--ink-2); }
+.s b { color: var(--ink); font-weight: 700; }
+.card { position: absolute; border-radius: 3.6%/2.6%; box-shadow: 0 30px 70px rgba(0,0,0,.6); display: block; }
+.panel { position: absolute; background: var(--bg-2); border: 2px solid var(--line); border-radius: 30px; }
+.slot { position: absolute; border: 2px dashed var(--line); border-radius: 10px; }
+.row { position: absolute; left: 84px; right: 84px; height: 330px; border-radius: 28px; background: var(--bg-2); border: 2px solid var(--line); }
+.row.top { border-color: var(--accent); background: linear-gradient(120deg, rgba(108,92,231,.35), var(--bg-2) 60%); }
+.rk { font-family: "Grotesk"; font-weight: 700; font-size: 38px; color: var(--accent); letter-spacing: .06em; }
+.rn { font-family: "Grotesk"; font-weight: 700; font-size: 54px; line-height: 1.05; margin-top: 6px; }
+.rs { font-size: 32px; color: var(--ink-2); margin-top: 6px; }
+.rp { font-family: "Grotesk"; font-weight: 700; font-size: 92px; color: var(--ink); margin-top: 14px; letter-spacing: -.02em; }
+.note { font-size: 26px; line-height: 1.4; color: var(--ink-3); }
+.c { text-align: center; left: 60px; right: 60px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="glow" id="g1"></div><div class="glow" id="g2"></div>
+  <div class="brand"><svg width="46" height="46" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="h">@indigo.meta</span></div>
+
+  <!-- 1 · gancio -->
+  <section class="scene" data-start="0" data-end="3.2">
+    <div class="abs kick" style="left:84px;top:330px">Collezione · Binder</div>
+    <div class="abs t" style="left:84px;top:390px;right:60px;font-size:96px">Quanto costa<br>completare il<br>binder di <em>Gengar</em>?</div>
+    <img class="card" src="../assets/reel-gengar/a/50_hires.png" style="left:130px;top:960px;width:300px" data-in="0.55" data-d="0.6" data-a="fan" data-r="-13">
+    <img class="card" src="../assets/reel-gengar/a/6_hires.png" style="left:650px;top:960px;width:300px" data-in="0.75" data-d="0.6" data-a="fan" data-r="13">
+    <img class="card" src="../assets/reel-gengar/a/5_hires.png" style="left:380px;top:900px;width:320px" data-in="0.95" data-d="0.6" data-a="fan">
+  </section>
+
+  <!-- 2 · quante carte -->
+  <section class="scene" data-start="3.2" data-end="6.4">
+    <div class="abs big" style="left:84px;top:300px;font-size:200px" data-in="0" data-d="0.4"><em data-count="121" data-cs="0.05" data-cd="1.1">121</em><span style="font-size:84px"> carte</span></div>
+    <div class="abs s" style="left:84px;top:510px" data-in="0.3" data-d="0.4">Tutti i <b>Gastly</b>, <b>Haunter</b> e <b>Gengar</b> in inglese,<br>dal 1999 a oggi</div>
+    <div class="panel" style="left:196px;top:640px;width:688px;height:925px" data-in="0.35" data-d="0.4"></div>
+    <img class="card" src="../assets/reel-gengar/a/50_hires.png"  style="left:222px;top:666px;width:200px" data-in="0.55" data-d="0.35" data-a="pop">
+    <img class="card" src="../assets/reel-gengar/a/29_hires.png"  style="left:440px;top:666px;width:200px" data-in="0.63" data-d="0.35" data-a="pop">
+    <img class="card" src="../assets/reel-gengar/a/6_hires.png"   style="left:658px;top:666px;width:200px" data-in="0.71" data-d="0.35" data-a="pop">
+    <img class="card" src="../assets/reel-gengar/a/5_hires.png"   style="left:222px;top:963px;width:200px" data-in="0.79" data-d="0.35" data-a="pop">
+    <img class="card" src="../assets/reel-gengar/a/14_hires.png"  style="left:440px;top:963px;width:200px" data-in="0.87" data-d="0.35" data-a="pop">
+    <img class="card" src="../assets/reel-gengar/a/11_hires.png"  style="left:658px;top:963px;width:200px" data-in="0.95" data-d="0.35" data-a="pop">
+    <img class="card" src="../assets/reel-gengar/a/108_hires.png" style="left:222px;top:1260px;width:200px" data-in="1.03" data-d="0.35" data-a="pop">
+    <img class="card" src="../assets/reel-gengar/a/TEF_177_R_EN.png" style="left:440px;top:1260px;width:200px" data-in="1.11" data-d="0.35" data-a="pop">
+    <img class="card" src="../assets/reel-gengar/a/MEP_027_R_EN.png" style="left:658px;top:1260px;width:200px" data-in="1.19" data-d="0.35" data-a="pop">
+  </section>
+
+  <!-- 3 · Gastly -->
+  <section class="scene" data-start="6.4" data-end="9.0">
+    <div class="abs t" style="left:84px;top:320px" data-in="0" data-d="0.4">Tutti i <em>Gastly</em></div>
+    <div class="abs s" style="left:84px;top:450px" data-in="0.15" data-d="0.4"><b>34 carte</b></div>
+    <div class="abs big" style="left:84px;top:530px;font-size:200px" data-in="0.2" data-d="0.4"><span data-count="167" data-cs="0.25" data-cd="0.9" data-suf=" €">167 €</span></div>
+    <img class="card" src="../assets/reel-gengar/a/TEF_177_R_EN.png" style="left:330px;top:830px;width:420px" data-in="0.35" data-d="0.55" data-a="right" data-r="4">
+    <div class="abs note c" style="top:1460px;font-size:30px" data-in="0.8" data-d="0.4">La più cara: Gastly · Temporal Forces 177 · 75 €</div>
+  </section>
+
+  <!-- 4 · Haunter -->
+  <section class="scene" data-start="9.0" data-end="11.6">
+    <div class="abs t" style="left:84px;top:320px" data-in="0" data-d="0.4">Tutti gli <em>Haunter</em></div>
+    <div class="abs s" style="left:84px;top:450px" data-in="0.15" data-d="0.4"><b>32 carte</b></div>
+    <div class="abs big" style="left:84px;top:530px;font-size:200px" data-in="0.2" data-d="0.4"><span data-count="200" data-cs="0.25" data-cd="0.9" data-suf=" €">200 €</span></div>
+    <img class="card" src="../assets/reel-gengar/a/6_hires.png" style="left:330px;top:830px;width:420px" data-in="0.35" data-d="0.55" data-a="right" data-r="-4">
+    <div class="abs note c" style="top:1460px;font-size:30px" data-in="0.8" data-d="0.4">La più cara: Haunter · Fossil 6 · 55 €</div>
+  </section>
+
+  <!-- 5 · Gengar -->
+  <section class="scene" data-start="11.6" data-end="15.0">
+    <div class="abs t" style="left:84px;top:320px" data-in="0" data-d="0.4">E poi ci sono<br>i <em>Gengar</em>…</div>
+    <div class="abs s" style="left:84px;top:555px" data-in="0.3" data-d="0.4"><b>55 carte</b></div>
+    <div class="abs big" style="left:84px;top:630px;font-size:190px" data-in="0.45" data-d="0.4"><em data-count="9583" data-cs="0.5" data-cd="1.6" data-suf=" €">9.583 €</em></div>
+    <img class="card" src="../assets/reel-gengar/a/ASC_284_R_EN.png" style="left:190px;top:930px;width:330px" data-in="0.7" data-d="0.6" data-a="fan" data-r="-9">
+    <img class="card" src="../assets/reel-gengar/a/FST_271_R_EN.png" style="left:560px;top:930px;width:330px" data-in="0.85" data-d="0.6" data-a="fan" data-r="9">
+  </section>
+
+  <!-- 6 · le più care -->
+  <section class="scene" data-start="15.0" data-end="21.0">
+    <div class="abs t" style="left:84px;top:300px" data-in="0" data-d="0.4">Le 3 più <em>care</em></div>
+    <div class="row" style="top:460px" data-in="0.4" data-d="0.45">
+      <img class="card" src="../assets/reel-gengar/a/PHF_114_R_EN.png" style="left:28px;top:-14px;width:230px;box-shadow:0 18px 40px rgba(0,0,0,.5)">
+      <div class="abs" style="left:296px;top:36px"><div class="rk">N° 3</div><div class="rn">Gengar-EX</div><div class="rs">Phantom Forces 114</div><div class="rp">699 €</div></div>
+    </div>
+    <div class="row" style="top:820px" data-in="2.0" data-d="0.45">
+      <img class="card" src="../assets/reel-gengar/a/TEU_165_R_EN.png" style="left:28px;top:-14px;width:230px;box-shadow:0 18px 40px rgba(0,0,0,.5)">
+      <div class="abs" style="left:296px;top:36px"><div class="rk">N° 2</div><div class="rn">Gengar &amp; Mimikyu-GX</div><div class="rs">Team Up 165</div><div class="rp">844 €</div></div>
+    </div>
+    <div class="row top" style="top:1180px" data-in="3.6" data-d="0.45" data-a="pop">
+      <img class="card" src="../assets/reel-gengar/a/13_hires.png" style="left:28px;top:-14px;width:230px;box-shadow:0 18px 40px rgba(0,0,0,.5)">
+      <div class="abs" style="left:296px;top:36px"><div class="rk">N° 1</div><div class="rn">Gengar</div><div class="rs">Expedition 13 · 2002</div><div class="rp" style="color:var(--accent)">846 €</div></div>
+    </div>
+  </section>
+
+  <!-- 7 · totale -->
+  <section class="scene" data-start="21.0" data-end="25.5" data-last="1">
+    <div class="abs kick c" style="top:330px;font-size:40px" data-in="0" data-d="0.35">Il binder completo</div>
+    <div class="abs big c" style="top:400px;font-size:210px" data-in="0.05" data-d="0.4"><span data-count="9950" data-cs="0.1" data-cd="1.2" data-pre="≈ " data-suf=" €">≈ 9.950 €</span></div>
+    <div class="abs s c" style="top:640px" data-in="0.4" data-d="0.4">121 carte, una copia per ogni carta</div>
+    <div class="abs t c" style="top:790px;font-size:84px" data-in="1.4" data-d="0.45" data-a="pop">Tu quante ne hai? 👇</div>
+    <div class="abs s c" style="top:910px" data-in="1.9" data-d="0.45">Mandalo a chi colleziona <b>Gengar</b> 👻</div>
+    <img class="card" src="../assets/reel-gengar/a/50_hires.png"  style="left:105px;top:1110px;width:180px" data-in="0.6" data-d="0.5" data-a="fan" data-r="-14">
+    <img class="card" src="../assets/reel-gengar/a/6_hires.png"   style="left:260px;top:1080px;width:180px" data-in="0.7" data-d="0.5" data-a="fan" data-r="-7">
+    <img class="card" src="../assets/reel-gengar/a/5_hires.png"   style="left:450px;top:1060px;width:180px" data-in="0.8" data-d="0.5" data-a="fan">
+    <img class="card" src="../assets/reel-gengar/a/108_hires.png" style="left:640px;top:1080px;width:180px" data-in="0.9" data-d="0.5" data-a="fan" data-r="7">
+    <img class="card" src="../assets/reel-gengar/a/TEU_165_R_EN.png" style="left:795px;top:1110px;width:180px" data-in="1.0" data-d="0.5" data-a="fan" data-r="14">
+    <div class="abs note c" style="top:1430px" data-in="0.6" data-d="0.4">Prezzi Cardmarket del 12/11/2026 · carte inglesi · 2 prezzi stimati<br>Carte © Pokémon / Nintendo / Creatures / GAME FREAK</div>
+  </section>
+</div>
+<script>
+const ease = x => { x = Math.min(1, Math.max(0, x)); return 1 - Math.pow(1 - x, 3); };
+const fmt = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+function seek(T) {
+  document.getElementById("g1").style.transform = `translate(${-40 * Math.sin(T / 4)}px, ${30 * Math.cos(T / 5)}px)`;
+  document.getElementById("g2").style.transform = `translate(${35 * Math.cos(T / 4.5)}px, ${-25 * Math.sin(T / 3.5)}px)`;
+  document.querySelectorAll(".scene").forEach(s => {
+    const a = +s.dataset.start, b = +s.dataset.end, vis = T >= a && T < b;
+    s.style.display = vis ? "block" : "none";
+    if (!vis) return;
+    const t = T - a, L = b - a;
+    s.style.opacity = s.dataset.last ? 1 : Math.min(1, (L - t) / 0.22);
+    s.querySelectorAll("[data-in]").forEach(el => {
+      const p = ease((t - +el.dataset.in) / (+el.dataset.d || 0.5));
+      const k = el.dataset.a || "up", r = +(el.dataset.r || 0);
+      let tr = "";
+      if (k === "up") tr = `translateY(${(1 - p) * 60}px)`;
+      if (k === "pop") tr = `scale(${0.72 + 0.28 * p})`;
+      if (k === "fan") tr = `translateY(${(1 - p) * 520}px) rotate(${r * p}deg)`;
+      if (k === "right") tr = `translateX(${(1 - p) * 560}px) rotate(${r}deg)`;
+      el.style.transform = tr;
+      el.style.opacity = Math.min(1, p * 1.5);
+    });
+    s.querySelectorAll("[data-count]").forEach(el => {
+      const p = ease((t - +el.dataset.cs) / +el.dataset.cd);
+      el.textContent = (el.dataset.pre || "") + fmt(Math.round(+el.dataset.count * p)) + (el.dataset.suf || "");
+    });
+  });
+}
+window.scenes = () => [...document.querySelectorAll(".scene")].map(s => [+s.dataset.start, +s.dataset.end]);
+seek(0);
+</script>
+</body>
+</html>
