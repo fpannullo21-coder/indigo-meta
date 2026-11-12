@@ -50,7 +50,7 @@ def main():
     slides = render_png(out / "report.html", out)
     w0 = s["wins"][0]
     caption = "\n".join(
-        [f"🇯🇵 CITY LEAGUE REPORT · {dates}", "",
+        [f"🇯🇵 CITY LEAGUE REPORT · {dates} · TCG Masters", "",
          f"{s['n']} City League giocate in {s['prefectures']} prefetture giapponesi.", "",
          f"🏆 Il mazzo che vince di più: {w0[0]} ({w0[1]} vittorie)",
          f"📊 Il più presente in top 16: {s['top16'][0][0]} ({pct(s['top16'][0][1] / s['slots16'])} dei posti)", ""]

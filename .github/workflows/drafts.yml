@@ -31,6 +31,7 @@ jobs:
         run: |
           pip install -r requirements.txt
           python -m playwright install --with-deps chromium
+          sudo apt-get install -y fonts-noto-color-emoji   # bandiere nelle slide
       - name: Cache classifiche Limitless
         uses: actions/cache@v4
         with:
@@ -41,6 +42,8 @@ jobs:
         env:
           LIMITLESS_API_KEY: ${{ secrets.LIMITLESS_API_KEY }}
         run: python make_drafts.py
+      - name: Conserva i post già in coda sul sito
+        run: python keep_site.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

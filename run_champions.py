@@ -17,7 +17,7 @@ from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 
 from indigo_meta.cards import resolve_decklist
-from indigo_meta.champions import load
+from indigo_meta.champions import load, flag, country
 from indigo_meta.render import build_deck, render_png, num, MESI
 
 ROOT = Path(__file__).resolve().parent
@@ -37,8 +37,12 @@ def rec_dict(r: str) -> dict:
     return {"wins": w, "losses": l, "ties": t}
 
 
-def build(tid: int, out_root: Path) -> Path:
+CATEGORY = "TCG Masters"
+
+
+def build(tid: int, out_root: Path, cc: str = "") -> Path:
     m = load(tid, ROOT / "cache")
+    venue = {"cc": cc, "flag": flag(cc), "country": country(cc) if cc else ""}
     c = m.top[0]
     wins = sum(1 for p in c.path if p[3] == "V")
     r = rec_dict(c.record)
@@ -50,8 +54,8 @@ def build(tid: int, out_root: Path) -> Path:
         cards = resolve_decklist(p.decklist, ROOT / "cache")
         d = build_deck({"deck": p.deck, "tournament": m.name, "players": m.players, "player": p.name,
                         "record": rec_dict(p.record), "placing": p.place}, cards)
-        d["kicker"] = f"{ORD[p.place]} · {m.name}"
-        d["country"] = p.country
+        d["kicker"] = f"{ORD[p.place]} · {m.name} · {CATEGORY}"
+        d["country"], d["flag"] = p.country, p.flag
         decks.append(d)
     deck_counts = Counter(p.deck for p in m.top).most_common()
     italians = [p for p in m.top if p.cc == "IT"]
@@ -64,16 +68,18 @@ def build(tid: int, out_root: Path) -> Path:
     env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True)
     html = env.get_template("champions.html.j2").render(
         m=m, decks=decks, deck_counts=deck_counts, italians=italians, swiss=swiss, date_it=date_it(m.date),
-        num=num, brand_right=m.name.upper()[:24], n_slides=3 + len(decks))
+        num=num, brand_right=(m.name.upper()[:24] + (" " + venue["flag"] if venue["flag"] else "")), venue=venue,
+        category=CATEGORY, n_slides=3 + len(decks))
     (out / "champions.html").write_text(html, encoding="utf-8")
     slides = render_png(out / "champions.html", out)
 
-    lines = [f"🏆 I MAZZI DEI CAMPIONI · {m.name} ({date_it(m.date)})", "",
-             f"{num(m.players)} giocatori in Masters. Ha vinto {c.name} ({c.country}) con {c.deck}, record {c.record}.", ""]
+    where = f" {venue['flag']} {venue['country']}" if venue["flag"] else ""
+    lines = [f"🏆 I MAZZI DEI CAMPIONI · {m.name}{where} ({date_it(m.date)}) · {CATEGORY}", "",
+             f"{num(m.players)} giocatori nella categoria {CATEGORY}. Ha vinto {c.name} {c.flag} con {c.deck}, record {c.record}.", ""]
     if c.path:
         verb = {"V": "battuto", "S": "perso contro", "P": "pareggio con"}
-        lines += ["La strada verso il titolo:"] + [f"• {ph}: {verb[res]} {opp} ({dk})" for ph, opp, dk, res in c.path] + [""]
-    lines += ["Top 8:"] + [f"{p.place}. {p.name} ({p.country}) · {p.deck}" for p in m.top] + [""]
+        lines += ["La strada verso il titolo:"] + [f"• {ph}: {verb[res]} {opp} {fl} ({dk})".replace("  ", " ") for ph, opp, dk, res, fl in c.path] + [""]
+    lines += ["Top 8:"] + [f"{p.place}. {p.name} {p.flag} · {p.deck}" for p in m.top] + [""]
     for p in italians:
         lines.append(f"🇮🇹 Grande risultato per {p.name}: {'top 4' if p.place <= 4 else 'top 8'} con {p.deck}!")
     if italians:
@@ -91,10 +97,11 @@ def main():
     ap.add_argument("--tid", type=int)
     ap.add_argument("--season", action="store_true")
     a = ap.parse_args()
-    ids = [a.tid] if a.tid else [e["tid"] for e in json.loads((ROOT / "data" / "majors_ids.json").read_text())]
+    known = {e["tid"]: e.get("cc", "") for e in json.loads((ROOT / "data" / "majors_ids.json").read_text())}
+    ids = [a.tid] if a.tid else list(known)
     for tid in ids:
         try:
-            build(tid, ROOT / "output")
+            build(tid, ROOT / "output", known.get(tid, ""))
         except Exception as e:
             print(f"  Torneo {tid} saltato: {e}")
 

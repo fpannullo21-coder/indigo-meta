@@ -46,10 +46,10 @@
 
 <section class="slide">
   <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ brand_right }}</span></div>
-  <div class="kicker">I mazzi dei campioni</div>
+  <div class="kicker">I mazzi dei campioni · {{ category }}</div>
   <div class="ch-h1">{{ m.name }}</div>
-  <div class="ch-sub">{{ date_it }} · {{ num(m.players) }} giocatori · Masters</div>
-  <div class="champ"><em>Campione</em><b>{{ c.name }}</b><i>{{ c.country }} · {{ c.deck }} · {{ c.record }}</i></div>
+  <div class="ch-sub">{% if venue.flag %}{{ venue.flag }} {{ venue.country }} · {% endif %}{{ date_it }} · {{ num(m.players) }} giocatori · {{ category }}</div>
+  <div class="champ"><em>Campione</em><b>{{ c.name }}</b><i>{{ c.flag }} {{ c.country }} · {{ c.deck }} · {{ c.record }}</i></div>
   <div class="kicker" style="margin-top:46px; font-size:21px">Mazzi in top 8</div>
   <div class="chips" style="margin-top:16px">{% for name, n in deck_counts %}<span class="chip"><b>{{ n }}</b>{{ name }}</span>{% endfor %}</div>
   <div class="swipe">La top 8 →</div>
@@ -58,12 +58,12 @@
 
 <section class="slide">
   <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ brand_right }}</span></div>
-  <div class="kicker">Top 8</div>
+  <div class="kicker">Top 8 · {{ m.name }} {{ venue.flag }} · {{ category }}</div>
   <h2>Chi è arrivato in fondo</h2>
   <div class="t8">
   {% for p in m.top %}
     <div class="t8row p{{ p.place }}{% if p.cc == 'IT' %} it{% endif %}"><span class="pl">{{ p.place }}</span>
-      <span class="who"><b>{{ p.name }}</b><i>{{ p.country }}</i></span><span class="dk">{{ p.deck }}</span><span class="rc">{{ p.record }}</span></div>
+      <span class="who"><b>{{ p.name }}</b><i>{{ p.flag }} {{ p.country }}</i></span><span class="dk">{{ p.deck }}</span><span class="rc">{{ p.record }}</span></div>
   {% endfor %}
   </div>
   <div class="foot"><span>Record complessivo, top cut compresa{% if italians %} · in evidenza gli italiani{% endif %}</span><span class="page">2/{{ n_slides }}</span></div>
@@ -71,9 +71,9 @@
 
 <section class="slide">
   <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ brand_right }}</span></div>
-  <div class="kicker">Il campione</div>
+  <div class="kicker">Il campione · {{ category }}</div>
   <div class="prof-name">{{ c.name }}</div>
-  <div class="prof-sub">{{ c.country }} · ha vinto con <b style="color:var(--ink)">{{ c.deck }}</b></div>
+  <div class="prof-sub">{{ c.flag }} {{ c.country }} · ha vinto con <b style="color:var(--ink)">{{ c.deck }}</b></div>
   <div class="pstats">
     <div class="stat"><b>{{ c.record }}</b><i>record totale</i></div>
     <div class="stat"><b>{{ swiss }}</b><i>nei turni svizzeri</i></div>
@@ -81,8 +81,8 @@
   </div>
   {% if c.path %}
   <div class="path"><h4>La strada verso il titolo</h4>
-  {% for phase, opp, deck, res in c.path %}
-    <div class="prow"><span class="ph">{{ phase }}</span><span class="op"><b>{{ opp }}</b><i>{{ deck }}</i></span><span class="res {{ res }}">{{ res }}</span></div>
+  {% for phase, opp, deck, res, fl in c.path %}
+    <div class="prow"><span class="ph">{{ phase }}</span><span class="op"><b>{{ opp }}{% if fl %} {{ fl }}{% endif %}</b><i>{{ deck }}</i></span><span class="res {{ res }}">{{ res }}</span></div>
   {% endfor %}
   </div>
   {% endif %}

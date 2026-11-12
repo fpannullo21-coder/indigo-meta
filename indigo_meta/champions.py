@@ -30,6 +30,14 @@ COUNTRIES = {
 ROUND_NAMES = {1: "Finale", 2: "Semifinale", 3: "Quarti", 4: "Ottavi"}
 
 
+def flag(cc: str) -> str:
+    """Codice ISO a 2 lettere → bandiera emoji (🇮🇹). Vuoto se il codice non è valido."""
+    cc = (cc or "").upper()
+    if len(cc) != 2 or not cc.isalpha():
+        return ""
+    return "".join(chr(0x1F1E6 + ord(ch) - 65) for ch in cc)
+
+
 def country(code: str) -> str:
     return COUNTRIES.get(code, code)
 
@@ -55,6 +63,10 @@ class Player:
     @property
     def country(self) -> str:
         return country(self.cc)
+
+    @property
+    def flag(self) -> str:
+        return flag(self.cc)
 
 
 @dataclass
@@ -121,7 +133,7 @@ def load(tid: int, cache: Path, top_n: int = 8, lists: int = 4) -> Major:
         for i, (rnd, res, opp) in enumerate(rounds[:cut]):          # la pagina elenca dal turno più recente
             o = names.get(opp.strip().lower())
             top[0].path.append((ROUND_NAMES.get(i + 1, f"Turno {rnd}"), opp.strip(), o.deck if o else "",
-                                {"Win": "V", "Loss": "S", "Tie": "P"}[res]))
+                                {"Win": "V", "Loss": "S", "Tie": "P"}[res], flag(o.cc) if o else ""))
         top[0].path.reverse()
     return Major(tid, name, date.group(0) if date else "", int(players.group(1).replace(",", "")) if players else 0,
                  labs.group(1) if labs else "", top)

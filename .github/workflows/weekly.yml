@@ -68,6 +68,8 @@ jobs:
         id: site
         run: echo "dir=$(python prepare_site.py)" >> "$GITHUB_OUTPUT"
 
+      - name: Conserva i post già in coda sul sito
+        run: python keep_site.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

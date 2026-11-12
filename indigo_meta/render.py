@@ -149,7 +149,8 @@ def _grid(n: int, extra: int) -> tuple[int, int]:
         if rows * w * 88 / 63 + (rows - 1) * GAP > GRID_H:
             continue
         free = rows * cols - n
-        key = (free, cols)
+        # una sola cella libera non basta per il riepilogo: meglio griglia piena o riepilogo largo
+        key = (free if free != 1 else 50, cols)
         if best is None or key < best[0]:
             best = (key, cols, free)
     if best is None:
@@ -175,13 +176,13 @@ def build_deck(winner: dict, cards: list, remote: bool = False) -> dict:
                           energy_ink="#FFFFFF" if c.energy_color in ("#3A4150", "#A35BD6") else "#15122E"))
     counts = {k: sum(c.count for c in cards if c.section == k) for k in ("pokemon", "trainer", "energy")}
     total = sum(counts.values())
-    cols, free = _grid(len(items), 1)
+    cols, free = _grid(len(items), 0)
     return dict(
         name=winner["deck"], tournament=winner["tournament"], players=winner["players"],
         place=winner.get("placing", 1),
         player=winner.get("player") or "",
         record=f"{rec.get('wins', 0)}-{rec.get('losses', 0)}-{rec.get('ties', 0)}",
         price=(f"{price:.0f} €" if price is not None and cov >= 0.95 else None),
-        cards=items, cols=cols, summary_span=free, total=total, unique=len(items),
+        cards=items, cols=cols, summary_span=(free if free >= 2 else 0), total=total, unique=len(items),
         counts=[("Pokémon", counts["pokemon"]), ("Allenatori", counts["trainer"]), ("Energie", counts["energy"])],
     )
