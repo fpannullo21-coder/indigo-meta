@@ -122,7 +122,10 @@ def main():
     for f in sorted((ROOT / "data" / "news").glob("*.json")):
         try:
             run("run_news.py", str(f))
-            k = json.loads(f.read_text())["key"]
+            meta = json.loads(f.read_text())
+            k = meta["key"]
+            if meta.get("manual"):                   # immagini non ufficiali: solo pubblicazione a mano
+                (out / k / "MANUAL").write_text("immagini non ufficiali: pubblicare a mano\n")
             posts.append((out / k, k))
         except subprocess.CalledProcessError as e:
             print("News saltata:", f.name, e)
@@ -149,6 +152,8 @@ def main():
         dst = site / name
         to_jpeg(sorted(src.glob("slide_*.png")), dst)
         shutil.copy(src / "caption.txt", dst / "caption.txt")
+        if (src / "MANUAL").exists():
+            shutil.copy(src / "MANUAL", dst / "MANUAL")
         print(f"Bozza pronta: {dst.name} ({len(list(dst.glob('*.jpg')))} slide)")
     (site / "index.html").write_text("<!doctype html><title>Indigo Meta</title><p>Indigo Meta</p>")
 

@@ -44,6 +44,10 @@ def slides_online(key: str) -> list[str]:
 
 
 def publish(key: str) -> None:
+    if requests.head(f"{PAGES}/{key}/MANUAL", timeout=20).status_code == 200:
+        say(f"✋ «{key}» contiene immagini non ufficiali: Meta blocca l'app se lo pubblichiamo via API. "
+            "Pubblicalo a mano dall'app Instagram con le slide dell'anteprima.")
+        return
     urls = slides_online(key)
     cap = requests.get(f"{PAGES}/{key}/caption.txt", timeout=20)
     if len(urls) < 2 or cap.status_code != 200:
