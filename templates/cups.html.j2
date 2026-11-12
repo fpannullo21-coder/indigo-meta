@@ -21,13 +21,15 @@ body { background: #000; font-family: "Inter", sans-serif; color: var(--ink); }
 .foot { position: absolute; left: 84px; right: 84px; bottom: 56px; display: flex; justify-content: space-between; font-size: 20px; color: var(--ink-3); border-top: 1px solid var(--line); padding-top: 24px; }
 .page { font-family: "Grotesk"; font-weight: 500; }
 
-.cover h1 { font-family: "Grotesk"; font-weight: 700; font-size: 150px; line-height: .92; letter-spacing: -.03em; margin-top: 150px; position: relative; }
+.cover h1 { font-family: "Grotesk"; font-weight: 700; font-size: 140px; line-height: .92; letter-spacing: -.03em; margin-top: 90px; position: relative; }
 .cover h1 span { color: var(--accent); display: block; }
 .cover .dates { font-size: 34px; color: var(--ink-2); margin-top: 30px; position: relative; }
-.areas { margin-top: 70px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; position: relative; }
-.area { background: var(--bg-2); border: 1px solid var(--line); border-radius: 18px; padding: 20px 22px; }
-.area b { display: block; font-family: "Grotesk"; font-size: 46px; font-weight: 700; line-height: 1; }
-.area i { font-style: normal; font-size: 21px; color: var(--ink-2); display: block; margin-top: 8px; }
+.areas { margin-top: 56px; display: flex; flex-direction: column; gap: 12px; position: relative; }
+.arow { display: grid; grid-template-columns: 210px 1fr; align-items: center; column-gap: 16px; }
+.aname { font-size: 20px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.regs { display: flex; flex-wrap: wrap; gap: 10px; }
+.reg { background: var(--bg-2); border: 1px solid var(--line); border-radius: 999px; padding: 8px 18px; font-size: 23px; font-weight: 600; white-space: nowrap; }
+.reg b { font-family: "Grotesk"; color: var(--accent); margin-left: 6px; }
 .swipe { position: absolute; right: 84px; bottom: 124px; font-size: 26px; color: var(--ink-2); font-weight: 600; }
 
 .list { margin-top: 44px; display: flex; flex-direction: column; position: relative; }
@@ -36,7 +38,7 @@ body { background: #000; font-family: "Inter", sans-serif; color: var(--ink); }
 .sec h3 { font-family: "Grotesk"; font-size: 40px; font-weight: 700; }
 .sec span { font-size: 21px; color: var(--ink-3); }
 .sec em { margin-left: auto; font-style: normal; font-family: "Grotesk"; font-size: 24px; color: var(--accent); font-weight: 700; }
-.row { display: grid; grid-template-columns: 116px 86px 1fr; column-gap: 18px; align-items: center; height: 64px; border-bottom: 1px solid var(--line); }
+.row { display: grid; grid-template-columns: 116px 86px 1fr; column-gap: 18px; align-items: center; height: 58px; border-bottom: 1px solid var(--line); }
 .row .d { font-family: "Grotesk"; font-size: 26px; font-weight: 700; }
 .row .t { font-size: 22px; color: var(--ink-2); }
 .row .w { min-width: 0; }
@@ -51,7 +53,11 @@ body { background: #000; font-family: "Inter", sans-serif; color: var(--ink); }
   <h1>League<span>Cup</span></h1>
   <div class="dates">{{ dates }} · {{ total }} Cup in Italia</div>
   <div class="areas">
-  {% for name, items in groups %}<div class="area"><b>{{ items|length }}</b><i>{{ name }}</i></div>{% endfor %}
+  {% for area, regs in areas %}
+    <div class="arow"><span class="aname">{{ area }}</span>
+      <div class="regs">{% for r, items in regs %}<span class="reg">{{ r }} <b>{{ items|length }}</b></span>{% endfor %}</div>
+    </div>
+  {% endfor %}
   </div>
   <div class="swipe">Trova la tua →</div>
   <div class="foot"><span>Solo League Cup del Pokémon TCG</span><span class="page">1/{{ n_slides }}</span></div>
@@ -62,7 +68,7 @@ body { background: #000; font-family: "Inter", sans-serif; color: var(--ink); }
   <div class="brand"><svg class="logo" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ week }}</span></div>
   <div class="list">
   {% for name, items, regions in page %}
-    <div class="sec"><h3>{{ name }}</h3>{% if regions %}<span>{{ regions }}</span>{% endif %}<em>{{ items|length }}</em></div>
+    <div class="sec"><h3>{{ name }}</h3>{% if regions != name %}<span>{{ regions }}</span>{% endif %}<em>{{ items|length }}</em></div>
     {% for c in items %}
     <div class="row"><span class="d">{{ c.day }}</span><span class="t">{{ c.time }}</span>
       <span class="w"><b>{{ c.city }}</b><small>{{ c.shop|title }}</small></span></div>

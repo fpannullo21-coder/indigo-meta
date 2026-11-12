@@ -1,10 +1,5 @@
-"""League Cup TCG della settimana, raggruppate per regione (fonte: pokedata.ovh, dati dell'Event Locator).
-
-Regole di raggruppamento:
-- una regione con almeno SOLO_MIN Cup ha la sua sezione;
-- le altre si uniscono nella loro macro-area (es. Piemonte + Liguria = Nord-Ovest);
-- una macro-area con meno di MERGE_MIN Cup si unisce alla vicina indicata in MERGE_INTO.
-"""
+"""League Cup TCG della settimana, una sezione per regione, in ordine di macro-area
+(fonte: pokedata.ovh, dati dell'Event Locator Play! Pokémon)."""
 from __future__ import annotations
 
 import csv
@@ -109,58 +104,40 @@ def dedupe(cups: list[Cup]) -> list[Cup]:
     return out
 
 
+def area_of(region: str) -> str:
+    for area, regions in AREAS:
+        if region in regions:
+            return area
+    return "Altre"
+
+
 def group(cups: list[Cup]) -> list[tuple[str, list[Cup]]]:
+    """Una sezione per regione, in ordine geografico (per macro-area, da nord a sud)."""
     by_region: dict[str, list[Cup]] = {}
     for c in cups:
         by_region.setdefault(c.region, []).append(c)
-    groups: dict[str, list[Cup]] = {}
-    order: list[str] = []
-    known = {r for _, rs in AREAS for r in rs}
-    for area, regions in AREAS:
-        rest = []
-        for reg in regions:
-            items = by_region.get(reg, [])
-            if len(items) >= SOLO_MIN and area != reg:
-                groups[reg] = items
-                order.append(reg)
-            else:
-                rest += items
-        if rest:
-            groups[area] = rest
-            order.append(area)
-    unknown = [c for reg, items in by_region.items() if reg not in known for c in items]
-    if unknown:
-        groups["Altre"] = unknown
-        order.append("Altre")
-    # unisci le macro-aree troppo piccole
-    changed = True
-    while changed:
-        changed = False
-        for name in list(order):
-            target = MERGE_INTO.get(name)
-            if len(groups[name]) < MERGE_MIN and target in groups and target != name:
-                merged = f"{target} e {name}" if order.index(target) < order.index(name) else f"{name} e {target}"
-                groups[merged] = groups.pop(target) + groups.pop(name)
-                i = min(order.index(target), order.index(name))
-                order = [o for o in order if o not in (target, name)]
-                order.insert(i, merged)
-                changed = True
-                break
-    return [(n, sorted(groups[n], key=lambda c: c.when)) for n in order]
+    order = [r for _, regions in AREAS for r in regions if r in by_region]
+    order += sorted(r for r in by_region if r not in order)          # regioni non riconosciute in fondo
+    return [(r, sorted(by_region[r], key=lambda c: c.when)) for r in order]
 
 
-def paginate(groups: list[tuple[str, list[Cup]]], cap: int = 15) -> list[list[tuple[str, list[Cup]]]]:
-    """Distribuisce le sezioni sulle slide: `cap` = righe per slide, titoli di sezione compresi."""
-    pages, cur, n = [], [], 0
+ROW_PX, HEAD_PX, PAGE_PX = 58, 80, 1080   # altezza riga, titolo regione, spazio utile per slide
+
+
+def paginate(groups: list[tuple[str, list[Cup]]]) -> list[list[tuple[str, list[Cup]]]]:
+    """Riempie ogni slide finché c'è spazio, senza spezzare una regione (salvo se non entra in una slide)."""
+    per_page = (PAGE_PX - HEAD_PX) // ROW_PX
+    pages, cur, used = [], [], 0
     for name, items in groups:
-        while len(items) + 1 > cap:                   # sezione troppo lunga: la spezziamo
+        while len(items) > per_page:
             if cur:
-                pages.append(cur); cur, n = [], 0
-            pages.append([(name, items[:cap - 1])])
-            items = items[cap - 1:]
-        if cur and n + len(items) + 1 > cap:
-            pages.append(cur); cur, n = [], 0
-        cur.append((name, items)); n += len(items) + 1
+                pages.append(cur); cur, used = [], 0
+            pages.append([(name, items[:per_page])])
+            items = items[per_page:]
+        h = HEAD_PX + ROW_PX * len(items)
+        if cur and used + h > PAGE_PX:
+            pages.append(cur); cur, used = [], 0
+        cur.append((name, items)); used += h
     if cur:
         pages.append(cur)
     return pages

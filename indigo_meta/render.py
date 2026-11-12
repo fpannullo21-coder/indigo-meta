@@ -113,6 +113,8 @@ def render_png(html_path: Path, out_dir: Path) -> list[Path]:
     tmp = ROOT / "templates" / "_render.html"
     tmp.write_text(html_path.read_text(encoding="utf-8"), encoding="utf-8")
     out_dir.mkdir(parents=True, exist_ok=True)
+    for old in out_dir.glob("slide_*.png"):      # niente slide rimaste da un giro precedente
+        old.unlink()
     paths = []
     with sync_playwright() as p:
         try:

@@ -14,7 +14,7 @@ from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader
 
-from indigo_meta.cups import download_csv, parse, group, paginate
+from indigo_meta.cups import download_csv, parse, group, paginate, area_of
 from indigo_meta.render import render_png, MESI
 from indigo_meta.telegram import send_preview
 
@@ -47,8 +47,7 @@ def main():
     groups = group(cups)
     pages = []
     for page in paginate(groups):
-        pages.append([(name, items, ", ".join(sorted({c.region for c in items})) if name not in {c.region for c in items} else "")
-                      for name, items in page])
+        pages.append([(name, items, area_of(name)) for name, items in page])
     week = monday.isocalendar()[1]
     out = ROOT / "output" / f"{monday.year}-W{week:02d}-cup"
     out.mkdir(parents=True, exist_ok=True)
@@ -56,13 +55,15 @@ def main():
     env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True)
     html = env.get_template("cups.html.j2").render(
         week=week, dates=dates_it(first, sunday), total=len(cups), groups=groups,
+        areas=[(area, [(r, items) for r, items in groups if area_of(r) == area])
+               for area in dict.fromkeys(area_of(r) for r, _ in groups)],
         pages=pages, n_slides=len(pages) + 1)
     (out / "cups.html").write_text(html, encoding="utf-8")
     slides = render_png(out / "cups.html", out)
 
     caption = "\n".join(
         [f"🏆 LEAGUE CUP DELLA SETTIMANA · {dates_it(first, sunday)}", "",
-         f"{len(cups)} League Cup del Pokémon TCG in Italia, divise per zona.", ""]
+         f"{len(cups)} League Cup del Pokémon TCG in Italia, regione per regione.", ""]
         + [f"📍 {name}: {len(items)}" for name, items in groups]
         + ["", "Orari e iscrizioni: verifica sempre con il negozio. Scorri e trova la tua 👉", "",
            "Dati: Event Locator Play! Pokémon (via pokedata.ovh)", "",
