@@ -41,6 +41,7 @@ body { font-family: "Inter", sans-serif; color: var(--ink); }
 .r .pr { position: absolute; top: 62px; font-family: "Grotesk"; font-weight: 700; font-size: 42px; white-space: nowrap; }
 .r.cheap .bar { background: var(--hi); }
 .r.cheap .pl, .r.cheap .pr { color: var(--hi); }
+#src { position: absolute; left: 84px; right: 84px; top: 222px; font-size: 25px; color: var(--ink-3); z-index: 5; display: none; }
 .tag { position: absolute; padding: 10px 22px; border-radius: 40px; background: var(--hi); color: #0F2A20; font-weight: 700; font-size: 30px; white-space: nowrap; }
 </style>
 </head>
@@ -48,6 +49,7 @@ body { font-family: "Inter", sans-serif; color: var(--ink); }
 <div id="stage">
   <div class="glow" id="g1"></div><div class="glow" id="g2"></div>
   <div class="brand"><svg width="46" height="46" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="h">@indigo.meta</span></div>
+  <div id="src">Prezzi Cardmarket calcolati da Limitless TCG · 13/11/2026</div>
 
   <!-- 1 · gancio -->
   <section class="scene" data-start="0" data-end="3.4">
@@ -134,6 +136,7 @@ document.getElementById("rows").innerHTML = TOP8.map(([pl, dk, who, p, img, chea
 const ease = x => { x = Math.min(1, Math.max(0, x)); return 1 - Math.pow(1 - x, 3); };
 const fmt = (n, d) => { const [a, b] = n.toFixed(d).split("."); return a.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + (b ? "," + b : ""); };
 function seek(T) {
+  document.getElementById("src").style.display = T >= 3.4 && T < 25.6 ? "block" : "none";
   document.getElementById("g1").style.transform = `translate(${-40 * Math.sin(T / 4)}px, ${30 * Math.cos(T / 5)}px)`;
   document.getElementById("g2").style.transform = `translate(${35 * Math.cos(T / 4.5)}px, ${-25 * Math.sin(T / 3.5)}px)`;
   document.querySelectorAll(".scene").forEach(s => {

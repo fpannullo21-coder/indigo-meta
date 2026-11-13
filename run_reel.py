@@ -34,7 +34,7 @@ def main():
     ap.add_argument("html")
     ap.add_argument("out")
     ap.add_argument("--stills", nargs="*", type=float)
-    ap.add_argument("--only", type=int, help="rifà solo questa scena (1, 2, …) e riunisce le altre già fatte")
+    ap.add_argument("--only", nargs="*", type=int, help="rifà solo questa scena (1, 2, …) e riunisce le altre già fatte")
     a = ap.parse_args()
     html, out = Path(a.html), Path(a.out)
     with sync_playwright() as p:
@@ -50,7 +50,7 @@ def main():
         for i, (s, e) in enumerate(page.evaluate("scenes()")):
             part = out.parent / f"scene_{i + 1:02d}.mp4"
             tmp = out.parent / f"scene_{i + 1:02d}.tmp.mp4"
-            if a.only and a.only != i + 1 and part.exists():
+            if a.only and i + 1 not in a.only and part.exists():
                 parts.append(part)
                 continue
             ff = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "image2pipe", "-framerate", str(FPS),
