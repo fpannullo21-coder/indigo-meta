@@ -73,7 +73,7 @@ def main():
         send_preview(slides, caption, publish_key=out.name)
 
     if a.spotlight and deck:
-        render_spotlight(view, deck, ROOT / "output" / f"{year}-W{week:02d}-lente", a.handle,
+        render_spotlight(view, deck, ROOT / "output" / f"{year}-W{week:02d}-lente", a.handle, cards=cards,
                          why=f"Ha vinto il torneo più grande della settimana: <b>1° su {deck['players']} giocatori</b>.")
         # altri mazzi: i più presenti nelle top 8, escluso quello già raccontato
         others = [d for d in sorted(report.decks, key=lambda d: d.top8_share, reverse=True)
@@ -85,13 +85,16 @@ def main():
                 rank = sorted(report.decks, key=lambda x: x.top8_share, reverse=True).index(d) + 1
                 why = (f"Tier {d.tier}: <b>{d.top8} posti in top 8</b> questa settimana, "
                        f"{'il dato più alto' if rank == 1 else f'il {rank}° dato più alto'} del meta.")
-                render_spotlight(view, dk, ROOT / "output" / f"{year}-W{week:02d}-lente{i}", a.handle, why=why)
+                render_spotlight(view, dk, ROOT / "output" / f"{year}-W{week:02d}-lente{i}", a.handle,
+                                 why=why, cards=cards)
             except Exception as e:
                 print(f"  Spotlight {d.name} saltato: {e}")
 
 
-def render_spotlight(view: dict, deck: dict, out: Path, handle: str, why: str = "") -> None:
-    """Post «Mazzo sotto la lente»: il mazzo vincitore del torneo più grande, numeri + lista."""
+def render_spotlight(view: dict, deck: dict, out: Path, handle: str, why: str = "", cards: list | None = None) -> None:
+    """Post «Mazzo sotto la lente»: numeri, carte chiave con il loro ruolo, piano di gioco, lista, chiusura.
+    Senza analisi (né file a mano né Claude) esce nel formato corto: numeri + lista."""
+    from indigo_meta.spotlight import analysis
     from jinja2 import Environment, FileSystemLoader
     from indigo_meta.render import pct, pp
     r = view["r"]
@@ -109,10 +112,15 @@ def render_spotlight(view: dict, deck: dict, out: Path, handle: str, why: str = 
         verdict = ("Numeri <b>nella media</b>: si gioca tanto e converte come gli altri. Un mazzo solido, "
                    "non ancora dominante.") if sp.conversion >= avg * 0.8 else (
                    "Converte <b>sotto la media</b>: arriva in top 8 meno spesso di quanto si gioca. Serve la lista giusta.")
+    an = analysis(deck, cards or [], sp, avg) if cards else None
+    n_extra = (len(an["pages"]) + (1 if an["piano"] else 0)) if an else 0
+    deck_page = 2 + n_extra
+    n_slides = deck_page + (1 if an else 0)
     out.mkdir(parents=True, exist_ok=True)
     env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True)
     html = env.get_template("spotlight.html.j2").render(
-        **{**view, "sp": sp, "verdict": verdict, "deck": deck, "deck_page": 2, "n_slides": 2, "why": why})
+        **{**view, "sp": sp, "verdict": verdict, "deck": deck, "deck_page": deck_page, "n_slides": n_slides,
+           "why": why, "an": an, "handle": handle})
     (out / "spotlight.html").write_text(html, encoding="utf-8")
     slides = render_png(out / "spotlight.html", out)
     caption = "\n".join([
@@ -121,7 +129,10 @@ def render_spotlight(view: dict, deck: dict, out: Path, handle: str, why: str = 
         f"Lista: {deck['place']}° posto su {deck['players']} giocatori ({deck['tournament']}).", "",
         f"📊 Meta share: {pct(sp.share)}" + (f" ({pp(sp.delta)} vs settimana prima)" if sp.delta is not None else ""),
         f"🎯 Top 8: {sp.top8} su {sp.entries} liste · conversion {pct(sp.conversion)} (media {pct(avg)})", "",
-        "Nella seconda slide la lista, carta per carta. Lo porteresti al prossimo torneo? 👇", "",
+        *([f"🃏 Le carte chiave: " + " · ".join(f"{k['name']} ({k['role'].lower()})" for pg in an["pages"] for k in pg), ""]
+          if an else []),
+        (f"Carte chiave, piano di gioco e lista completa nelle slide. Lo porteresti al prossimo torneo? 👇"
+         if an else "Nella seconda slide la lista, carta per carta. Lo porteresti al prossimo torneo? 👇"), "",
         "Dati: Limitless TCG · immagini carte © Pokémon / Nintendo / Creatures / GAME FREAK", "",
         "#pokemontcg #pokemontcgitalia #ptcg #decklist #metagame #tcgitalia"])
     (out / "caption.txt").write_text(caption, encoding="utf-8")
