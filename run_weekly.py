@@ -91,6 +91,21 @@ def main():
                 print(f"  Spotlight {d.name} saltato: {e}")
 
 
+def _hero_card(deck: dict, an: dict | None) -> dict | None:
+    """Carta simbolo del mazzo per la copertina: il Pokémon col nome del mazzo, altrimenti la prima carta chiave."""
+    pokemon = [c for c in deck["cards"] if c.get("section") == "Pokémon"]
+    words = [w for w in deck["name"].lower().replace("ex", "").split() if len(w) > 2]
+    for c in pokemon:
+        if words and all(w in c["name"].lower() for w in words):
+            return c
+    for c in pokemon:  # nome italiano diverso: basta la parola più distintiva (l'ultima)
+        if words and words[-1] in c["name"].lower():
+            return c
+    if an:
+        return an["pages"][0][0]
+    return pokemon[0] if pokemon else None
+
+
 def render_spotlight(view: dict, deck: dict, out: Path, handle: str, why: str = "", cards: list | None = None) -> None:
     """Post «Mazzo sotto la lente»: numeri, carte chiave con il loro ruolo, piano di gioco, lista, chiusura.
     Senza analisi (né file a mano né Claude) esce nel formato corto: numeri + lista."""
@@ -115,12 +130,13 @@ def render_spotlight(view: dict, deck: dict, out: Path, handle: str, why: str = 
     an = analysis(deck, cards or [], sp, avg) if cards else None
     n_extra = (len(an["pages"]) + (1 if an["piano"] else 0)) if an else 0
     deck_page = 2 + n_extra
+    hero = _hero_card(deck, an)
     n_slides = deck_page + (1 if an else 0)
     out.mkdir(parents=True, exist_ok=True)
     env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True)
     html = env.get_template("spotlight.html.j2").render(
         **{**view, "sp": sp, "verdict": verdict, "deck": deck, "deck_page": deck_page, "n_slides": n_slides,
-           "why": why, "an": an, "handle": handle})
+           "why": why, "an": an, "handle": handle, "hero": hero})
     (out / "spotlight.html").write_text(html, encoding="utf-8")
     slides = render_png(out / "spotlight.html", out)
     caption = "\n".join([
