@@ -186,13 +186,15 @@ def _validate(data: dict, deck: dict, raw_cards: list, aces: set[str] = frozense
                 nota=_clip(data.get("nota"), 230))      # facoltativa: una frase per la copertina (solo nei file a mano)
 
 
-def analysis(deck: dict, raw_cards: list, sp=None, avg_conv: float = 0, key: str = "") -> dict | None:
+def analysis(deck: dict, raw_cards: list, sp=None, avg_conv: float = 0, key: str = "", only_key: bool = False) -> dict | None:
     """`key` (es. «campioni-gdansk») ha la precedenza sul nome del mazzo: la stessa archetipo può avere liste diverse."""
     manual = ROOT / "data" / "spotlight" / f"{slug(deck['name'])}.json"
     if key and (ROOT / "data" / "spotlight" / f"{key}.json").exists():
         manual = ROOT / "data" / "spotlight" / f"{key}.json"
     data = None
     aces = ace_specs(raw_cards)
+    if only_key and manual.stem != key:      # liste dei major: vale solo l'analisi scritta per QUELLA lista
+        manual = ROOT / "data" / "spotlight" / "__nessuno__.json"
     if manual.exists():
         data = json.loads(manual.read_text(encoding="utf-8"))
         print(f"  Analisi a mano: {manual.name}")

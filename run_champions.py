@@ -120,7 +120,7 @@ def build_analysis(tid: int, out_root: Path, cc: str = "", handle: str = "@indig
                        "record": rec_dict(c.record), "placing": 1}, cards)
     deck["kicker"] = f"1° posto · {m.name} · {CATEGORY}"
     deck["country"], deck["flag"] = c.country, c.flag
-    an = analysis(deck, cards, key=key)
+    an = analysis(deck, cards, key=key, only_key=True)
     if not an:
         print(f"  Analisi {m.name} saltata: manca data/spotlight/{key}.json (o la chiave di Claude)")
         return None
