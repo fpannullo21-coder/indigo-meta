@@ -1,0 +1,85 @@
+{
+ "key": "news-apple-gift-card-applin",
+ "where": "POKÉMON 30 × APPLE",
+ "category": "Giappone · Collezionismo · Pokémon GO",
+ "title": "La mela di Apple diventa <em>Applin</em>",
+ "lead": "Per i 30 anni dei Pokémon arriva una <b style='color:var(--ink)'>Apple Gift Card</b> in edizione speciale. Solo in Giappone, dal 16 al 30 novembre.",
+ "images": [
+  {
+   "card": {
+    "name": "Applin",
+    "set": "TWM",
+    "number": "17"
+   },
+   "label": "Applin"
+  },
+  {
+   "card": {
+    "name": "Hydrapple ex",
+    "set": "SCR",
+    "number": "14"
+   },
+   "label": "Hydrapple ex"
+  }
+ ],
+ "swipe": "Come si prende (e se si può dall'Italia) →",
+ "short": "Cosa sapere",
+ "points": [
+  [
+   "🍎",
+   "Applin al posto del logo Apple. <b>Dal 16 al 30 novembre</b>, solo nei <b>11 Apple Store giapponesi</b>, in negozio."
+  ],
+  [
+   "💴",
+   "Importo a scelta alla cassa, <b>da 1.000 a 250.000 yen</b>. Massimo <b>3 carte a testa</b>."
+  ],
+  [
+   "📱",
+   "Il <b>QR code</b> sul retro sblocca <b>3 sfondi per iPhone</b>, scaricabili fino al <b>26 febbraio 2027</b>."
+  ],
+  [
+   "📍",
+   "<b>Pokémon GO</b>: gli Apple Store giapponesi diventano PokéStop con un Modulo Esca attivo dalle 10 alle 21. Tocca le mele: può comparire <b>Applin</b>."
+  ]
+ ],
+ "why": "<b>Dall'Italia non si compra</b>: niente vendita online e il saldo vale solo su un account Apple giapponese. Per chi passa dal Giappone entro il 30, è il souvenir dei 30 anni.",
+ "source": "comunicato Apple Japan (via macotakara.jp), GAME Watch, gori.me",
+ "gallery": {
+  "kicker": "E nel TCG?",
+  "title": "Applin gioca già nei tornei",
+  "cards": [
+   {
+    "card": {
+     "name": "Applin",
+     "set": "TWM",
+     "number": "17"
+    },
+    "year": "Base",
+    "label": "Applin"
+   },
+   {
+    "card": {
+     "name": "Dipplin",
+     "set": "TWM",
+     "number": "18"
+    },
+    "year": "Fase 1",
+    "label": "Dipplin"
+   },
+   {
+    "card": {
+     "name": "Hydrapple ex",
+     "set": "SCR",
+     "number": "14"
+    },
+    "year": "Fase 2",
+    "label": "Hydrapple ex"
+   }
+  ],
+  "text": "La linea di Applin arriva a <b>Hydrapple ex</b>, che si gioca nel mazzo <b>Ogerpon Meganium Hydrapple</b>: <b>4,0%</b> delle liste e <b>13 top 8</b> su 122 liste nella settimana 45 (2–8 novembre).",
+  "note": "Dati: 28 tornei online su Play Limitless (non i major dal vivo) · Carte © Pokémon / Nintendo / Creatures / GAME FREAK"
+ },
+ "caption": "🍎 LA MELA DI APPLE DIVENTA APPLIN · Per i 30 anni dei Pokémon, Apple lancia in Giappone una Gift Card in edizione speciale con Applin al posto del logo.\n\n📅 Dal 16 al 30 novembre, solo nei negozi: gli 11 Apple Store giapponesi. L'importo lo scegli alla cassa, da 1.000 a 250.000 yen. Massimo 3 carte a testa, finché ci sono.\n\n📱 Il QR code sul retro sblocca 3 sfondi per iPhone disegnati da The Pokémon Company (uno è pensato anche per iPhone Duo): il motivo di Applin e Pikachu con Bulbasaur, Charmander e Squirtle. Si scaricano fino al 26 febbraio 2027.\n\n📍 Pokémon GO: negli stessi giorni gli Apple Store giapponesi diventano PokéStop con un Modulo Esca sempre attivo dalle 10 alle 21. Tocca le mele intorno e, con un po' di fortuna, compare Applin.\n\n🇮🇹 Si può avere dall'Italia? No: niente vendita online e il saldo vale solo su un account Apple giapponese. Senza la carta, niente sfondi.\n\n🃏 E nel TCG? La linea di Applin arriva a Hydrapple ex, che si gioca nel mazzo Ogerpon Meganium Hydrapple: 4,0% delle liste e 13 top 8 su 122 liste nei tornei online della settimana 45 (2–8 novembre, 28 tornei su Play Limitless).\n\nLa compreresti se fossi in Giappone? 👇\n\nFonti: comunicato Apple Japan (ripreso da macotakara.jp), GAME Watch, gori.me, pokemonblog.com · Dati TCG: Limitless TCG, tornei online\nCarte © Pokémon / Nintendo / Creatures / GAME FREAK\n\n#pokemon #pokemon30 #applin #apple #pokemongo #pokemontcgitalia",
+ "assets": "assets/news/apple-gift-card-applin",
+ "why_label": "Si può avere dall'Italia?"
+}

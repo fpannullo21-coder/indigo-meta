@@ -128,7 +128,7 @@
     <div class="pt"><span class="ic">{{ icon }}</span><p>{{ text | safe }}</p></div>
   {% endfor %}
   </div>
-  <div class="why"><em>Perché conta per il competitivo</em><p>{{ n.why | safe }}</p></div>
+  <div class="why"><em>{{ n.why_label or "Perché conta per il competitivo" }}</em><p>{{ n.why | safe }}</p></div>
   {% if n.cta %}<div class="n-cta">{{ n.cta | safe }}</div>{% endif %}
   <div class="foot"><span>Fonte: {{ n.source }}</span><span class="page">{{ 2 + (n.focus or [])|length + (1 if n.trainers else 0) }}/{{ tot }}</span></div>
 </section>
