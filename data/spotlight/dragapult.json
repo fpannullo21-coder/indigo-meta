@@ -1,0 +1,46 @@
+{
+  "carte": [
+    {
+      "carta": "Dragapult ex",
+      "ruolo": "ATTACCANTE",
+      "perche": "L'attacco principale fa 200 danni all'attivo e mette 6 segnalini danno sulla panchina avversaria, distribuiti come vuoi: colpisce e intanto prepara i KO dei turni dopo."
+    },
+    {
+      "carta": "Drakloak",
+      "ruolo": "MOTORE",
+      "perche": "4 copie: con la sua abilità guarda le prime 2 carte del mazzo e ne prende 1. Ogni Drakloak in panchina è una carta in più a turno verso Dragapult."
+    },
+    {
+      "carta": "Munkidori",
+      "ruolo": "SUPPORTO",
+      "perche": "Con un'Energia Oscurità sposta fino a 3 segnalini danno dai tuoi Pokémon a quelli avversari: cura i tuoi e aggiunge danni dove servono per chiudere."
+    },
+    {
+      "carta": "Budew",
+      "ruolo": "TECH",
+      "perche": "Attacca senza Energie e per il turno successivo l'avversario non può giocare carte Strumento: rallenta il suo setup proprio mentre Dragapult si evolve."
+    }
+  ],
+  "piano": [
+    {
+      "fase": "Primi turni",
+      "testo": "Riempi la panchina di Dreepy con le carte di ricerca, Budew in attivo per bloccare gli Strumenti avversari mentre ti evolvi."
+    },
+    {
+      "fase": "Metà partita",
+      "testo": "Drakloak trova i pezzi che mancano, poi Dragapult ex attacca: 200 all'attivo e i segnalini sulla panchina preparano i prossimi KO."
+    },
+    {
+      "fase": "Chiusura",
+      "testo": "Munkidori aggiunge i danni che mancano, le carte per spostare l'attivo scelgono il bersaglio, i martelli tolgono energie all'avversario."
+    }
+  ],
+  "forza": [
+    "Danni diffusi: un attacco prepara più KO",
+    "Pesca costante con 4 Drakloak"
+  ],
+  "occhio": [
+    "Serve evolvere: un inizio lento costa caro",
+    "Dragapult ex concede 2 premi al KO"
+  ]
+}
