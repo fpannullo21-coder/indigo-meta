@@ -1,0 +1,56 @@
+{
+  "carte": [
+    {
+      "carta": "Mega Kangaskhan ex",
+      "ruolo": "MOTORE",
+      "perche": "300 PS, in posizione attiva pesca 2 carte una volta a turno. Con 3 Energie qualsiasi attacca: 200 danni, più 50 per ogni testa finché non esce croce."
+    },
+    {
+      "carta": "Teal Mask Ogerpon ex",
+      "ruolo": "SUPPORTO",
+      "perche": "Una volta a turno assegna a sé un'Energia Erba dalla mano e pesca una carta. Poi le Energie base si spostano sugli altri attaccanti con lo Strumento dedicato (4 copie)."
+    },
+    {
+      "carta": "Raging Bolt ex",
+      "ruolo": "ATTACCANTE",
+      "perche": "Con un'Energia Lampo e una Lotta fa 70 danni per ogni Energia base che scarti dai tuoi Pokémon, senza limite: con 5 Energie scartate sono 350."
+    },
+    {
+      "carta": "Area Zero Underdepths",
+      "ruolo": "CARTA CHIAVE",
+      "perche": "Stadio: chi ha un Pokémon Teracristal in gioco può tenere fino a 8 Pokémon in panchina. Gli Ogerpon sono Teracristal: c'è posto per tutti i Base del mazzo."
+    },
+    {
+      "carta": "Lillie's Clefairy ex",
+      "ruolo": "TECH",
+      "perche": "Con Clefairy in gioco la Debolezza dei Pokémon Drago avversari diventa Psico (danni ×2). Il suo attacco fa 20 danni più 20 per ogni Pokémon in panchina, di entrambi."
+    },
+    {
+      "carta": "Unfair Stamp",
+      "ruolo": "ASSO TATTICO",
+      "perche": "Si gioca solo se nel turno precedente ti hanno messo KO un Pokémon: entrambi rimescolate la mano nel mazzo, tu peschi 5 carte e l'avversario 2."
+    }
+  ],
+  "piano": [
+    {
+      "fase": "Primi turni",
+      "testo": "Kangaskhan in attivo a pescare, panchina piena di Base. Con Latias ex in gioco i Pokémon Base si ritirano gratis: l'attivo si cambia quando serve."
+    },
+    {
+      "fase": "Metà partita",
+      "testo": "Le Energie arrivano da più strade (Ogerpon dalla mano, l'Aiuto che ne cerca 2 di tipo diverso) e si spostano sull'attaccante giusto per quel turno."
+    },
+    {
+      "fase": "Chiusura",
+      "testo": "Si sceglie l'attaccante sul bersaglio: Raging Bolt ex per il colpo grosso, Clefairy contro i Draghi, l'Ogerpon di tipo Acqua per 120 anche in panchina."
+    }
+  ],
+  "forza": [
+    "Solo Pokémon Base: niente evoluzioni da trovare",
+    "Un attaccante diverso per ogni avversario"
+  ],
+  "occhio": [
+    "Quasi tutti ex: ogni KO regala 2 premi",
+    "Cinque tipi di Energia da far quadrare"
+  ]
+}

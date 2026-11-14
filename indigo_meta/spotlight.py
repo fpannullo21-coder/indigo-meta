@@ -8,7 +8,7 @@ Fonti, in ordine:
 
 Formato JSON (lo stesso per il file a mano e per la risposta di Claude):
 {
-  "carte":  [{"carta": "<nome inglese come in lista>", "ruolo": "ATTACCANTE", "perche": "..."}],  # 2–4
+  "carte":  [{"carta": "<nome inglese come in lista>", "ruolo": "ATTACCANTE", "perche": "..."}],  # 2–6
   "piano":  [{"fase": "Primi turni", "testo": "..."}, ...],                                       # 3
   "forza":  ["...", "..."],                                                                       # 2
   "occhio": ["...", "..."]                                                                        # 2
@@ -26,6 +26,7 @@ import requests
 ROOT = Path(__file__).resolve().parent.parent
 RUOLI = ["ATTACCANTE", "MOTORE", "CARTA CHIAVE", "ASSO TATTICO", "ENERGIA", "SUPPORTO", "TECH"]
 LIMITI = {"perche": 190, "testo": 170, "punto": 90}
+MAX_CARTE = 6
 
 
 def slug(name: str) -> str:
@@ -55,8 +56,27 @@ def _card_text(tc, set_code: str, number: str) -> str:
             parts.append(det["effect"])
         if det.get("trainerType"):
             parts.insert(0, det["trainerType"])
-        return " | ".join(p for p in parts if p)
-    return ""
+        if parts:
+            return " | ".join(p for p in parts if p)
+    return limitless_text(set_code, number)
+
+
+def limitless_text(set_code: str, number: str) -> str:
+    """Testo ufficiale (inglese) dalla pagina della carta su limitlesstcg.com: serve quando TCGdex non ha ancora la carta."""
+    if not (set_code and number):
+        return ""
+    try:
+        from .web import get
+        import html as H
+        page = get(f"https://limitlesstcg.com/cards/{set_code}/{number}", ROOT / "cache", max_age_h=24 * 60)
+        i, j = page.find('class="card-text-title"'), page.find('class="card-text-artist"')
+        if i < 0:
+            return ""
+        txt = H.unescape(re.sub(r"<[^>]+>", " ", page[i - 5:j if j > i else i + 4000]))
+        txt = re.sub(r"\s+", " ", txt.split(">", 1)[-1]).strip()
+        return re.split(r"\s*(?:Weakness:|Illustrated by|[A-Z] Regulation Mark)", txt)[0].strip()
+    except Exception:
+        return ""
 
 
 def ace_specs(raw_cards: list) -> set[str]:
@@ -103,9 +123,11 @@ Scrivi l'analisi del mazzo per un carosello Instagram. Regole:
 - Usa SOLO quello che dicono i testi delle carte e la lista: non inventare effetti, danni o interazioni.
 - Non citare matchup specifici né percentuali: non hai i dati.
 - Nomi delle carte in italiano come nella lista. Frasi brevi, tono diretto, niente emoji, niente maiuscolo.
-- "carte": 4 carte, le più importanti per capire il mazzo, in ordine di importanza. "carta" è il nome INGLESE.
+- "carte": da 4 a 6 carte, tutte quelle che servono davvero per capire il mazzo, in ordine di importanza: non fermarti
+  agli attaccanti, includi le carte tecniche che decidono le partite (es. un Pokémon Base che blocca gli Strumenti).
+  Sii preciso: numeri di danno, costi e condizioni esattamente come nel testo della carta. "carta" è il nome INGLESE.
   "ruolo" è uno di: {", ".join(RUOLI)}. "perche": max {LIMITI['perche']} caratteri, cosa fa nel mazzo.
-- Asso tattico (ACE SPEC): {("la lista gioca " + ", ".join(sorted(aces)) + ": deve essere una delle 4 carte, con ruolo ASSO TATTICO, e va spiegato quando conviene giocarlo") if aces else "questa lista non ne gioca"}.
+- Asso tattico (ACE SPEC): {("la lista gioca " + ", ".join(sorted(aces)) + ": deve essere una delle carte scelte, con ruolo ASSO TATTICO, e va spiegato quando conviene giocarlo") if aces else "questa lista non ne gioca"}.
   Il ruolo ASSO TATTICO vale solo per quella carta, mai per le altre.
 - "piano": 3 fasi ("Primi turni", "Metà partita", "Chiusura"), "testo" max {LIMITI['testo']} caratteri.
 - "forza" e "occhio": 2 punti ciascuno, max {LIMITI['punto']} caratteri (punti di forza / cosa lo mette in difficoltà).
@@ -157,13 +179,18 @@ def _validate(data: dict, deck: dict, raw_cards: list, aces: set[str] = frozense
     occhio = [_clip(x, LIMITI["punto"]) for x in (data.get("occhio") or [])[:2] if x]
     if len(carte) < 2:
         return None
-    carte = carte[:4]
-    return dict(pages=[carte[i:i + 2] for i in range(0, len(carte), 2)],
-                piano=piano if len(piano) == 3 else [], forza=forza, occhio=occhio)
+    carte = carte[:MAX_CARTE]
+    per = 2 if len(carte) <= 4 else 3                 # fino a 4 carte: 2 per slide (grandi); 5–6: 3 per slide
+    return dict(pages=[carte[i:i + per] for i in range(0, len(carte), per)], per=per,
+                piano=piano if len(piano) == 3 else [], forza=forza, occhio=occhio,
+                nota=_clip(data.get("nota"), 230))      # facoltativa: una frase per la copertina (solo nei file a mano)
 
 
-def analysis(deck: dict, raw_cards: list, sp=None, avg_conv: float = 0) -> dict | None:
+def analysis(deck: dict, raw_cards: list, sp=None, avg_conv: float = 0, key: str = "") -> dict | None:
+    """`key` (es. «campioni-gdansk») ha la precedenza sul nome del mazzo: la stessa archetipo può avere liste diverse."""
     manual = ROOT / "data" / "spotlight" / f"{slug(deck['name'])}.json"
+    if key and (ROOT / "data" / "spotlight" / f"{key}.json").exists():
+        manual = ROOT / "data" / "spotlight" / f"{key}.json"
     data = None
     aces = ace_specs(raw_cards)
     if manual.exists():
@@ -175,3 +202,34 @@ def analysis(deck: dict, raw_cards: list, sp=None, avg_conv: float = 0) -> dict 
     if an and aces and not any(k["role"] == "ASSO TATTICO" for pg in an["pages"] for k in pg):
         print(f"  ⚠️ L'analisi non parla dell'asso tattico della lista ({', '.join(sorted(aces))})")
     return an
+
+
+def hero_card(deck: dict, an: dict | None) -> dict | None:
+    """Carta simbolo del mazzo per la copertina: il Pokémon col nome del mazzo, altrimenti la prima carta chiave."""
+    pokemon = [c for c in deck["cards"] if c.get("section") == "Pokémon"]
+    words = [w for w in deck["name"].lower().replace("ex", "").split() if len(w) > 2]
+    for c in pokemon:
+        if words and all(w in c["name"].lower() for w in words):
+            return c
+    for c in pokemon:  # nome italiano diverso: basta la parola più distintiva (l'ultima)
+        if words and words[-1] in c["name"].lower():
+            return c
+    if an:
+        return an["pages"][0][0]
+    return pokemon[0] if pokemon else None
+
+
+def render_post(out: Path, cover: dict, deck: dict, an: dict | None, handle: str, brand_right: str) -> list:
+    """Scrive spotlight.html e le slide PNG in `out`. Con l'analisi: copertina, carte chiave, piano, lista, chiusura;
+    senza: copertina e lista."""
+    from jinja2 import Environment, FileSystemLoader
+    from .render import render_png
+    n_extra = (len(an["pages"]) + (1 if an["piano"] else 0)) if an else 0
+    deck_page = 2 + n_extra
+    out.mkdir(parents=True, exist_ok=True)
+    env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True)
+    html = env.get_template("spotlight.html.j2").render(
+        cover=cover, deck=deck, an=an, hero=hero_card(deck, an), handle=handle, brand_right=brand_right,
+        deck_page=deck_page, n_slides=deck_page + (1 if an else 0))
+    (out / "spotlight.html").write_text(html, encoding="utf-8")
+    return render_png(out / "spotlight.html", out)

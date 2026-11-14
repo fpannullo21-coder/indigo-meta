@@ -109,6 +109,7 @@ def main():
         posts.append((clr, f"cityleague-{meta.name}"))
     try:
         run("run_champions.py", "--season")
+        run("run_champions.py", "--season", "--analysis")      # «Il mazzo del campione», dove c'è l'analisi
     except subprocess.CalledProcessError as e:
         print("Mazzi dei campioni saltati:", e)
     import json as _json
@@ -118,6 +119,9 @@ def main():
         d = out / f"campioni-{e['tid']}"
         if list(d.glob("slide_*.png")):
             posts.append((d, f"campioni-{slug.replace('regional-', '')}"))
+        d = out / f"analisi-{e['tid']}"
+        if list(d.glob("slide_*.png")):
+            posts.append((d, f"analisi-{slug.replace('regional-', '')}"))
     # News e «carte da tenere d'occhio» preparate a mano (data/news, data/watch)
     for f in sorted((ROOT / "data" / "news").glob("*.json")):
         try:

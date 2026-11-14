@@ -1,0 +1,56 @@
+{
+  "carte": [
+    {
+      "carta": "Slowking",
+      "ruolo": "ATTACCANTE",
+      "perche": "Con un'Energia Psico e una qualsiasi scarta la prima carta del mazzo: se è un Pokémon senza regola (non ex), ne usa un attacco a scelta. Il mazzo decide prima quale carta sarà."
+    },
+    {
+      "carta": "Ciphermaniac's Codebreaking",
+      "ruolo": "CARTA CHIAVE",
+      "perche": "4 copie: cerca 2 carte qualsiasi e le mette in cima al mazzo nell'ordine che vuoi. Così Slowking trova il Pokémon giusto. Lo Stadio della lista fa lo stesso con una carta dalla mano."
+    },
+    {
+      "carta": "Kyurem",
+      "ruolo": "CARTA CHIAVE",
+      "perche": "Il bersaglio preferito di Slowking: il suo attacco fa 110 danni a 3 Pokémon avversari. Costerebbe 5 Energie e le scarta tutte, ma copiato da Slowking ne bastano 2."
+    },
+    {
+      "carta": "Mega Kangaskhan ex",
+      "ruolo": "MOTORE",
+      "perche": "In posizione attiva pesca 2 carte una volta a turno. Con Latias ex in gioco i Pokémon Base si ritirano gratis: Kangaskhan pesca, poi lascia il posto a Slowking."
+    },
+    {
+      "carta": "Boomerang Energy",
+      "ruolo": "ENERGIA",
+      "perche": "Se viene scartata dall'effetto di un attacco del Pokémon a cui è assegnata, dopo l'attacco torna su quel Pokémon. Gli attacchi copiati che scartano le Energie costano molto meno."
+    },
+    {
+      "carta": "Secret Box",
+      "ruolo": "ASSO TATTICO",
+      "perche": "Scarti altre 3 carte dalla mano e cerchi uno Strumento, un Oggetto Pokémon, un Aiuto e uno Stadio. In un colpo solo trova tutti i pezzi per preparare l'attacco."
+    }
+  ],
+  "piano": [
+    {
+      "fase": "Primi turni",
+      "testo": "Slowpoke in panchina (l'Energia speciale Psico ne cerca 2 Base quando la assegni), Kangaskhan in attivo a pescare 2 carte a turno."
+    },
+    {
+      "fase": "Metà partita",
+      "testo": "Metti in cima al mazzo Kyurem e attacca con Slowking: 110 a tre Pokémon. Metagross (150) e Zeraora (210 a un ex in panchina) sono le alternative."
+    },
+    {
+      "fase": "Chiusura",
+      "testo": "Slowpoke riprende i Pokémon dagli scarti, le Energie Psico tornano dalla pila degli scarti sui Pokémon Psico in panchina e il ciclo riparte."
+    }
+  ],
+  "forza": [
+    "Attaccante da 1 premio con attacchi da 5 Energie",
+    "Colpisce la panchina: 110 a tre bersagli"
+  ],
+  "occhio": [
+    "Senza la carta giusta in cima, l'attacco va a vuoto",
+    "Kangaskhan e Latias ex valgono 2 premi"
+  ]
+}

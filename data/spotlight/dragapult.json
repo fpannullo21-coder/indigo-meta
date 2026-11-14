@@ -3,44 +3,54 @@
     {
       "carta": "Dragapult ex",
       "ruolo": "ATTACCANTE",
-      "perche": "L'attacco principale fa 200 danni all'attivo e mette 6 segnalini danno sulla panchina avversaria, distribuiti come vuoi: colpisce e intanto prepara i KO dei turni dopo."
+      "perche": "Con un'Energia Fuoco e una Psico fa 200 danni all'attivo e mette 6 segnalini danno sulla panchina avversaria, divisi come vuoi. In panchina non subisce danni dagli attacchi."
     },
     {
       "carta": "Drakloak",
       "ruolo": "MOTORE",
-      "perche": "4 copie: con la sua abilità guarda le prime 2 carte del mazzo e ne prende 1. Ogni Drakloak in panchina è una carta in più a turno verso Dragapult."
+      "perche": "Una volta a turno guarda le prime 2 carte del mazzo: una va in mano, l'altra in fondo. Con 4 copie, ogni Drakloak in panchina è una carta scelta in più a turno."
+    },
+    {
+      "carta": "Budew",
+      "ruolo": "TECH",
+      "perche": "Attacca a costo zero: 10 danni e nel turno dopo l'avversario non può giocare carte Strumento dalla mano. Ha solo 30 PS, ma compra il tempo per evolvere."
     },
     {
       "carta": "Munkidori",
       "ruolo": "SUPPORTO",
-      "perche": "Con un'Energia Oscurità sposta fino a 3 segnalini danno dai tuoi Pokémon a quelli avversari: cura i tuoi e aggiunge danni dove servono per chiudere."
+      "perche": "Con un'Energia Oscurità assegnata sposta, una volta a turno, fino a 3 segnalini danno da un tuo Pokémon a uno avversario: 30 danni in più dove servono."
+    },
+    {
+      "carta": "Crushing Hammer",
+      "ruolo": "TECH",
+      "perche": "4 copie: lanci una moneta e, se esce testa, scarti un'Energia da un Pokémon avversario. Non è garantito, ma ogni testa può costare un turno d'attacco a chi hai davanti."
     },
     {
       "carta": "Unfair Stamp",
       "ruolo": "ASSO TATTICO",
-      "perche": "Si gioca solo se nel turno prima ti hanno messo KO un Pokémon: entrambi rimescolate la mano, tu peschi 5 carte e l'avversario 2. Ribalta le partite in cui sei indietro."
+      "perche": "Si gioca solo se nel turno precedente ti hanno messo KO un Pokémon: entrambi rimescolate la mano nel mazzo, tu peschi 5 carte e l'avversario 2."
     }
   ],
   "piano": [
     {
       "fase": "Primi turni",
-      "testo": "Riempi la panchina di Dreepy con le carte di ricerca. Budew in attivo attacca senza Energie e blocca gli Strumenti avversari mentre ti evolvi."
+      "testo": "Dreepy in panchina (ogni carta di ricerca dedicata ne prende 2) e Budew in attivo: 10 danni e niente Strumenti per l'avversario mentre ti evolvi."
     },
     {
       "fase": "Metà partita",
-      "testo": "Drakloak trova i pezzi che mancano, poi Dragapult ex attacca: 200 all'attivo e i segnalini sulla panchina preparano i prossimi KO."
+      "testo": "Drakloak sceglie le carte, Dragapult ex attacca: 200 all'attivo e 6 segnalini sulla panchina. Lo Stadio aggiunge 2 segnalini a ogni Base non Oscurità messo in panchina."
     },
     {
       "fase": "Chiusura",
-      "testo": "Munkidori aggiunge i danni che mancano. Se l'avversario prende un KO e va avanti, l'asso tattico gli lascia 2 carte in mano."
+      "testo": "I segnalini sparsi diventano KO multipli: Munkidori ne sposta 3 a turno e, se l'avversario va avanti, l'asso tattico gli lascia 2 carte in mano."
     }
   ],
   "forza": [
-    "Danni diffusi: un attacco prepara più KO",
-    "Pesca costante con 4 Drakloak"
+    "Un attacco prepara più KO insieme",
+    "Toglie risorse: Strumenti, Energie, mano"
   ],
   "occhio": [
-    "Serve evolvere: un inizio lento costa caro",
-    "Dragapult ex concede 2 premi al KO"
+    "Serve arrivare alla Fase 2: un inizio lento pesa",
+    "I martelli dipendono dalla moneta"
   ]
 }

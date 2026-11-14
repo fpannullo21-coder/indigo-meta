@@ -91,26 +91,10 @@ def main():
                 print(f"  Spotlight {d.name} saltato: {e}")
 
 
-def _hero_card(deck: dict, an: dict | None) -> dict | None:
-    """Carta simbolo del mazzo per la copertina: il Pokémon col nome del mazzo, altrimenti la prima carta chiave."""
-    pokemon = [c for c in deck["cards"] if c.get("section") == "Pokémon"]
-    words = [w for w in deck["name"].lower().replace("ex", "").split() if len(w) > 2]
-    for c in pokemon:
-        if words and all(w in c["name"].lower() for w in words):
-            return c
-    for c in pokemon:  # nome italiano diverso: basta la parola più distintiva (l'ultima)
-        if words and words[-1] in c["name"].lower():
-            return c
-    if an:
-        return an["pages"][0][0]
-    return pokemon[0] if pokemon else None
-
-
 def render_spotlight(view: dict, deck: dict, out: Path, handle: str, why: str = "", cards: list | None = None) -> None:
     """Post «Mazzo sotto la lente»: numeri, carte chiave con il loro ruolo, piano di gioco, lista, chiusura.
     Senza analisi (né file a mano né Claude) esce nel formato corto: numeri + lista."""
-    from indigo_meta.spotlight import analysis
-    from jinja2 import Environment, FileSystemLoader
+    from indigo_meta.spotlight import analysis, render_post
     from indigo_meta.render import pct, pp
     r = view["r"]
     sp = next((d for d in r.decks if d.name == deck["name"]), None)
@@ -128,17 +112,14 @@ def render_spotlight(view: dict, deck: dict, out: Path, handle: str, why: str = 
                    "non ancora dominante.") if sp.conversion >= avg * 0.8 else (
                    "Converte <b>sotto la media</b>: arriva in top 8 meno spesso di quanto si gioca. Serve la lista giusta.")
     an = analysis(deck, cards or [], sp, avg) if cards else None
-    n_extra = (len(an["pages"]) + (1 if an["piano"] else 0)) if an else 0
-    deck_page = 2 + n_extra
-    hero = _hero_card(deck, an)
-    n_slides = deck_page + (1 if an else 0)
-    out.mkdir(parents=True, exist_ok=True)
-    env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True)
-    html = env.get_template("spotlight.html.j2").render(
-        **{**view, "sp": sp, "verdict": verdict, "deck": deck, "deck_page": deck_page, "n_slides": n_slides,
-           "why": why, "an": an, "handle": handle, "hero": hero})
-    (out / "spotlight.html").write_text(html, encoding="utf-8")
-    slides = render_png(out / "spotlight.html", out)
+    cover = dict(
+        kicker="Mazzo sotto la lente", title=sp.name, why=why, verdict=verdict, closing="",
+        stats=[(pct(sp.share), "meta share"),
+               (pp(sp.delta) if sp.delta is not None else "–", f"vs settimana {r.week - 1}"),
+               (sp.top8, f"top 8 su {sp.entries} liste"),
+               (pct(sp.conversion), f"conversion (media {pct(avg)})")],
+        source=f"Dati: {r.tournaments} tornei online su Play Limitless (non i major) · {view['dates_it']}")
+    slides = render_post(out, cover, deck, an, handle, f"SETTIMANA {r.week}")
     caption = "\n".join([
         f"🔎 MAZZO SOTTO LA LENTE · {sp.name}", "",
         re.sub(r"<[^>]+>", "", why), "",
@@ -152,6 +133,8 @@ def render_spotlight(view: dict, deck: dict, out: Path, handle: str, why: str = 
           if an else []),
         (f"Carte chiave, piano di gioco e lista completa nelle slide. Lo porteresti al prossimo torneo? 👇"
          if an else "Nella seconda slide la lista, carta per carta. Lo porteresti al prossimo torneo? 👇"), "",
+        f"Da dove vengono i dati: {r.tournaments} tornei Standard online giocati su Play Limitless ({view['dates_it']}, "
+        f"almeno {r.min_players} giocatori, {r.players} liste). Non sono i major dal vivo: lì il meta può essere diverso.", "",
         "Dati: Limitless TCG · immagini carte © Pokémon / Nintendo / Creatures / GAME FREAK", "",
         "#pokemontcg #pokemontcgitalia #ptcg #decklist #metagame #tcgitalia"])
     (out / "caption.txt").write_text(caption, encoding="utf-8")

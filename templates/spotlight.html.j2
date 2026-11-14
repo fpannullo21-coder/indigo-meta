@@ -35,6 +35,14 @@
 .key h3 { font-family: "Grotesk"; font-weight: 700; font-size: 52px; line-height: 1.02; letter-spacing: -.01em; margin-top: 22px; }
 .key p { font-size: 29px; line-height: 1.4; color: var(--ink-2); margin-top: 18px; }
 
+.keys.k3 { gap: 18px; margin-top: 28px; }
+.k3 .key { grid-template-columns: 216px 1fr; gap: 32px; height: 322px; padding: 18px 32px 18px 18px; }
+.k3 .key .card { width: 216px; border-radius: 10px; }
+.k3 .key .card .qty { font-size: 22px; right: 7px; bottom: 7px; }
+.k3 .role { font-size: 19px; padding: 7px 14px; }
+.k3 .key h3 { font-size: 40px; margin-top: 14px; }
+.k3 .key p { font-size: 24.5px; line-height: 1.36; margin-top: 10px; }
+
 /* PIANO DI GIOCO */
 .steps { margin-top: 40px; display: flex; flex-direction: column; position: relative; }
 .step { display: grid; grid-template-columns: 110px 1fr; column-gap: 10px; padding: 26px 0; border-bottom: 1px solid var(--line); }
@@ -58,36 +66,33 @@
 </head>
 <body>
 {% set logo %}<svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>{% endset %}
-{% set brand %}<div class="brand">{{ logo }}INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>{% endset %}
+{% set brand %}<div class="brand">{{ logo }}INDIGO META<span class="wk">{{ brand_right }}</span></div>{% endset %}
 
 {# ---------- 1. COPERTINA ---------- #}
 <section class="slide">
   {{ brand }}
-  <div class="kicker">Mazzo sotto la lente</div>
+  <div class="kicker">{{ cover.kicker }}</div>
   {% if hero %}
   <div class="hero">
     <div class="hero-txt">
-      <div class="sp-h1" style="font-size:{{ 96 if sp.name|length <= 16 else 78 }}px">{{ sp.name }}</div>
-      <div class="sp-why">{{ why|safe }}</div>
+      <div class="sp-h1" style="font-size:{{ 96 if cover.title|length <= 16 else 78 if cover.title|length <= 24 else 64 }}px">{{ cover.title }}</div>
+      <div class="sp-why">{{ cover.why|safe }}</div>
     </div>
     <div class="card hero-card">
       {% if hero.src %}<img src="{{ hero.src }}" alt="{{ hero.name }}">{% else %}<div class="ph"><em>{{ hero.section }}</em><span>{{ hero.name }}</span></div>{% endif %}
     </div>
   </div>
   {% else %}
-  <div class="sp-h1">{{ sp.name }}</div>
-  <div class="sp-why">{{ why|safe }}</div>
+  <div class="sp-h1">{{ cover.title }}</div>
+  <div class="sp-why">{{ cover.why|safe }}</div>
   {% endif %}
   <div class="sp-stats">
-    <div class="stat"><b>{{ pct(sp.share) }}</b><i>meta share</i></div>
-    <div class="stat"><b>{{ pp(sp.delta) if sp.delta is not none else "–" }}</b><i>vs settimana {{ r.week - 1 }}</i></div>
-    <div class="stat"><b>{{ sp.top8 }}</b><i>top 8 su {{ sp.entries }} liste</i></div>
-    <div class="stat"><b>{{ pct(sp.conversion) }}</b><i>conversion (media {{ pct(avg_conv) }})</i></div>
+    {% for big, label in cover.stats %}<div class="stat"><b>{{ big }}</b><i>{{ label }}</i></div>{% endfor %}
   </div>
-  <div class="verdict">{{ verdict|safe }}</div>
+  {% if cover.verdict %}<div class="verdict">{{ cover.verdict|safe }}</div>{% endif %}
   {% if an %}<div class="inside"><span class="pill">Carte chiave</span>{% if an.piano %}<span class="pill">Piano di gioco</span>{% endif %}<span class="pill">Lista completa</span></div>{% endif %}
   <div class="swipe">{{ "Le carte chiave →" if an else "La lista →" }}</div>
-  <div class="foot"><span>Dati: Limitless TCG · {{ dates_it }}</span><span class="page">1/{{ n_slides }}</span></div>
+  <div class="foot"><span>{{ cover.source }}</span><span class="page">1/{{ n_slides }}</span></div>
 </section>
 
 {% if an %}
@@ -96,7 +101,7 @@
 <section class="slide">
   {{ brand }}
   <div class="kicker" style="margin-top:44px">Le carte chiave{% if an.pages|length > 1 %} · {{ loop.index }}/{{ an.pages|length }}{% endif %}</div>
-  <div class="keys">
+  <div class="keys{% if an.per == 3 %} k3{% endif %}">
   {% for k in page %}
     <div class="key">
       <div class="card">
@@ -104,7 +109,7 @@
         <b class="qty">×{{ k.count }}</b>
       </div>
       <div>
-        <span class="role"><span class="n">{{ "%02d"|format(pi * 2 + loop.index) }}</span>{{ k.role }}</span>
+        <span class="role"><span class="n">{{ "%02d"|format(pi * an.per + loop.index) }}</span>{{ k.role }}</span>
         <h3>{{ k.name }}</h3>
         <p>{{ k.why }}</p>
       </div>
@@ -133,7 +138,7 @@
     <div class="box down"><h4><span class="ar">▼</span>Occhio a</h4><ul>{% for x in an.occhio %}<li>{{ x }}</li>{% endfor %}</ul></div>
   </div>
   {% endif %}
-  <div class="foot"><span>Analisi Indigo Meta sui testi ufficiali delle carte</span><span class="page">{{ deck_page - 1 }}/{{ n_slides }}</span></div>
+  <div class="foot"><span>Analisi Indigo Meta: lista del torneo + testi ufficiali delle carte</span><span class="page">{{ deck_page - 1 }}/{{ n_slides }}</span></div>
 </section>
 {% endif %}
 {% endif %}
@@ -145,10 +150,10 @@
 {% if an %}
 <section class="slide cta">
   {{ brand }}
-  <h2 style="font-size:80px">Ogni settimana un mazzo,<br>carta per carta.</h2>
+  <h2 style="font-size:80px">{{ (cover.closing or "Ogni settimana un mazzo,|carta per carta.").replace("|", "<br>")|safe }}</h2>
   <div class="handle">{{ handle }}</div>
   <div class="ask"><b>Lo porteresti al prossimo torneo?</b><br>Scrivilo nei commenti, e salva il post per avere la lista sempre a portata di mano.</div>
-  <div class="foot"><span>Dati: Limitless TCG (limitlesstcg.com)</span><span class="page">{{ n_slides }}/{{ n_slides }}</span></div>
+  <div class="foot"><span>{{ cover.source }}</span><span class="page">{{ n_slides }}/{{ n_slides }}</span></div>
 </section>
 {% endif %}
 </body>

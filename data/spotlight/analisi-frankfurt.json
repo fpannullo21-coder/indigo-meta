@@ -1,0 +1,56 @@
+{
+  "carte": [
+    {
+      "carta": "Alakazam",
+      "ruolo": "ATTACCANTE",
+      "perche": "Con una sola Energia Psico mette 2 segnalini danno sull'attivo avversario per ogni carta che hai in mano: con 10 carte sono 200 danni. E quando evolve pesca 3 carte."
+    },
+    {
+      "carta": "Kadabra",
+      "ruolo": "MOTORE",
+      "perche": "Quando lo giochi dalla mano per evolvere peschi 2 carte; Alakazam ne pesca 3. Evolvere la linea riempie la mano, e la mano piena è il danno del mazzo."
+    },
+    {
+      "carta": "Dusknoir",
+      "ruolo": "CARTA CHIAVE",
+      "perche": "Mette 13 segnalini danno su un Pokémon avversario a scelta e poi va KO (regala 1 premio). Dusclops fa lo stesso con 5. Serve per i KO che l'attacco da solo non chiude."
+    },
+    {
+      "carta": "Strange Timepiece",
+      "ruolo": "TECH",
+      "perche": "Fa regredire un tuo Pokémon Psico evoluto: le carte Evoluzione tornano in mano. Più carte in mano subito e, nei turni dopo, di nuovo le pescate di Kadabra e Alakazam."
+    },
+    {
+      "carta": "Telepathic Psychic Energy",
+      "ruolo": "ENERGIA",
+      "perche": "Vale un'Energia Psico e, quando la assegni dalla mano a un Pokémon Psico, cerca fino a 2 Pokémon Base Psico e li mette in panchina: Abra e Duskull senza spendere altro."
+    },
+    {
+      "carta": "Prime Catcher",
+      "ruolo": "ASSO TATTICO",
+      "perche": "Porta in posizione attiva un Pokémon della panchina avversaria e, se lo fa, scambia anche il tuo attivo con uno in panchina. È uno Strumento: non consuma l'Aiuto del turno."
+    }
+  ],
+  "piano": [
+    {
+      "fase": "Primi turni",
+      "testo": "Abra e Duskull in panchina, Budew in attivo: 10 danni a costo zero e niente Strumenti per l'avversario nel suo turno."
+    },
+    {
+      "fase": "Metà partita",
+      "testo": "Evolvi pescando (2 con Kadabra, 3 con Alakazam; Caramella Rara salta la Fase 1) e attacca con una sola Energia: 20 danni per ogni carta in mano."
+    },
+    {
+      "fase": "Chiusura",
+      "testo": "Dusknoir aggiunge 130 danni dove vuoi. Quando l'avversario è a 3 premi o meno, la carta rossa gli lascia 3 carte in mano."
+    }
+  ],
+  "forza": [
+    "Attaccanti da 1 premio, con una sola Energia",
+    "Segnalini danno ovunque con Dusknoir"
+  ],
+  "occhio": [
+    "Il danno dipende dalle carte che hai in mano",
+    "Ogni Dusknoir usato regala un premio"
+  ]
+}

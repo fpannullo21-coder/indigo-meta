@@ -1,0 +1,56 @@
+{
+  "carte": [
+    {
+      "carta": "Teal Mask Ogerpon ex",
+      "ruolo": "ATTACCANTE",
+      "perche": "Una volta a turno assegna a sé un'Energia Erba dalla mano e pesca una carta. Il suo attacco fa 30 danni più 30 per ogni Energia assegnata ai due Pokémon attivi."
+    },
+    {
+      "carta": "Meganium",
+      "ruolo": "CARTA CHIAVE",
+      "perche": "Con Meganium in gioco ogni Energia Erba base assegnata ai tuoi Pokémon ne fornisce due. Gli attacchi si pagano con metà delle carte (l'effetto non si somma con un secondo Meganium)."
+    },
+    {
+      "carta": "Forest of Vitality",
+      "ruolo": "SUPPORTO",
+      "perche": "Stadio: i Pokémon Erba possono evolversi in Pokémon Erba nello stesso turno in cui entrano in gioco, tranne al primo turno. Meganium e Arboliva ex arrivano molto prima."
+    },
+    {
+      "carta": "Arboliva ex",
+      "ruolo": "ATTACCANTE",
+      "perche": "Con un'Energia Erba fa 20 danni per sei volte, su qualsiasi Pokémon avversario e anche più volte sullo stesso: 120 danni divisi come vuoi, senza Debolezza né Resistenza."
+    },
+    {
+      "carta": "Briar",
+      "ruolo": "TECH",
+      "perche": "Si gioca solo se all'avversario restano esattamente 2 premi: se in quel turno un tuo Pokémon Teracristal mette KO il suo attivo con un attacco, prendi un premio in più."
+    },
+    {
+      "carta": "Unfair Stamp",
+      "ruolo": "ASSO TATTICO",
+      "perche": "Si gioca solo se nel turno precedente ti hanno messo KO un Pokémon: entrambi rimescolate la mano nel mazzo, tu peschi 5 carte e l'avversario 2."
+    }
+  ],
+  "piano": [
+    {
+      "fase": "Primi turni",
+      "testo": "Ogerpon in gioco: un'Energia Erba dalla mano e una carta pescata a turno, per ognuno. In panchina Chikorita e Smoliv."
+    },
+    {
+      "fase": "Metà partita",
+      "testo": "Con lo Stadio le linee Erba evolvono subito: Meganium raddoppia le Energie Erba e Ogerpon attacca, 30 danni più 30 per ogni Energia sui due attivi."
+    },
+    {
+      "fase": "Chiusura",
+      "testo": "Arboliva ex distribuisce 120 danni sui Pokémon già colpiti. Con l'avversario a 2 premi, un KO di Ogerpon può valere un premio in più."
+    }
+  ],
+  "forza": [
+    "Energie in gioco ogni turno, senza Aiuti",
+    "Danno che cresce con le Energie in campo"
+  ],
+  "occhio": [
+    "Senza Meganium gli attacchi costano il doppio",
+    "Ogerpon e Arboliva ex valgono 2 premi"
+  ]
+}
