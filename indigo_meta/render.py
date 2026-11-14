@@ -183,6 +183,7 @@ def build_deck(winner: dict, cards: list, remote: bool = False) -> dict:
         player=winner.get("player") or "",
         record=f"{rec.get('wins', 0)}-{rec.get('losses', 0)}-{rec.get('ties', 0)}",
         price=(f"{price:.0f} €" if price is not None and cov >= 0.95 else None),
+        price_date=__import__("datetime").date.today().strftime("%d/%m/%Y"),
         cards=items, cols=cols, summary_span=0,   # niente riquadro riepilogo: i conteggi vanno nel sottotitolo, per tutti i mazzi total=total, unique=len(items),
         counts=[("Pokémon", counts["pokemon"]), ("Allenatori", counts["trainer"]), ("Energie", counts["energy"])],
     )

@@ -143,6 +143,9 @@ def render_spotlight(view: dict, deck: dict, out: Path, handle: str, why: str = 
         f"🔎 MAZZO SOTTO LA LENTE · {sp.name}", "",
         re.sub(r"<[^>]+>", "", why), "",
         f"Lista: {deck['place']}° posto su {deck['players']} giocatori ({deck['tournament']}).", "",
+        *([f"💶 Costo indicativo: {deck['price']}. È la somma dei prezzi «trend» di Cardmarket per le 60 carte singole "
+           f"(dati TCGdex, {deck['price_date']}), spedizione esclusa: il prezzo reale cambia con versione, lingua e condizioni.", ""]
+          if deck.get("price") else []),
         f"📊 Meta share: {pct(sp.share)}" + (f" ({pp(sp.delta)} vs settimana prima)" if sp.delta is not None else ""),
         f"🎯 Top 8: {sp.top8} su {sp.entries} liste · conversion {pct(sp.conversion)} (media {pct(avg)})", "",
         *([f"🃏 Le carte chiave: " + " · ".join(f"{k['name']} ({k['role'].lower()})" for pg in an["pages"] for k in pg), ""]

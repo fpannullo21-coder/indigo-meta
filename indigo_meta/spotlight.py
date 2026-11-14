@@ -59,7 +59,28 @@ def _card_text(tc, set_code: str, number: str) -> str:
     return ""
 
 
-def _ask_claude(deck: dict, raw_cards: list, sp, avg_conv: float) -> dict | None:
+def ace_specs(raw_cards: list) -> set[str]:
+    """Nomi inglesi degli assi tattici (ACE SPEC) della lista: elenco in data/ace_spec.json più la rarità su TCGdex.
+    Un mazzo ne può giocare uno solo, quindi di norma è una carta."""
+    known = {n.lower() for n in json.loads((ROOT / "data" / "ace_spec.json").read_text(encoding="utf-8"))}
+    out = {c.name_en for c in raw_cards if c.name_en.lower() in known}
+    if not os.getenv("INDIGO_OFFLINE"):
+        try:
+            from .cards import TCGdex, SETMAP, API
+            tc = TCGdex(ROOT / "cache")
+            for c in raw_cards:
+                if c.section == "pokemon" or c.name_en in out or not SETMAP.get(c.set_code):
+                    continue
+                card = tc._find("en", SETMAP[c.set_code], c.number)
+                det = tc._json(f"{API}/en/cards/{card['id']}", f"card_en_{card['id']}.json") if card else None
+                if det and "ace" in str(det.get("rarity", "")).lower():
+                    out.add(c.name_en)
+        except Exception as e:
+            print(f"  (controllo assi tattici su TCGdex saltato: {e})")
+    return out
+
+
+def _ask_claude(deck: dict, raw_cards: list, sp, avg_conv: float, aces: set[str] = frozenset()) -> dict | None:
     key = os.getenv("ANTHROPIC_API_KEY")
     if not key or os.getenv("INDIGO_OFFLINE"):
         return None
@@ -68,7 +89,8 @@ def _ask_claude(deck: dict, raw_cards: list, sp, avg_conv: float) -> dict | None
     righe = []
     for c in raw_cards:
         txt = _card_text(tc, c.set_code, c.number)
-        righe.append(f"- {c.count}x {c.name} (inglese: {c.name_en}; {c.section})" + (f" — {txt}" if txt else ""))
+        righe.append(f"- {c.count}x {c.name} (inglese: {c.name_en}; {c.section}"
+                     + ("; ASSO TATTICO / ACE SPEC" if c.name_en in aces else "") + ")" + (f" — {txt}" if txt else ""))
     numeri = (f"Meta share {sp.share:.1%}, {sp.top8} top 8 su {sp.entries} liste, "
               f"conversion {sp.conversion:.1%} (media {avg_conv:.1%}).") if sp else ""
     prompt = f"""Sei l'analista di Indigo Meta, pagina italiana sul Pokémon TCG competitivo (formato Standard).
@@ -83,6 +105,8 @@ Scrivi l'analisi del mazzo per un carosello Instagram. Regole:
 - Nomi delle carte in italiano come nella lista. Frasi brevi, tono diretto, niente emoji, niente maiuscolo.
 - "carte": 4 carte, le più importanti per capire il mazzo, in ordine di importanza. "carta" è il nome INGLESE.
   "ruolo" è uno di: {", ".join(RUOLI)}. "perche": max {LIMITI['perche']} caratteri, cosa fa nel mazzo.
+- Asso tattico (ACE SPEC): {("la lista gioca " + ", ".join(sorted(aces)) + ": deve essere una delle 4 carte, con ruolo ASSO TATTICO, e va spiegato quando conviene giocarlo") if aces else "questa lista non ne gioca"}.
+  Il ruolo ASSO TATTICO vale solo per quella carta, mai per le altre.
 - "piano": 3 fasi ("Primi turni", "Metà partita", "Chiusura"), "testo" max {LIMITI['testo']} caratteri.
 - "forza" e "occhio": 2 punti ciascuno, max {LIMITI['punto']} caratteri (punti di forza / cosa lo mette in difficoltà).
 Rispondi solo con il JSON:
@@ -108,7 +132,7 @@ def _clip(s: str, n: int) -> str:
     return s if len(s) <= n else s[: n - 1].rsplit(" ", 1)[0] + "…"
 
 
-def _validate(data: dict, deck: dict, raw_cards: list) -> dict | None:
+def _validate(data: dict, deck: dict, raw_cards: list, aces: set[str] = frozenset()) -> dict | None:
     """Tiene solo carte presenti nella lista e testi entro i limiti; None se resta troppo poco."""
     by_en = {c.name_en.lower(): c for c in raw_cards}
     by_it = {c.name.lower(): c for c in raw_cards}
@@ -120,6 +144,10 @@ def _validate(data: dict, deck: dict, raw_cards: list) -> dict | None:
         if not rc or any(x["name"] == rc.name for x in carte):
             continue
         ruolo = str(k.get("ruolo", "")).upper().strip()
+        if rc.name_en in aces:
+            ruolo = "ASSO TATTICO"                      # l'asso tattico si chiama sempre così…
+        elif ruolo == "ASSO TATTICO":
+            ruolo = "CARTA CHIAVE"                      # …e nessun'altra carta può esserlo
         carte.append(dict(name=rc.name, count=rc.count, role=ruolo if ruolo in RUOLI else "CARTA CHIAVE",
                           why=_clip(k.get("perche"), LIMITI["perche"]), src=imgs.get(rc.name, {}).get("src"),
                           section=imgs.get(rc.name, {}).get("section", "")))
@@ -137,9 +165,13 @@ def _validate(data: dict, deck: dict, raw_cards: list) -> dict | None:
 def analysis(deck: dict, raw_cards: list, sp=None, avg_conv: float = 0) -> dict | None:
     manual = ROOT / "data" / "spotlight" / f"{slug(deck['name'])}.json"
     data = None
+    aces = ace_specs(raw_cards)
     if manual.exists():
         data = json.loads(manual.read_text(encoding="utf-8"))
         print(f"  Analisi a mano: {manual.name}")
     else:
-        data = _ask_claude(deck, raw_cards, sp, avg_conv)
-    return _validate(data, deck, raw_cards) if data else None
+        data = _ask_claude(deck, raw_cards, sp, avg_conv, aces)
+    an = _validate(data, deck, raw_cards, aces) if data else None
+    if an and aces and not any(k["role"] == "ASSO TATTICO" for pg in an["pages"] for k in pg):
+        print(f"  ⚠️ L'analisi non parla dell'asso tattico della lista ({', '.join(sorted(aces))})")
+    return an

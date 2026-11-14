@@ -16,15 +16,15 @@
       "perche": "Con un'Energia Oscurità sposta fino a 3 segnalini danno dai tuoi Pokémon a quelli avversari: cura i tuoi e aggiunge danni dove servono per chiudere."
     },
     {
-      "carta": "Budew",
-      "ruolo": "TECH",
-      "perche": "Attacca senza Energie e per il turno successivo l'avversario non può giocare carte Strumento: rallenta il suo setup proprio mentre Dragapult si evolve."
+      "carta": "Unfair Stamp",
+      "ruolo": "ASSO TATTICO",
+      "perche": "Si gioca solo se nel turno prima ti hanno messo KO un Pokémon: entrambi rimescolate la mano, tu peschi 5 carte e l'avversario 2. Ribalta le partite in cui sei indietro."
     }
   ],
   "piano": [
     {
       "fase": "Primi turni",
-      "testo": "Riempi la panchina di Dreepy con le carte di ricerca, Budew in attivo per bloccare gli Strumenti avversari mentre ti evolvi."
+      "testo": "Riempi la panchina di Dreepy con le carte di ricerca. Budew in attivo attacca senza Energie e blocca gli Strumenti avversari mentre ti evolvi."
     },
     {
       "fase": "Metà partita",
@@ -32,7 +32,7 @@
     },
     {
       "fase": "Chiusura",
-      "testo": "Munkidori aggiunge i danni che mancano, le carte per spostare l'attivo scelgono il bersaglio, i martelli tolgono energie all'avversario."
+      "testo": "Munkidori aggiunge i danni che mancano. Se l'avversario prende un KO e va avanti, l'asso tattico gli lascia 2 carte in mano."
     }
   ],
   "forza": [
