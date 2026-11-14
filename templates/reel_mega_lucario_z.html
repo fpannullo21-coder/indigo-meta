@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face { font-family: "Inter"; font-weight: 400; src: url("fonts/inter-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 600; src: url("fonts/inter-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 700; src: url("fonts/inter-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Grotesk"; font-weight: 500; src: url("fonts/space-grotesk-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Grotesk"; font-weight: 700; src: url("fonts/space-grotesk-latin-700-normal.woff2") format("woff2"); }
+:root { --bg:#15122E; --bg-2:#1E1A40; --line:#2E2961; --ink:#F4F2FF; --ink-2:#B9B3D9; --ink-3:#8A84AD; --accent:#9D8CFF; --accent-2:#6C5CE7; --hi:#5FE3B0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+body { font-family: "Inter", sans-serif; color: var(--ink); }
+#stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+.glow { position: absolute; border-radius: 50%; pointer-events: none; }
+#g1 { width: 1300px; height: 1300px; right: -620px; top: -560px; background: radial-gradient(circle, rgba(108,92,231,.42), rgba(108,92,231,0) 65%); }
+#g2 { width: 1200px; height: 1200px; left: -640px; bottom: -520px; background: radial-gradient(circle, rgba(157,140,255,.22), rgba(157,140,255,0) 65%); }
+.brand { position: absolute; left: 84px; right: 84px; top: 150px; display: flex; align-items: center; gap: 16px;
+  font-family: "Grotesk"; font-weight: 700; font-size: 32px; letter-spacing: .18em; color: var(--ink-2); z-index: 5; }
+.brand .h { margin-left: auto; letter-spacing: .04em; font-weight: 500; color: var(--ink-3); font-size: 30px; }
+.scene { position: absolute; inset: 0; display: none; }
+.abs { position: absolute; }
+.kick { font-size: 34px; font-weight: 700; color: var(--accent); letter-spacing: .12em; text-transform: uppercase; }
+.big { font-family: "Grotesk"; font-weight: 700; letter-spacing: -.02em; line-height: 1.0; }
+.big em, .t em { font-style: normal; color: var(--accent); }
+.t { font-family: "Grotesk"; font-weight: 700; font-size: 100px; line-height: 1.02; letter-spacing: -.02em; }
+.s { font-size: 42px; line-height: 1.32; color: var(--ink-2); }
+.s b { color: var(--ink); font-weight: 700; }
+.card { position: absolute; border-radius: 3.6%/2.6%; box-shadow: 0 30px 70px rgba(0,0,0,.6); display: block; }
+.note { font-size: 26px; line-height: 1.4; color: var(--ink-3); }
+.c { text-align: center; left: 60px; right: 60px; }
+.hl { color: var(--hi) !important; }
+/* classifica a barre */
+.r { position: absolute; left: 84px; right: 60px; height: 132px; }
+.r .pl { position: absolute; left: 0; top: 34px; width: 70px; font-family: "Grotesk"; font-weight: 700; font-size: 44px; color: var(--ink-2); }
+.r img { position: absolute; left: 78px; top: 4px; width: 88px; border-radius: 5px; box-shadow: 0 10px 24px rgba(0,0,0,.5); }
+.r .dk { position: absolute; left: 196px; top: 8px; font-family: "Grotesk"; font-weight: 700; font-size: 38px; white-space: nowrap; }
+.r .dk span { font-family: "Inter"; font-weight: 400; font-size: 27px; color: var(--ink-3); margin-left: 12px; }
+.r .bar { position: absolute; left: 196px; top: 70px; height: 34px; border-radius: 0 4px 4px 0; background: var(--accent-2); }
+.r .pr { position: absolute; top: 62px; font-family: "Grotesk"; font-weight: 700; font-size: 42px; white-space: nowrap; }
+.r.cheap .bar { background: var(--hi); }
+.r.cheap .pl, .r.cheap .pr { color: var(--hi); }
+#src { position: absolute; left: 84px; right: 84px; top: 222px; font-size: 25px; color: var(--ink-3); z-index: 5; display: none; }
+.tag { position: absolute; padding: 10px 22px; border-radius: 40px; background: var(--hi); color: #0F2A20; font-weight: 700; font-size: 30px; white-space: nowrap; }
+.row2 { position: absolute; left: 84px; right: 84px; height: 150px; background: var(--bg-2); border: 2px solid var(--line); border-radius: 26px; }
+.row2 .nm { position: absolute; left: 34px; top: 26px; font-family: "Grotesk"; font-weight: 700; font-size: 44px; white-space: nowrap; }
+.row2 .sub { position: absolute; left: 34px; top: 88px; font-size: 30px; color: var(--ink-2); white-space: nowrap; }
+.row2 .res { position: absolute; right: 34px; top: 38px; font-family: "Grotesk"; font-weight: 700; font-size: 56px; }
+.row2.ok { border-color: var(--hi); } .row2.ok .res { color: var(--hi); }
+.row2.no .res { color: #FFB86B; font-size: 40px; top: 30px; text-align: right; line-height: 1.15; }
+.chip { display: inline-block; background: var(--bg-2); border: 2px solid var(--line); border-radius: 999px; padding: 12px 28px; font-size: 36px; font-weight: 700; margin-right: 14px; }
+.box { position: absolute; left: 84px; right: 84px; background: var(--bg-2); border: 2px solid var(--line); border-radius: 28px; padding: 30px 36px; }
+.box em { font-style: normal; display: block; font-size: 28px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+.box p { font-size: 40px; line-height: 1.3; color: var(--ink-2); } .box p b { color: var(--ink); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="glow" id="g1"></div><div class="glow" id="g2"></div>
+  <div class="brand"><svg width="46" height="46" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="h">@indigo.meta</span></div>
+  <div id="src">🇯🇵 Hadou Seeker · traduzione non ufficiale · fonte: pokemon-card.com</div>
+
+  <!-- 1 · gancio -->
+  <section class="scene" data-start="0" data-end="3.4">
+    <div class="abs kick" style="left:84px;top:290px">🇯🇵 Nuovo set · Hadou Seeker</div>
+    <div class="abs t" style="left:84px;top:360px;right:60px;font-size:128px"><em>240 danni</em><br>con 2 Energie</div>
+    <div class="abs s" style="left:84px;top:640px;right:84px" data-in="0.3" data-d="0.4">Mega Lucario Z ex: cosa fa, cosa mette KO<br>e come si batte.</div>
+    <img class="card" src="../assets/news/hadou-seeker/modal_card_bhdzs_card.png" style="left:270px;top:860px;width:540px" data-in="0.15" data-d="0.6" data-a="fan" data-r="-4">
+  </section>
+
+  <!-- 2 · la carta -->
+  <section class="scene" data-start="3.4" data-end="10.4">
+    <div class="abs kick" style="left:84px;top:290px" data-in="0" data-d="0.35">La carta</div>
+    <div class="abs t" style="left:84px;top:345px;font-size:84px" data-in="0.05" data-d="0.4">Mega Lucario Z ex</div>
+    <div class="abs" style="left:84px;top:470px" data-in="0.15" data-d="0.4"><span class="chip">330 PS</span><span class="chip">Fase 1</span><span class="chip">Metallo</span></div>
+    <img class="card" src="../assets/news/hadou-seeker/modal_card_bhdzs_card.png" style="left:330px;top:590px;width:420px" data-in="0.2" data-d="0.5" data-a="pop">
+    <div class="box" style="top:1210px" data-in="1.0" data-d="0.45"><em>Abilità · dal Posto attivo</em><p>Una volta a turno cerchi <b>una carta Aiuto</b> nel mazzo e la prendi in mano.</p></div>
+    <div class="box" style="top:1460px" data-in="2.6" data-d="0.45"><em>Attacco · 2 Energie Metallo</em><p><b>120 danni</b>, più altri <b>120</b> se l'attivo avversario è un <b>Pokémon ex</b>.</p></div>
+  </section>
+
+  <!-- 3 · cosa mette KO -->
+  <section class="scene" data-start="10.4" data-end="19.4">
+    <div class="abs t" style="left:84px;top:290px;font-size:88px" data-in="0" data-d="0.4">Cosa mette <em>KO</em></div>
+    <div class="abs note" style="left:84px;top:395px;font-size:30px" data-in="0.1" data-d="0.4">240 danni contro i Pokémon ex più giocati oggi</div>
+    <div id="rows"></div>
+    <div class="abs s c" style="top:1500px;font-size:38px" data-in="5.2" data-d="0.45" data-a="pop">Contro chi non è un Pokémon ex<br>fa solo <b>120</b>: Slowking e Alakazam ringraziano.</div>
+  </section>
+
+  <!-- 4 · Ornella -->
+  <section class="scene" data-start="19.4" data-end="26.0">
+    <div class="abs kick" style="left:84px;top:290px" data-in="0" data-d="0.35">L'Aiuto da cercare</div>
+    <div class="abs t" style="left:84px;top:345px;font-size:84px" data-in="0.05" data-d="0.4">Ornella fa sul serio</div>
+    <img class="card" src="../assets/news/hadou-seeker/m7-075-h3g27.webp" style="left:84px;top:500px;width:380px" data-in="0.2" data-d="0.5" data-a="fan" data-r="-5">
+    <div class="abs s" style="left:510px;top:520px;right:70px;font-size:40px" data-in="0.6" data-d="0.4">I tuoi <b>Pokémon Mega ex</b> fanno <b>+20 danni</b> all'attivo avversario per ogni <b>Premio già preso</b> dall'avversario.</div>
+    <div class="abs s" style="left:510px;top:860px;right:70px;font-size:36px" data-in="1.6" data-d="0.4">Lucario la cerca da solo con l'abilità.</div>
+    <div class="abs kick" style="left:84px;top:1110px" data-in="2.4" data-d="0.35">Con 5 Premi presi dall'avversario</div>
+    <div class="abs big hl" style="left:84px;top:1170px;font-size:230px" data-in="2.5" data-d="0.4"><span data-count="340" data-cs="2.6" data-cd="1.2">340</span></div>
+    <div class="abs s" style="left:84px;top:1420px;right:84px" data-in="3.4" data-d="0.4">danni a un Pokémon ex. Più sei indietro, più colpisce: <b>Dragapult ex (320 PS)</b> va KO da 4 Premi in su.</div>
+  </section>
+
+  <!-- 5 · come si batte -->
+  <section class="scene" data-start="26.0" data-end="33.0">
+    <div class="abs t" style="left:84px;top:290px;font-size:88px" data-in="0" data-d="0.4">Come <em>si batte</em></div>
+    <div class="box" style="top:430px" data-in="0.4" data-d="0.4"><em>Debolezza</em><p><b>Fuoco ×2</b>: un attacco Fuoco da 170 lo mette KO.</p></div>
+    <div class="box" style="top:650px" data-in="1.4" data-d="0.4"><em>Regola dei Mega ex</em><p>Se va KO l'avversario prende <b>3 carte Premio</b>.</p></div>
+    <div class="box" style="top:870px;padding-right:330px;min-height:400px" data-in="2.6" data-d="0.4"><em>Il muro, nello stesso set</em><p><b>Sigilyph ex</b> (Base, 210 PS) <b>non subisce danni</b> dagli attacchi dei Pokémon Mega ex avversari.</p></div>
+    <img class="card" src="../assets/news/hadou-seeker/m7-031-ukyke.webp" style="left:700px;top:890px;width:260px" data-in="2.9" data-d="0.5" data-a="right" data-r="5">
+    <div class="abs s c" style="top:1360px;font-size:38px" data-in="4.2" data-d="0.45" data-a="pop">Ritirata da 2 Energie: bloccato nel Posto attivo,<br>non scappa gratis.</div>
+  </section>
+
+  <!-- 6 · chiusura -->
+  <section class="scene" data-start="33.0" data-end="38.0" data-last="1">
+    <div class="abs t c" style="top:320px;font-size:86px" data-in="0" data-d="0.4">Lo giocheresti? 👇</div>
+    <div class="abs s c" style="top:470px" data-in="0.4" data-d="0.45">In Giappone dal <b>27 novembre</b>.<br>Data internazionale: <b>non ancora annunciata</b>.</div>
+    <img class="card" src="../assets/news/hadou-seeker/modal_card_bhdzs_card.png" style="left:160px;top:720px;width:340px" data-in="0.5" data-d="0.5" data-a="fan" data-r="-7">
+    <img class="card" src="../assets/news/hadou-seeker/modal_card_h8s4g_card.png" style="left:580px;top:720px;width:340px" data-in="0.65" data-d="0.5" data-a="fan" data-r="7">
+    <div class="abs s c" style="top:1250px;font-size:36px" data-in="1.2" data-d="0.4">Allenatori rivelati finora: 2 Aiuti e 1 Stadio.<br><b>Oggetti e Strumenti: ancora nessuno.</b><br>Circa 40 carte note su 78.</div>
+    <div class="abs note c" style="top:1490px" data-in="0.6" data-d="0.4">Nomi e testi: traduzione non ufficiale dal giapponese · Fonte: pokemon-card.com<br>PS dei Pokémon citati: carte ufficiali del formato Standard<br>Carte © Pokémon / Nintendo / Creatures / GAME FREAK</div>
+  </section>
+</div>
+<script>
+const ROWS = [
+  ["Latias ex", "210 PS", "KO", 1],
+  ["Ogerpon Maschera Turchese ex", "210 PS", "KO", 1],
+  ["Furiatonante ex", "240 PS", "KO", 1],
+  ["Mega Kangaskhan ex", "300 PS · mancano 60", "NO<br>serve Ornella", 0],
+  ["Dragapult ex", "320 PS · mancano 80", "NO<br>serve Ornella", 0],
+];
+document.getElementById("rows").innerHTML = ROWS.map(([n, sub, res, ok], i) =>
+  `<div class="row2 ${ok ? "ok" : "no"}" style="top:${480 + i * 172}px" data-in="${0.4 + i * 0.8}" data-d="0.4">
+     <div class="nm">${n}</div><div class="sub">${sub}</div><div class="res">${res}</div></div>`).join("");
+const ease = x => { x = Math.min(1, Math.max(0, x)); return 1 - Math.pow(1 - x, 3); };
+const fmt = (n, d) => { const [a, b] = n.toFixed(d).split("."); return a.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + (b ? "," + b : ""); };
+function seek(T) {
+  document.getElementById("src").style.display = T >= 3.4 && T < 33.0 ? "block" : "none";
+  document.getElementById("g1").style.transform = `translate(${-40 * Math.sin(T / 4)}px, ${30 * Math.cos(T / 5)}px)`;
+  document.getElementById("g2").style.transform = `translate(${35 * Math.cos(T / 4.5)}px, ${-25 * Math.sin(T / 3.5)}px)`;
+  document.querySelectorAll(".scene").forEach(s => {
+    const a = +s.dataset.start, b = +s.dataset.end, vis = T >= a && T < b;
+    s.style.display = vis ? "block" : "none";
+    if (!vis) return;
+    const t = T - a, L = b - a;
+    s.style.opacity = s.dataset.last ? 1 : Math.min(1, (L - t) / 0.22);
+    s.querySelectorAll("[data-in]").forEach(el => {
+      const p = ease((t - +el.dataset.in) / (+el.dataset.d || 0.5));
+      const k = el.dataset.a || "up", r = +(el.dataset.r || 0);
+      let tr = "";
+      if (k === "up") tr = `translateY(${(1 - p) * 60}px)`;
+      if (k === "pop") tr = `scale(${0.72 + 0.28 * p})`;
+      if (k === "fan") tr = `translateY(${(1 - p) * 520}px) rotate(${r * p}deg)`;
+      if (k === "right") tr = `translateX(${(1 - p) * 560}px) rotate(${r}deg)`;
+      el.style.transform = tr;
+      el.style.opacity = Math.min(1, p * 1.5);
+    });
+    s.querySelectorAll("[data-grow]").forEach(el => {
+      const w = +el.dataset.grow * ease((t - +el.dataset.gs) / +el.dataset.gd);
+      el.style.width = w + "px";
+      const pr = el.parentNode.querySelector("[data-follow]");
+      if (pr) pr.style.left = (196 + w + 18) + "px";
+    });
+    s.querySelectorAll("[data-count]").forEach(el => {
+      const p = ease((t - +el.dataset.cs) / +el.dataset.cd), d = +(el.dataset.dec || 0);
+      el.textContent = (el.dataset.pre || "") + fmt(+el.dataset.count * p, d) + (el.dataset.suf || "");
+    });
+  });
+}
+window.scenes = () => [...document.querySelectorAll(".scene")].map(s => [+s.dataset.start, +s.dataset.end]);
+seek(0);
+</script>
+</body>
+</html>

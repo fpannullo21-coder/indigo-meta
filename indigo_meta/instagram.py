@@ -104,3 +104,13 @@ class Instagram:
         media_id = self._call("POST", f"{self.user}/media_publish", creation_id=parent)["id"]
         link = self._call("GET", media_id, fields="permalink").get("permalink", "")
         return link
+
+    def publish_reel(self, video_url: str, caption: str, cover_url: str | None = None) -> str:
+        """Reel (video verticale mp4 H.264 + AAC, raggiungibile da un indirizzo pubblico). Esce anche nella griglia."""
+        params = dict(media_type="REELS", video_url=video_url, caption=check_caption(caption), share_to_feed="true")
+        if cover_url:
+            params["cover_url"] = cover_url
+        container = self._call("POST", f"{self.user}/media", **params)["id"]
+        self._wait_ready(container, timeout=900)          # Meta deve scaricare e convertire il video
+        media_id = self._call("POST", f"{self.user}/media_publish", creation_id=container)["id"]
+        return self._call("GET", media_id, fields="permalink").get("permalink", "")

@@ -48,8 +48,18 @@ def publish(key: str) -> None:
         say(f"✋ «{key}» contiene immagini non ufficiali: Meta blocca l'app se lo pubblichiamo via API. "
             "Pubblicalo a mano dall'app Instagram con le slide dell'anteprima.")
         return
-    urls = slides_online(key)
     cap = requests.get(f"{PAGES}/{key}/caption.txt", timeout=20)
+    if cap.status_code == 200 and requests.head(f"{PAGES}/{key}/reel.mp4", timeout=20).status_code == 200:
+        cover = f"{PAGES}/{key}/cover.jpg"
+        try:                                             # reel: un video al posto delle slide
+            link = Instagram().publish_reel(f"{PAGES}/{key}/reel.mp4", cap.content.decode("utf-8"),
+                                            cover if requests.head(cover, timeout=20).status_code == 200 else None)
+            say(f"✅ Reel pubblicato su Instagram ({key}): {link}")
+        except InstagramError as e:
+            say(f"⛔ Pubblicazione del reel non riuscita ({key}) — {e}")
+            raise
+        return
+    urls = slides_online(key)
     if len(urls) < 2 or cap.status_code != 200:
         say(f"⛔ Le slide di «{key}» non sono più online (nel frattempo è uscito un altro contenuto). "
             f"Rilancia il workflow da GitHub con «Pubblica davvero su Instagram».")

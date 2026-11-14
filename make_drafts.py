@@ -159,6 +159,10 @@ def main():
         if (src / "MANUAL").exists():
             shutil.copy(src / "MANUAL", dst / "MANUAL")
         print(f"Bozza pronta: {dst.name} ({len(list(dst.glob('*.jpg')))} slide)")
+    for d in sorted((ROOT / "assets" / "reels").glob("*")):      # reel già pronti: video, copertina e caption
+        if (d / "reel.mp4").exists() and (d / "caption.txt").exists():
+            shutil.copytree(d, site / d.name, dirs_exist_ok=True)
+            print(f"Reel pronto: {d.name}")
     (site / "index.html").write_text("<!doctype html><title>Indigo Meta</title><p>Indigo Meta</p>")
 
 
