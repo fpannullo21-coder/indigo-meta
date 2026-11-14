@@ -151,7 +151,7 @@ def carte(a) -> str | None:
     dates = dates_it(start.date(), (end - dt.timedelta(days=1)).date())
     r = {"kind": "carte", "category": f"settimana {w} · TCG", "brand_right": f"SETTIMANA {w}", "n_slides": 4,
          "n_lists": use["n"], "n_tournaments": n_t, "dates": dates, "podium": T[:3], "trainers": T,
-         "pokemon": P, "up": U, "down": D, "prev_week": pw, "source": "Dati: Limitless TCG"}
+         "pokemon": P, "up": U, "down": D, "prev_week": pw, "source": "Tornei online su Play Limitless · dati: Limitless TCG"}
     cap = "\n".join([
         f"🃏 LE CARTE PIÙ GIOCATE · settimana {w} ({dates})", "",
         f"Abbiamo contato le carte di {use['n']} liste arrivate in top 8 in {n_t} tornei online.", "",
@@ -159,7 +159,7 @@ def carte(a) -> str | None:
         *(["In crescita: " + ", ".join(c["name"] for c in U)] if U else []),
         *(["In calo: " + ", ".join(c["name"] for c in D)] if D else []), "",
         "Quale carta non toglieresti mai dal tuo mazzo? 👇", "",
-        "Dati: Limitless TCG · immagini carte © Pokémon / Nintendo / Creatures / GAME FREAK", "", TAGS])
+        "Dati: Limitless TCG (tornei online su Play Limitless, non i major dal vivo) · immagini carte © Pokémon / Nintendo / Creatures / GAME FREAK", "", TAGS])
     key = f"carte-giocate-{y}-W{w:02d}"
     render(r, key, cap)
     return key
@@ -230,7 +230,7 @@ def matchup(a) -> str | None:
         "Chi regge meglio il meta (media vittorie contro gli altri mazzi top):",
         *[f"{i}. {d['name']} – {pct(v)}" for i, (v, d) in enumerate(avgs, 1)], "",
         f"Analizzate {num(games)} partite tra i 6 mazzi più presenti in top 8 nei tornei online. Pareggi = mezza vittoria.", "",
-        "Sei d'accordo con la tabella? Qual è il matchup che temi di più? 👇", "", "Dati: Limitless TCG", "", TAGS])
+        "Sei d'accordo con la tabella? Qual è il matchup che temi di più? 👇", "", "Dati: Limitless TCG (tornei online su Play Limitless, non i major dal vivo)", "", TAGS])
     key = f"matchup-{y}-W{w:02d}"
     render(r, key, cap)
     return key
@@ -316,7 +316,7 @@ def italiani(a) -> str | None:
         f"{len(allp)} piazzamenti italiani nelle classifiche dei {len(data)} major giocati finora.",
         headline.replace("<b>", "").replace("</b>", ""), "",
         "I migliori della stagione:", *[f"{i}. {p['name']} – {p['place']}° {p['major']} ({p['deck']})" for i, p in enumerate(best[:5], 1)], "",
-        "Conosci uno di loro? Taggalo nei commenti 👇", "", "Dati: Limitless TCG", "", TAGS + " #regionals"])
+        "Conosci uno di loro? Taggalo nei commenti 👇", "", "Dati: Limitless TCG (classifiche dei major dal vivo)", "", TAGS + " #regionals"])
     key = f"italiani-{dt.date.today().isoformat()}"
     render(r, key, cap)
     return key
@@ -352,7 +352,7 @@ def stagione(a) -> str | None:
         headline.replace("<b>", "").replace("</b>", ""), "",
         "Vittorie per mazzo:", *[f"• {d}: {n}" for d, n in s["wins"][:5]], "",
         "Nazioni con più posti in top 8: " + " ".join(f"{c['flag']} {c['n']}" for c in countries[:5]), "",
-        "Quale mazzo vincerà il prossimo major? 👇", "", "Dati: Limitless TCG", "", TAGS + " #regionals"])
+        "Quale mazzo vincerà il prossimo major? 👇", "", "Dati: Limitless TCG (classifiche dei major dal vivo)", "", TAGS + " #regionals"])
     key = f"stagione-{dt.date.today().isoformat()}"
     render(r, key, cap)
     return key
