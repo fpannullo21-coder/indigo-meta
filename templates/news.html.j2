@@ -52,13 +52,25 @@
 .fverd { margin-top: 24px; background: linear-gradient(90deg, rgba(108,92,231,.35), rgba(108,92,231,.08)); border: 1px solid var(--line);
   border-radius: 22px; padding: 24px 30px; font-size: 27px; line-height: 1.38; color: var(--ink-2); position: relative; }
 .fverd b { color: var(--ink); }
+/* ALLENATORI (n.trainers) */
+.tr { display: grid; grid-template-columns: 168px 1fr; gap: 28px; align-items: center; background: var(--bg-2); border: 1px solid var(--line);
+  border-radius: 24px; padding: 14px 28px 14px 14px; margin-top: 14px; position: relative; }
+.tr img { width: 168px; border-radius: 10px; display: block; box-shadow: 0 14px 34px rgba(0,0,0,.45); }
+.tr .ty, .trx .ty { display: inline-block; background: var(--accent-2); border-radius: 8px; padding: 6px 14px; font-size: 19px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.tr h3, .trx h3 { font-family: "Grotesk"; font-size: 38px; line-height: 1.05; margin-top: 12px; }
+.tr p, .trx p { font-size: 24.5px; line-height: 1.36; color: var(--ink-2); margin-top: 8px; }
+.tr p b, .trx p b { color: var(--ink); }
+.trx { background: var(--bg-2); border: 1px solid var(--line); border-radius: 24px; padding: 20px 30px; margin-top: 18px; position: relative; }
+.trx h3 { display: inline; margin-left: 14px; font-size: 32px; }
+.miss { margin-top: 18px; border: 2px dashed var(--accent); border-radius: 22px; padding: 20px 28px; font-size: 24.5px; line-height: 1.36; color: var(--ink-2); position: relative; }
+.miss b { color: var(--ink); }
 .n-cta { margin-top: 30px; background: var(--accent-2); border-radius: 22px; padding: 26px 30px; font-size: 28px; line-height: 1.38; color: var(--ink); position: relative; }
 </style>
 </head>
 <body>
 {% set logo %}<svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>{% endset %}
 
-{% set tot = 2 + (n.focus or [])|length + (1 if n.gallery else 0) %}
+{% set tot = 2 + (n.focus or [])|length + (1 if n.trainers else 0) + (1 if n.gallery else 0) %}
 <section class="slide">
   <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ n.where }}</span></div>
   <div class="kicker">News · {{ n.category }}</div>
@@ -91,6 +103,21 @@
   <div class="foot" style="font-size:17px"><span>{{ n.focus_note or ("Fonte: " ~ n.source) }}</span><span class="page">{{ 1 + loop.index }}/{{ tot }}</span></div>
 </section>
 {% endfor %}
+{% if n.trainers %}{% set t = n.trainers %}
+<section class="slide">
+  <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ n.where }}</span></div>
+  <div class="kicker" style="margin-top:44px">{{ t.kicker }}</div>
+  <h2 style="font-size:58px; margin-bottom:8px">{{ t.title }}</h2>
+  {% for c in t.cards %}
+  <div class="tr"><img src="{{ c.src }}" alt="{{ c.name }}"><div><span class="ty">{{ c.type }}</span><h3>{{ c.name }}</h3><p>{{ c.text | safe }}</p></div></div>
+  {% endfor %}
+  {% for c in t.extra or [] %}
+  <div class="trx"><span class="ty">{{ c.type }}</span><h3>{{ c.name }}</h3><p>{{ c.text | safe }}</p></div>
+  {% endfor %}
+  {% if t.missing %}<div class="miss">{{ t.missing | safe }}</div>{% endif %}
+  <div class="foot" style="font-size:17px"><span>{{ t.note or n.focus_note }}</span><span class="page">{{ 2 + (n.focus or [])|length }}/{{ tot }}</span></div>
+</section>
+{% endif %}
 
 <section class="slide">
   <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ n.where }}</span></div>
@@ -103,7 +130,7 @@
   </div>
   <div class="why"><em>Perché conta per il competitivo</em><p>{{ n.why | safe }}</p></div>
   {% if n.cta %}<div class="n-cta">{{ n.cta | safe }}</div>{% endif %}
-  <div class="foot"><span>Fonte: {{ n.source }}</span><span class="page">{{ 2 + (n.focus or [])|length }}/{{ tot }}</span></div>
+  <div class="foot"><span>Fonte: {{ n.source }}</span><span class="page">{{ 2 + (n.focus or [])|length + (1 if n.trainers else 0) }}/{{ tot }}</span></div>
 </section>
 {% if n.gallery %}
 <section class="slide">

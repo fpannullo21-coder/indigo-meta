@@ -19,7 +19,7 @@
  "points": [
   [
    "📅",
-   "<b>Venerdì 27 novembre</b> in Giappone: <b>78 carte</b> nel set base, buste da 5 carte a ¥200."
+   "<b>Venerdì 27 novembre</b> in Giappone: <b>78 carte</b> nel set base (circa 40 rivelate finora), buste da 5 carte a ¥200."
   ],
   [
    "🇯🇵",
@@ -32,8 +32,8 @@
  ],
  "why": "Il meta di oggi è pieno di <b>Pokémon ex</b>: un attaccante da 240 danni proprio contro di loro, con due Energie, è il tipo di carta che può spostare gli equilibri.",
  "source": "pokemon-card.com",
- "caption": "🇯🇵 240 DANNI CON 2 ENERGIE · Mega Lucario Z ex è la carta simbolo di Hadou Seeker, il nuovo set giapponese in uscita venerdì 27 novembre.\n\n👊 Mega Lucario Z ex (330 PS, Fase 1, Metallo): dal Posto attivo cerca una carta Aiuto nel mazzo ogni turno. Con 2 Energie Metallo fa 120 danni, che diventano 240 contro un Pokémon ex. Se va KO regala 3 carte Premio.\n\n🐉 Mega Garchomp Z ex (360 PS, Fase 2, Drago): 30 danni per ogni Pokémon Drago nella pila degli scarti, oppure 240 danni che ignorano gli effetti sul Pokémon attivo avversario. Nessuna Debolezza.\n\n📅 78 carte nel set base, buste da 5 carte a ¥200. Dal giorno dopo l'uscita le carte sono legali nelle City League giapponesi: nel City League Report del 3 dicembre vedremo quali entrano nel meta. Per l'uscita internazionale non c'è ancora una data.\n\nQuale dei due Mega proveresti? 👇\n\nNomi e testi: traduzione non ufficiale dal giapponese, il set non è ancora annunciato in Italia. Fonte: pokemon-card.com\nCarte © Pokémon / Nintendo / Creatures / GAME FREAK\n\n#pokemontcg #pokemontcgitalia #ptcg #hadouseeker #megalucario #tcgitalia",
- "swipe": "Le due carte, numeri alla mano →",
+ "caption": "🇯🇵 240 DANNI CON 2 ENERGIE · Mega Lucario Z ex è la carta simbolo di Hadou Seeker, il nuovo set giapponese in uscita venerdì 27 novembre.\n\n👊 Mega Lucario Z ex (330 PS, Fase 1, Metallo): dal Posto attivo cerca una carta Aiuto nel mazzo ogni turno. Con 2 Energie Metallo fa 120 danni, che diventano 240 contro un Pokémon ex. Se va KO regala 3 carte Premio.\n\n🐉 Mega Garchomp Z ex (360 PS, Fase 2, Drago): 30 danni per ogni Pokémon Drago nella pila degli scarti, oppure 240 danni che ignorano gli effetti sul Pokémon attivo avversario. Nessuna Debolezza.\n\n🎒 Allenatori rivelati finora: due Aiuti e uno Stadio. «Ornella fa sul serio» dà +20 danni ai Pokémon Mega ex per ogni Premio già preso dall'avversario (e Mega Lucario Z ex la cerca con la sua abilità). «L'ardore di Omar» rimescola nel mazzo un tuo Pokémon Acqua con tutte le carte assegnate. Lo Stadio «Arena di Lotta» cura 20 danni a turno ai Pokémon senza regola. Oggetti e Strumenti Pokémon: nessuno rivelato finora, sono note circa 40 carte su 78.\n\n📅 78 carte nel set base, buste da 5 carte a ¥200. Dal giorno dopo l'uscita le carte sono legali nelle City League giapponesi: nel City League Report del 3 dicembre vedremo quali entrano nel meta. Per l'uscita internazionale non c'è ancora una data.\n\nQuale dei due Mega proveresti? 👇\n\nNomi e testi: traduzione non ufficiale dal giapponese, il set non è ancora annunciato in Italia. Fonti: pokemon-card.com (carte e date), pokekameshi.com (testo dello Stadio)\nCarte © Pokémon / Nintendo / Creatures / GAME FREAK\n\n#pokemontcg #pokemontcgitalia #ptcg #hadouseeker #megalucario #tcgitalia",
+ "swipe": "Carte e Allenatori, numeri alla mano →",
  "focus_note": "Nomi e testi: traduzione non ufficiale dal giapponese · Fonte: pokemon-card.com",
  "focus": [
   {
@@ -115,5 +115,32 @@
    "verdict": "<b>Da tenere d'occhio:</b> nessuna Debolezza e un attacco che passa sopra agli effetti difensivi. Il prezzo è il setup: Gible, Gabite e due Energie di tipo diverso."
   }
  ],
- "cta": "<b>Martedì</b> le altre 5 carte del set che interessano a chi gioca i tornei. Tu quale dei due Mega proveresti? Scrivilo nei commenti 👇"
+ "cta": "<b>Martedì</b> le carte del set che possono cambiare il meta. Tu quale dei due Mega proveresti? Scrivilo nei commenti 👇",
+ "trainers": {
+  "kicker": "Aiuti, Stadi, Oggetti e Strumenti",
+  "title": "Gli Allenatori rivelati finora",
+  "cards": [
+   {
+    "img": "m7-075-h3g27.webp",
+    "type": "Aiuto · 075/078",
+    "name": "Ornella fa sul serio",
+    "text": "In questo turno gli attacchi dei tuoi <b>Pokémon Mega ex</b> fanno <b>20 danni in più</b> all'attivo avversario <b>per ogni Premio</b> che l'avversario ha già preso. Mega Lucario Z ex la cerca con la sua abilità."
+   },
+   {
+    "img": "m7-076-uzfw9.webp",
+    "type": "Aiuto · 076/078",
+    "name": "L'ardore di Omar",
+    "text": "Rimescoli nel mazzo un tuo <b>Pokémon Acqua</b> in gioco <b>con tutte le carte assegnate</b>: un Pokémon danneggiato lascia il campo senza dare Premi."
+   }
+  ],
+  "extra": [
+   {
+    "type": "Stadio · 078/078",
+    "name": "Arena di Lotta",
+    "text": "Una volta a turno, chi gioca può curare <b>20 danni</b> a ciascuno dei suoi Pokémon <b>senza regola</b> (non ex, non Mega). Testo da pokekameshi.com: la pagina ufficiale non la mostra ancora."
+   }
+  ],
+  "missing": "<b>Oggetti e Strumenti Pokémon: nessuno rivelato finora.</b> Sono note circa 40 carte su 78: aggiorniamo quando esce la lista completa.",
+  "note": "Traduzione non ufficiale · Fonti: pokemon-card.com, pokekameshi.com"
+ }
 }
