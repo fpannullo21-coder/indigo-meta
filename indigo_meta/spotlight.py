@@ -232,6 +232,6 @@ def render_post(out: Path, cover: dict, deck: dict, an: dict | None, handle: str
     env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True)
     html = env.get_template("spotlight.html.j2").render(
         cover=cover, deck=deck, an=an, hero=hero_card(deck, an), handle=handle, brand_right=brand_right,
-        deck_page=deck_page, n_slides=deck_page + (1 if an else 0))
+        deck_page=deck_page, n_slides=deck_page)
     (out / "spotlight.html").write_text(html, encoding="utf-8")
     return render_png(out / "spotlight.html", out)

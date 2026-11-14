@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<style>
+{% include "_style.css.j2" %}
+.cta2 .big-logo { margin-top: 70px; position: relative; }
+.cta2 h2 { font-size: 84px; line-height: 1.02; margin-top: 34px; position: relative; }
+.cta2 h2 em { font-style: normal; color: var(--accent); }
+.acts { margin-top: 44px; display: flex; flex-direction: column; gap: 18px; position: relative; }
+.act { display: grid; grid-template-columns: 92px 1fr; gap: 24px; align-items: center; background: var(--bg-2); border: 1px solid var(--line); border-radius: 24px; padding: 22px 30px 22px 22px; }
+.act .ic { width: 92px; height: 92px; border-radius: 22px; background: var(--accent-2); display: flex; align-items: center; justify-content: center; font-size: 46px; }
+.act b { display: block; font-family: "Grotesk"; font-size: 40px; line-height: 1.1; }
+.act b span { color: var(--accent); }
+.act i { display: block; font-style: normal; font-size: 26px; line-height: 1.35; color: var(--ink-2); margin-top: 6px; }
+.thanks { margin-top: 34px; font-size: 28px; line-height: 1.4; color: var(--ink-2); position: relative; }
+.thanks b { color: var(--ink); }
+</style>
+</head>
+<body>
+<section class="slide cta2">
+  <div class="brand"><svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">@indigo.meta</span></div>
+  <div class="kicker" style="margin-top:60px">Ti è stato utile?</div>
+  <h2>Aiutaci a far crescere<br><em>Indigo Meta</em></h2>
+  <div class="acts">
+    <div class="act"><div class="ic">➕</div><div><b>Segui <span>@indigo.meta</span></b><i>News, meta e liste ogni giorno, spiegate in italiano.</i></div></div>
+    <div class="act"><div class="ic">📤</div><div><b>Condividi</b><i>Mandalo a chi gioca con te o nel gruppo del tuo negozio.</i></div></div>
+    <div class="act"><div class="ic">🔖</div><div><b>Salva il post</b><i>Liste e numeri sempre a portata di mano al prossimo torneo.</i></div></div>
+    <div class="act"><div class="ic">💬</div><div><b>Commenta</b><i>Dicci cosa vuoi vedere: ogni like e commento ci fa arrivare a più giocatori.</i></div></div>
+  </div>
+  <div class="thanks"><b>Grazie del supporto!</b> Indigo Meta è una pagina indipendente: cresce solo grazie a voi.</div>
+  <div class="foot"><span>Pokémon TCG competitivo, in italiano</span><span></span></div>
+</section>
+</body>
+</html>

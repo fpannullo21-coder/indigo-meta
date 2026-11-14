@@ -23,7 +23,12 @@ class InstagramError(RuntimeError):
     pass
 
 
-def to_jpeg(pngs: list[Path], out_dir: Path) -> list[Path]:
+CTA = Path(__file__).resolve().parent.parent / "assets" / "cta" / "segui.png"
+
+
+def to_jpeg(pngs: list[Path], out_dir: Path, cta: bool = True) -> list[Path]:
+    """Slide JPEG per Instagram. In fondo a ogni carosello aggiunge la slide «Segui, condividi, supportaci»
+    (assets/cta/segui.png), se c'è posto (Instagram: massimo 10 slide) e se ha le stesse misure delle altre."""
     from PIL import Image
     out_dir.mkdir(parents=True, exist_ok=True)
     res = []
@@ -31,6 +36,12 @@ def to_jpeg(pngs: list[Path], out_dir: Path) -> list[Path]:
         f = out_dir / (p.stem + ".jpg")
         Image.open(p).convert("RGB").save(f, "JPEG", quality=92, optimize=True, progressive=False)
         res.append(f)
+    if cta and res and len(res) < 10 and CTA.exists():
+        im = Image.open(CTA).convert("RGB")
+        if im.size == Image.open(res[0]).size:
+            f = out_dir / f"slide_{len(res) + 1:02d}.jpg"
+            im.save(f, "JPEG", quality=92, optimize=True, progressive=False)
+            res.append(f)
     return res
 
 

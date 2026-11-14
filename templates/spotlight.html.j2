@@ -146,15 +146,5 @@
 {# ---------- 4. LISTA ---------- #}
 {% include "_deck_slide.html.j2" %}
 
-{# ---------- 5. CHIUSURA ---------- #}
-{% if an %}
-<section class="slide cta">
-  {{ brand }}
-  <h2 style="font-size:80px">{{ (cover.closing or "Ogni settimana un mazzo,|carta per carta.").replace("|", "<br>")|safe }}</h2>
-  <div class="handle">{{ handle }}</div>
-  <div class="ask"><b>Lo porteresti al prossimo torneo?</b><br>Scrivilo nei commenti, e salva il post per avere la lista sempre a portata di mano.</div>
-  <div class="foot"><span>{{ cover.source }}</span><span class="page">{{ n_slides }}/{{ n_slides }}</span></div>
-</section>
-{% endif %}
 </body>
 </html>
