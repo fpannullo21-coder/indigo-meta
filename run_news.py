@@ -17,6 +17,8 @@ for im in n.get("images", []):
         im["src"] = card_images([dict({"section": "pokemon"}, **im["card"])])[0].get("src")
     elif im.get("src"):
         im["src"] = (A / im["src"]).as_uri()
+for f in n.get("focus", []):
+    f["src"] = (A / f["img"]).as_uri()
 for c in (n.get("gallery") or {}).get("cards", []):
     from run_rubrica import card_images
     c["src"] = card_images([dict({"section": "pokemon"}, **c["card"])])[0].get("src")

@@ -1,0 +1,119 @@
+{
+ "key": "news-mega-lucario-z",
+ "assets": "assets/news/hadou-seeker",
+ "where": "🇯🇵 GIAPPONE",
+ "category": "Nuovo set · TCG",
+ "title": "<em>240 danni</em> con 2 Energie: arriva Mega Lucario Z ex",
+ "lead": "È la carta simbolo di <b style='color:var(--ink)'>Hadou Seeker</b>, il set giapponese in uscita il 27 novembre. Con lui c'è Mega Garchomp Z ex.",
+ "images": [
+  {
+   "src": "modal_card_bhdzs_card.png",
+   "label": "Mega Lucario Z ex"
+  },
+  {
+   "src": "modal_card_h8s4g_card.png",
+   "label": "Mega Garchomp Z ex"
+  }
+ ],
+ "short": "Hadou Seeker in 3 punti",
+ "points": [
+  [
+   "📅",
+   "<b>Venerdì 27 novembre</b> in Giappone: <b>78 carte</b> nel set base, buste da 5 carte a ¥200."
+  ],
+  [
+   "🇯🇵",
+   "Dal giorno dopo le carte sono legali nelle <b>City League giapponesi</b>: è lì che vedremo i primi mazzi."
+  ],
+  [
+   "🌍",
+   "Per l'<b>uscita internazionale</b> e in Italia non c'è ancora una data ufficiale."
+  ]
+ ],
+ "why": "Il meta di oggi è pieno di <b>Pokémon ex</b>: un attaccante da 240 danni proprio contro di loro, con due Energie, è il tipo di carta che può spostare gli equilibri.",
+ "source": "pokemon-card.com",
+ "caption": "🇯🇵 240 DANNI CON 2 ENERGIE · Mega Lucario Z ex è la carta simbolo di Hadou Seeker, il nuovo set giapponese in uscita venerdì 27 novembre.\n\n👊 Mega Lucario Z ex (330 PS, Fase 1, Metallo): dal Posto attivo cerca una carta Aiuto nel mazzo ogni turno. Con 2 Energie Metallo fa 120 danni, che diventano 240 contro un Pokémon ex. Se va KO regala 3 carte Premio.\n\n🐉 Mega Garchomp Z ex (360 PS, Fase 2, Drago): 30 danni per ogni Pokémon Drago nella pila degli scarti, oppure 240 danni che ignorano gli effetti sul Pokémon attivo avversario. Nessuna Debolezza.\n\n📅 78 carte nel set base, buste da 5 carte a ¥200. Dal giorno dopo l'uscita le carte sono legali nelle City League giapponesi: nel City League Report del 3 dicembre vedremo quali entrano nel meta. Per l'uscita internazionale non c'è ancora una data.\n\nQuale dei due Mega proveresti? 👇\n\nNomi e testi: traduzione non ufficiale dal giapponese, il set non è ancora annunciato in Italia. Fonte: pokemon-card.com\nCarte © Pokémon / Nintendo / Creatures / GAME FREAK\n\n#pokemontcg #pokemontcgitalia #ptcg #hadouseeker #megalucario #tcgitalia",
+ "swipe": "Le due carte, numeri alla mano →",
+ "focus_note": "Nomi e testi: traduzione non ufficiale dal giapponese · Fonte: pokemon-card.com",
+ "focus": [
+  {
+   "img": "modal_card_bhdzs_card.png",
+   "tag": "La carta simbolo del set",
+   "name": "Mega Lucario Z ex",
+   "chips": [
+    "330 PS",
+    "Fase 1",
+    "Metallo"
+   ],
+   "rows": [
+    [
+     "Abilità · Hadou Seeker",
+     "Se è nel <b>Posto attivo</b>, una volta a turno cerchi <b>una carta Aiuto</b> nel mazzo e la prendi in mano."
+    ],
+    [
+     "Attacco · Pugno Danzante",
+     "<b>2 Energie Metallo: 120 danni</b>, più altri <b>120</b> se il Pokémon attivo avversario è un <b>Pokémon ex</b>."
+    ],
+    [
+     "Il rovescio",
+     "Debolezza <b>Fuoco ×2</b>, ritirata da 2 Energie."
+    ]
+   ],
+   "big": [
+    [
+     "240",
+     "danni a un Pokémon ex, con 2 Energie"
+    ],
+    [
+     "1",
+     "Aiuto a scelta ogni turno, gratis"
+    ],
+    [
+     "3",
+     "Premi all'avversario se va KO"
+    ]
+   ],
+   "verdict": "<b>Perché fa paura:</b> attacca con due sole Energie e ogni turno si prende l'Aiuto che gli serve. Si evolve da Riolu, quindi è in campo già al secondo turno."
+  },
+  {
+   "img": "modal_card_h8s4g_card.png",
+   "tag": "L'altro Mega del set",
+   "name": "Mega Garchomp Z ex",
+   "chips": [
+    "360 PS",
+    "Fase 2",
+    "Drago"
+   ],
+   "rows": [
+    [
+     "Attacco · Drago Vendicatore",
+     "<b>Acqua + Lotta:</b> 30 danni per ogni <b>Pokémon Drago</b> nella tua pila degli scarti."
+    ],
+    [
+     "Attacco · Lama Sonica",
+     "<b>Acqua + Lotta + 1:</b> <b>240 danni</b>, che ignorano gli effetti sul Pokémon attivo avversario."
+    ],
+    [
+     "Il rovescio",
+     "È una <b>Fase 2</b> e chiede due tipi di Energia diversi."
+    ]
+   ],
+   "big": [
+    [
+     "360",
+     "PS: 30 in più di Mega Lucario Z ex"
+    ],
+    [
+     "30×",
+     "per ogni Drago negli scarti: 8 Draghi = 240"
+    ],
+    [
+     "0",
+     "Debolezze stampate sulla carta"
+    ]
+   ],
+   "verdict": "<b>Da tenere d'occhio:</b> nessuna Debolezza e un attacco che passa sopra agli effetti difensivi. Il prezzo è il setup: Gible, Gabite e due Energie di tipo diverso."
+  }
+ ],
+ "cta": "<b>Martedì</b> le altre 5 carte del set che interessano a chi gioca i tornei. Tu quale dei due Mega proveresti? Scrivilo nei commenti 👇"
+}

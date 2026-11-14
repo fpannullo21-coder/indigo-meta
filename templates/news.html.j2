@@ -36,11 +36,29 @@
 .gal i { display: block; font-style: normal; font-size: 24px; color: var(--ink-2); margin-top: 2px; }
 .gal-text { font-size: 29px; line-height: 1.42; color: var(--ink-2); margin-top: 46px; position: relative; text-align: center; }
 .gal-text b { color: var(--ink); }
+/* SCHEDA CARTA (n.focus) */
+.fx { display: grid; grid-template-columns: 400px 1fr; gap: 40px; margin-top: 34px; position: relative; align-items: start; }
+.fx img { width: 400px; border-radius: 18px; box-shadow: 0 24px 60px rgba(0,0,0,.55), 0 0 0 2px var(--accent-2); display: block; }
+.fx .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.fx .chip { background: var(--bg-2); border: 1px solid var(--line); border-radius: 999px; padding: 8px 18px; font-size: 22px; font-weight: 700; color: var(--ink); }
+.fx .frow { margin-top: 22px; }
+.fx .frow em { font-style: normal; display: block; font-size: 20px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+.fx .frow p { font-size: 26px; line-height: 1.36; color: var(--ink-2); margin-top: 6px; }
+.fx .frow p b { color: var(--ink); }
+.big { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 30px; position: relative; }
+.big div { background: var(--bg-2); border: 1px solid var(--line); border-radius: 20px; padding: 22px 24px; }
+.big b { display: block; font-family: "Grotesk"; font-size: 56px; line-height: 1; color: var(--ink); }
+.big i { display: block; font-style: normal; font-size: 21px; color: var(--ink-2); margin-top: 8px; line-height: 1.25; }
+.fverd { margin-top: 24px; background: linear-gradient(90deg, rgba(108,92,231,.35), rgba(108,92,231,.08)); border: 1px solid var(--line);
+  border-radius: 22px; padding: 24px 30px; font-size: 27px; line-height: 1.38; color: var(--ink-2); position: relative; }
+.fverd b { color: var(--ink); }
+.n-cta { margin-top: 30px; background: var(--accent-2); border-radius: 22px; padding: 26px 30px; font-size: 28px; line-height: 1.38; color: var(--ink); position: relative; }
 </style>
 </head>
 <body>
 {% set logo %}<svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>{% endset %}
 
+{% set tot = 2 + (n.focus or [])|length + (1 if n.gallery else 0) %}
 <section class="slide">
   <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ n.where }}</span></div>
   <div class="kicker">News · {{ n.category }}</div>
@@ -52,9 +70,27 @@
       {% else %}<div class="ph"><b>{{ im.label }}</b>immagine ufficiale<br>della carta</div>{% endif %}
     {% endfor %}
   </div>
-  <div class="swipe">Cosa sapere →</div>
-  <div class="foot"><span>Fonte: {{ n.source }}</span><span class="page">1/{{ 3 if n.gallery else 2 }}</span></div>
+  <div class="swipe">{{ n.swipe or "Cosa sapere →" }}</div>
+  <div class="foot"><span>Fonte: {{ n.source }}</span><span class="page">1/{{ tot }}</span></div>
 </section>
+
+{% for f in n.focus or [] %}
+<section class="slide">
+  <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ n.where }}</span></div>
+  <div class="kicker" style="margin-top:44px">{{ f.tag }}</div>
+  <h2 style="font-size:66px">{{ f.name }}</h2>
+  <div class="fx">
+    <img src="{{ f.src }}" alt="{{ f.name }}">
+    <div>
+      <div class="chips">{% for c in f.chips %}<span class="chip">{{ c }}</span>{% endfor %}</div>
+      {% for label, text in f.rows %}<div class="frow"><em>{{ label }}</em><p>{{ text | safe }}</p></div>{% endfor %}
+    </div>
+  </div>
+  <div class="big">{% for b, i in f.big %}<div><b>{{ b }}</b><i>{{ i }}</i></div>{% endfor %}</div>
+  <div class="fverd">{{ f.verdict | safe }}</div>
+  <div class="foot" style="font-size:17px"><span>{{ n.focus_note or ("Fonte: " ~ n.source) }}</span><span class="page">{{ 1 + loop.index }}/{{ tot }}</span></div>
+</section>
+{% endfor %}
 
 <section class="slide">
   <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ n.where }}</span></div>
@@ -66,7 +102,8 @@
   {% endfor %}
   </div>
   <div class="why"><em>Perché conta per il competitivo</em><p>{{ n.why | safe }}</p></div>
-  <div class="foot"><span>Fonte: {{ n.source }}</span><span class="page">2/{{ 3 if n.gallery else 2 }}</span></div>
+  {% if n.cta %}<div class="n-cta">{{ n.cta | safe }}</div>{% endif %}
+  <div class="foot"><span>Fonte: {{ n.source }}</span><span class="page">{{ 2 + (n.focus or [])|length }}/{{ tot }}</span></div>
 </section>
 {% if n.gallery %}
 <section class="slide">
@@ -75,7 +112,7 @@
   <h2 style="font-size:64px">{{ n.gallery.title }}</h2>
   <div class="gal">{% for c in n.gallery.cards %}<div class="it">{% if c.src %}<img src="{{ c.src }}" alt="{{ c.label }}">{% else %}<div class="ph">{{ c.label }}</div>{% endif %}<b>{{ c.year }}</b><i>{{ c.label }}</i></div>{% endfor %}</div>
   <div class="gal-text">{{ n.gallery.text | safe }}</div>
-  <div class="foot"><span>{{ n.gallery.note or ("Fonte: " ~ n.source) }}</span><span class="page">3/3</span></div>
+  <div class="foot"><span>{{ n.gallery.note or ("Fonte: " ~ n.source) }}</span><span class="page">{{ tot }}/{{ tot }}</span></div>
 </section>
 {% endif %}
 </body>
