@@ -15,6 +15,18 @@ for im in n.get("images", []):
     if isinstance(im.get("card"), dict):                 # carta ufficiale (TCGdex / Limitless)
         from run_rubrica import card_images
         im["src"] = card_images([dict({"section": "pokemon"}, **im["card"])])[0].get("src")
+    elif im.get("url"):                                  # immagine ufficiale da scaricare (es. foto stampa)
+        dst = A / im.get("file", im["url"].split("?")[0].rsplit("/", 1)[-1])
+        if not dst.exists():
+            try:
+                import requests
+                r = requests.get(im["url"], timeout=60, headers={"User-Agent": "Mozilla/5.0 IndigoMeta"})
+                r.raise_for_status()
+                A.mkdir(parents=True, exist_ok=True)
+                dst.write_bytes(r.content)
+            except Exception as e:
+                print(f"  immagine non scaricata ({im['url']}): {e}")
+        im["src"] = dst.as_uri() if dst.exists() else None
     elif im.get("src"):
         im["src"] = (A / im["src"]).as_uri()
 for f in n.get("focus", []):
