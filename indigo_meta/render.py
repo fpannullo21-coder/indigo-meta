@@ -82,7 +82,10 @@ def build_view(r: WeekReport, handle: str = "@indigo.meta", min_entries: int = 2
         page += 1; it_page = page
     n_slides = page + 1
 
+    from .heroes import deck_heroes
+    heroes = deck_heroes([d.name for d in share_top], 3)
     return dict(
+        heroes=heroes,
         r=r, handle=handle, min_entries=min_entries, conv_min=conv_min,
         tier_cut={k: str(v).replace(".0", "").replace(".", ",") for k, v in tier_cuts.items()},
         dates_it=dates_it(r.start, r.end),

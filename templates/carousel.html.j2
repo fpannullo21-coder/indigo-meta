@@ -9,10 +9,11 @@
 <body>
 
 {# ---------- 1. COVER ---------- #}
-<section class="slide cover" id="s1">
+<section class="slide cover{% if heroes %} with-fan{% endif %}" id="s1">
   <div class="brand"><svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ r.week }}</span></div>
   <h1>Meta<span>Report</span></h1>
   <div class="dates">{{ dates_it }} · Pokémon TCG Standard</div>
+  {% include "_cover_fan.html.j2" %}
   <div class="stats">
     <div class="stat"><b>{{ r.tournaments }}</b><i>tornei analizzati</i></div>
     <div class="stat"><b>{{ num(r.players) }}</b><i>liste</i></div>

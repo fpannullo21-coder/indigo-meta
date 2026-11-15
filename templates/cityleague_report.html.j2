@@ -27,10 +27,11 @@
 <body>
 {% set logo %}<svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>{% endset %}
 
-<section class="slide cover">
+<section class="slide cover{% if heroes %} with-fan{% endif %}">
   <div class="brand">{{ logo }}INDIGO META<span class="wk">🇯🇵 GIAPPONE · {{ dates }}</span></div>
   <div class="r-h1">City League<span>Report</span></div>
   <div class="r-sub">{{ dates }} · i tornei giapponesi della settimana · TCG Masters</div>
+  {% include "_cover_fan.html.j2" %}
   <div class="stats">
     <div class="stat"><b>{{ s.n }}</b><i>City League</i></div>
     <div class="stat"><b>{{ s.prefectures }}</b><i>prefetture</i></div>

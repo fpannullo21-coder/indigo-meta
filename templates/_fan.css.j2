@@ -1,0 +1,27 @@
+/* COPERTINA: ventaglio di carte ufficiali (ogni prima slide ha un'immagine) */
+.cv-fan { position: relative; display: flex; justify-content: center; align-items: flex-end; height: 470px; margin-top: 36px; }
+.cv-fan .cv { position: relative; width: 300px; margin: 0 -26px; }
+.cv-fan .cv img, .cv-fan .cv .ph { width: 300px; aspect-ratio: 63/88; border-radius: 15px; display: block; object-fit: cover;
+  box-shadow: 0 24px 60px rgba(0,0,0,.55); }
+.cv-fan .cv .ph { border: 2px dashed var(--accent); background: var(--bg-2); display: flex; align-items: center; justify-content: center;
+  text-align: center; font-size: 24px; color: var(--ink-2); padding: 20px; box-sizing: border-box; }
+.cv-fan .cv:nth-child(1) { transform: rotate(-8deg) translateY(26px); z-index: 1; }
+.cv-fan .cv:nth-child(2) { z-index: 2; }
+.cv-fan .cv:nth-child(3) { transform: rotate(8deg) translateY(26px); z-index: 1; }
+.cv-fan .cv:only-child { transform: rotate(-3deg); }
+.cv-fan .cv span { position: absolute; left: 0; right: 0; bottom: -44px; text-align: center; font-size: 21px; font-weight: 700;
+  color: var(--ink-2); letter-spacing: .04em; }
+
+.with-fan h1, .with-fan .r-h1, .with-fan .m-h1 { margin-top: 44px !important; font-size: 118px !important; }
+.with-fan .stats, .with-fan .hl { margin-top: 30px !important; }
+.with-fan .headline { margin-top: 18px; }
+.with-fan .cv-fan { height: 330px; margin-top: 16px; }
+.with-fan .cv-fan .cv, .with-fan .cv-fan .cv img, .with-fan .cv-fan .cv .ph { width: 214px; }
+
+/* ventaglio piccolo in alto a destra, per copertine piene */
+.cv-fan.side { position: absolute; right: 64px; top: 150px; height: 300px; width: 400px; margin: 0; justify-content: flex-end; }
+.cv-fan.side .cv, .cv-fan.side .cv img, .cv-fan.side .cv .ph { width: 176px; }
+.cv-fan.side .cv { margin: 0 -18px; }
+.cv-fan.side .cv .ph { font-size: 17px; padding: 10px; }
+.cv-cap { position: absolute; right: 64px; top: 492px; width: 400px; text-align: center; font-size: 19px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--ink-2); }

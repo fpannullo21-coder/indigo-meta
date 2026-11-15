@@ -37,24 +37,55 @@ Seguici e scrivi nei commenti cosa porti al prossimo torneo 👇
 #pokemontcg #pokemontcgitalia #ptcg #metagame #tcgitalia"""
 
 
-CITY_CAPTION = """🇯🇵 COSA SONO LE CITY LEAGUE?
+CITY_CAPTION = """🇯🇵 COSA SONO LE CITY LEAGUE? E chi sta vincendo adesso
 
 Sono i tornei ufficiali giapponesi del Pokémon TCG, giocati nei negozi. Li seguiamo perché in Giappone le espansioni escono mesi prima: le liste che vincono lì spesso arrivano da noi con il set successivo.
 
-Come funzionano:
+📋 Come funzionano
 • Partite al meglio di una (BO1), da 25 minuti
 • Turni svizzeri e poi top 8 a eliminazione diretta
 • Ogni anno ci sono più stagioni di City League, e in ognuna ogni giocatore può fare un solo torneo
-• Le iscrizioni sono a sorteggio: con un torneo a testa i posti vanno a più giocatori, e nessuno accumula punti giocandone tanti
-• Chi vince ottiene la priorità per i Japan Championships
+• Iscrizioni a sorteggio; chi vince ottiene la priorità per i Japan Championships
 
-Come leggerle: il BO1 premia i mazzi veloci e lascia più spazio alla fortuna. Per questo guardiamo i trend su tante City League, non il singolo risultato.
+🏆 Chi vince adesso ({n} City League, {dates}, TCG Masters)
+{winners}
 
-Presto qui: i mazzi che vincono in Giappone, spiegati in italiano. Seguici per non perderli 👀
+🧠 Cosa significa per chi gioca
+• Le carte arrivano prima: Hadou Seeker esce in Giappone il 27 novembre ed è legale nelle City League dal giorno dopo. Da noi non c'è ancora una data.
+• Il BO1 premia i mazzi veloci e lascia più spazio alla fortuna: da noi si gioca al meglio di tre.
+• Guarda i trend su tante City League, non il singolo risultato.
 
-Fonte: regolamento ufficiale Pokémon Card Game (Giappone)
+Ogni settimana il City League Report completo, con tutti i mazzi e il confronto con i tornei online 👀
+
+Fonti: regolamento ufficiale Pokémon Card Game (Giappone), pokemon-card.com · Dati: Limitless TCG (City League ufficiali giapponesi)
 
 #pokemontcg #pokemontcgitalia #ptcg #cityleague #pokemoncardgame #tcgitalia"""
+
+
+def build_city_explainer(cl: Path, env) -> None:
+    """«Cosa sono le City League?» con i dati dell'ultima settimana completa e le carte dei mazzi che vincono."""
+    import datetime as dt
+    from indigo_meta.cityleague import summarize, week_tournaments
+    from indigo_meta.heroes import deck_hero, deck_heroes
+    from indigo_meta.render import MESI, pct
+    today = dt.date.today()
+    mon = today - dt.timedelta(days=today.weekday() + 7)
+    sun = mon + dt.timedelta(days=6)
+    s = summarize(week_tournaments(mon, sun, ROOT / "cache"))
+    dates = (f"{mon.day}–{sun.day} {MESI[sun.month - 1]}" if mon.month == sun.month
+             else f"{mon.day} {MESI[mon.month - 1][:3]} – {sun.day} {MESI[sun.month - 1][:3]}")
+    top16 = dict(s["top16"])
+    winners = []
+    for name, n in s["wins"][:3]:
+        h = deck_hero(name) or {}
+        winners.append(dict(deck=name, wins=n, src=h.get("src"), name=h.get("name", name),
+                            top16=pct(top16.get(name, 0) / s["slots16"])))
+    heroes = deck_heroes([w for w, _ in s["wins"]], 3)
+    (cl / "c.html").write_text(env.get_template("cityleague.html.j2").render(
+        handle=HANDLE, s=s, dates=dates, winners=winners, heroes=heroes, n=4), encoding="utf-8")
+    render_png(cl / "c.html", cl)
+    w = "\n".join(f"• {x['deck']}: {x['wins']} City League vinte, {x['top16']} dei posti in top 16" for x in winners)
+    (cl / "caption.txt").write_text(CITY_CAPTION.format(n=s["n"], dates=dates, winners=w), encoding="utf-8")
 
 
 def run(*cmd: str) -> None:
@@ -86,9 +117,7 @@ def main():
     majors.build(cal, HANDLE)
     cl = out / "cityleague"
     cl.mkdir(parents=True, exist_ok=True)
-    (cl / "c.html").write_text(env.get_template("cityleague.html.j2").render(handle=HANDLE), encoding="utf-8")
-    render_png(cl / "c.html", cl)
-    (cl / "caption.txt").write_text(CITY_CAPTION, encoding="utf-8")
+    build_city_explainer(cl, env)
     # 3. League Cup (settimana in corso)
     run("run_cups.py", "--no-telegram")
     cup = newest("*-cup")

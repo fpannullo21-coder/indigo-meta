@@ -31,28 +31,32 @@
 .end { font-family: "Grotesk"; font-weight: 700; font-size: 92px; line-height: 1.02; letter-spacing: -.02em; margin-top: 210px; position: relative; }
 .end span { color: var(--accent); }
 .end-sub { font-size: 34px; color: var(--ink-2); margin-top: 40px; line-height: 1.35; position: relative; }
+.c-h1.sm { font-size: 104px; margin-top: 56px; }
+.wins { margin-top: 30px; display: flex; flex-direction: column; gap: 18px; position: relative; }
+.win { display: grid; grid-template-columns: 116px 1fr 140px; gap: 24px; align-items: center; background: var(--bg-2); border: 1px solid var(--line); border-radius: 24px; padding: 14px 30px 14px 14px; }
+.win img, .win .ph { width: 116px; aspect-ratio: 63/88; border-radius: 9px; object-fit: cover; display: block; }
+.win .ph { border: 2px dashed var(--accent); font-size: 18px; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--ink-2); box-sizing: border-box; padding: 8px; }
+.win b { display: block; font-family: "Grotesk"; font-size: 40px; line-height: 1.05; }
+.win i { display: block; font-style: normal; font-size: 24px; color: var(--ink-2); margin-top: 8px; line-height: 1.3; }
+.win .n { font-family: "Grotesk"; font-weight: 700; font-size: 64px; color: var(--accent); text-align: right; line-height: 1; }
+.win .n small { display: block; font-size: 20px; color: var(--ink-2); font-family: inherit; font-weight: 600; margin-top: 6px; }
+.tease { margin-top: 26px; background: linear-gradient(90deg, rgba(108,92,231,.35), rgba(108,92,231,.08)); border: 1px solid var(--line);
+  border-radius: 22px; padding: 24px 30px; font-size: 28px; line-height: 1.38; color: var(--ink-2); position: relative; }
+.tease b { color: var(--ink); }
 </style>
 </head>
 <body>
 {% set logo %}<svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>{% endset %}
 <section class="slide">
-  <div class="brand">{{ logo }}INDIGO META<span class="wk">GIAPPONE</span></div>
-  <div class="c-h1">Cosa sono le<span>City League?</span></div>
-  <div class="c-sub">I tornei giapponesi che ci fanno vedere il meta prima di tutti.</div>
-  <div class="chips"><span class="chip"><b>BO1</b>una partita</span><span class="chip"><b>25'</b>a partita</span><span class="chip"><b>1</b>torneo a stagione</span></div>
-  <div class="path">
-    <h4>Il viaggio di un mazzo</h4>
-    <div class="steps">
-      <div class="step"><span class="n">1</span><span><b>Il set esce in Giappone</b><i>Mesi prima che da noi</i></span></div>
-      <div class="step"><span class="n">2</span><span><b>Vince nelle City League</b><i>Le nuove liste si mettono alla prova</i></span></div>
-      <div class="step last"><span class="n">3</span><span><b>Arriva ai nostri tornei</b><i>Con l'uscita europea del set</i></span></div>
-    </div>
-  </div>
-  <div class="swipe">Scorri →</div>
-  <div class="foot"><span>{{ handle }}</span><span class="page">1/4</span></div>
+  <div class="brand">{{ logo }}INDIGO META<span class="wk">🇯🇵 GIAPPONE</span></div>
+  <div class="c-h1 sm">Cosa sono le<span>City League?</span></div>
+  <div class="c-sub">I tornei giapponesi che mostrano il meta prima di tutti. Ecco come leggerli, e chi sta vincendo.</div>
+  {% include "_cover_fan.html.j2" %}
+  <div class="swipe" style="margin-top:40px">Scorri →</div>
+  <div class="foot"><span>Carte: i mazzi con più City League vinte, {{ dates }}</span><span class="page">1/{{ n }}</span></div>
 </section>
 <section class="slide">
-  <div class="brand">{{ logo }}INDIGO META<span class="wk">GIAPPONE</span></div>
+  <div class="brand">{{ logo }}INDIGO META<span class="wk">🇯🇵 GIAPPONE</span></div>
   <div class="kicker">Come funzionano</div>
   <h2>Tornei ufficiali, nei negozi</h2>
   <div class="facts">
@@ -62,24 +66,33 @@
     <div class="stat"><b>Top 8</b><i>Dopo i turni svizzeri, si va a eliminazione diretta</i></div>
   </div>
   <div class="method" style="margin-top:28px">I posti sono contesi e ci si iscrive <b>a sorteggio</b>: con un solo torneo a testa, più giocatori riescono a partecipare e nessuno accumula punti giocandone tanti. Chi vince ottiene la <b>priorità per i Japan Championships</b>.</div>
-  <div class="foot"><span>Fonte: regolamento ufficiale Pokémon Card Game (Giappone)</span><span class="page">2/4</span></div>
+  <div class="foot"><span>Fonte: regolamento ufficiale Pokémon Card Game (Giappone)</span><span class="page">2/{{ n }}</span></div>
 </section>
 <section class="slide">
-  <div class="brand">{{ logo }}INDIGO META<span class="wk">GIAPPONE</span></div>
-  <div class="kicker">Perché ci interessano</div>
+  <div class="brand">{{ logo }}INDIGO META<span class="wk">🇯🇵 GIAPPONE · {{ dates }}</span></div>
+  <div class="kicker">Chi vince adesso</div>
+  <h2 style="font-size:58px">{{ s.n }} City League in 7 giorni</h2>
+  <div class="wins">
+  {% for w in winners %}
+    <div class="win">{% if w.src %}<img src="{{ w.src }}" alt="{{ w.name }}">{% else %}<div class="ph">{{ w.name }}</div>{% endif %}
+      <div><b>{{ w.deck }}</b><i>{{ w.top16 }} dei posti in top 16</i></div>
+      <div class="n">{{ w.wins }}<small>vinte</small></div></div>
+  {% endfor %}
+  </div>
+  <div class="tease"><b>Ogni settimana</b> il City League Report completo: tutti i mazzi, la top 16 e il confronto con i tornei online.</div>
+  <div class="foot"><span>Dati: Limitless TCG · City League ufficiali, {{ dates }} · TCG Masters</span><span class="page">3/{{ n }}</span></div>
+</section>
+<section class="slide">
+  <div class="brand">{{ logo }}INDIGO META<span class="wk">🇯🇵 GIAPPONE</span></div>
+  <div class="kicker">Cosa significa per chi gioca</div>
   <h2>Leggerle nel modo giusto</h2>
   <div class="points">
-    <div class="pt"><b>Il futuro del nostro meta</b><i>In Giappone le espansioni escono mesi prima. Le liste che vincono lì spesso arrivano qui con il set successivo.</i></div>
-    <div class="pt warn"><b>Ma attenzione al BO1</b><i>Una partita sola da 25 minuti premia i mazzi veloci e aggressivi, e lascia più spazio alla fortuna.</i></div>
-    <div class="pt"><b>Contano i trend, non il singolo torneo</b><i>Un mazzo che vince una City League è una curiosità. Uno che entra in top 8 in decine di tornei è un segnale.</i></div>
+    <div class="pt"><b>Le carte arrivano prima</b><i>In Giappone i set escono mesi prima. Hadou Seeker esce il 27 novembre e dal giorno dopo è legale nelle City League: da noi non c'è ancora una data.</i></div>
+    <div class="pt warn"><b>Il BO1 cambia tutto</b><i>Una partita sola da 25 minuti premia i mazzi veloci e lascia più spazio alla fortuna. Da noi si gioca al meglio di tre.</i></div>
+    <div class="pt"><b>Guarda i trend, non il singolo torneo</b><i>Una vittoria è una curiosità. Un mazzo in top 16 in decine di tornei, settimana dopo settimana, è un segnale.</i></div>
+    <div class="pt"><b>Dove seguirle</b><i>Risultati e liste sono su Limitless TCG. Qui li trovi riassunti in italiano ogni settimana, con il confronto con i tornei online.</i></div>
   </div>
-  <div class="foot"><span>{{ handle }}</span><span class="page">3/4</span></div>
-</section>
-<section class="slide">
-  <div class="brand">{{ logo }}INDIGO META<span class="wk">GIAPPONE</span></div>
-  <div class="end">Il meta di domani,<br><span>in italiano.</span></div>
-  <div class="end-sub">Presto su {{ handle }}: i mazzi che vincono in Giappone, spiegati qui. Seguici per non perderli.</div>
-  <div class="foot"><span>Pokémon TCG · Italia</span><span class="page">4/4</span></div>
+  <div class="foot"><span>Fonti: regolamento ufficiale Pokémon Card Game · pokemon-card.com</span><span class="page">4/{{ n }}</span></div>
 </section>
 </body>
 </html>

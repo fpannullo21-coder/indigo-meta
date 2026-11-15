@@ -1,0 +1,9 @@
+{# Ventaglio di carte per la copertina. Variabili: heroes = [{src, name, deck?}], fan_side (piccolo in alto a destra), fan_cap #}
+{% if heroes %}
+<div class="cv-fan{% if fan_side %} side{% endif %}">
+  {% for h in heroes[:3] %}
+  <div class="cv">{% if h.src %}<img src="{{ h.src }}" alt="{{ h.name }}">{% else %}<div class="ph">{{ h.name }}</div>{% endif %}</div>
+  {% endfor %}
+</div>
+{% if fan_side and fan_cap %}<div class="cv-cap">{{ fan_cap }}</div>{% endif %}
+{% endif %}

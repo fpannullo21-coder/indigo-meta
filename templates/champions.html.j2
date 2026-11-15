@@ -51,7 +51,7 @@
   <div class="kicker" style="margin-top:50px">{% if only_top8 %}Risultati · {{ category }}{% else %}I mazzi dei campioni · {{ category }}{% endif %}</div>
   <div class="ch-h1" style="font-size:92px; margin-top:20px">{{ m.name }}</div>
   <div class="ch-sub" style="margin-top:16px">{% if venue.flag %}{{ venue.flag }} {{ venue.country }} · {% endif %}{{ date_it }} · {{ num(m.players) }} giocatori · {{ category }}</div>
-  <div class="champ" style="margin-top:34px; padding:26px 34px"><em>Campione</em><b style="font-size:56px">{{ c.name }}</b><i>{{ c.flag }} {{ c.country }} · {{ c.deck }} · {{ c.record }}</i></div>
+  <div class="champ" style="margin-top:34px; padding:26px 34px{% if champ_card %}; padding-right:200px; position:relative; min-height:150px{% endif %}">{% if champ_card %}<div style="position:absolute; right:26px; top:-34px; width:150px; transform:rotate(5deg)">{% if champ_card.src %}<img src="{{ champ_card.src }}" alt="{{ champ_card.name }}" style="width:150px; border-radius:9px; display:block; box-shadow:0 18px 40px rgba(0,0,0,.55)">{% else %}<div style="width:150px; aspect-ratio:63/88; border:2px dashed var(--accent); border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:16px; text-align:center">{{ champ_card.name }}</div>{% endif %}</div>{% endif %}<em>Campione</em><b style="font-size:56px">{{ c.name }}</b><i>{{ c.flag }} {{ c.country }} · {{ c.deck }} · {{ c.record }}</i></div>
   <div class="t8" style="margin-top:22px">
   {% for p in m.top[1:] %}
     <div class="t8row t8s p{{ p.place }}{% if p.cc == 'IT' %} it{% endif %}"><span class="pl">{{ p.place }}</span>

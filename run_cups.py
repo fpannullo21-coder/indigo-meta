@@ -53,7 +53,8 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
 
     env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True)
-    html = env.get_template("cups.html.j2").render(
+    from indigo_meta.heroes import meta_heroes
+    html = env.get_template("cups.html.j2").render(heroes=meta_heroes(3),
         week=week, dates=dates_it(first, sunday), total=len(cups), groups=groups,
         areas=[(area, [(r, items) for r, items in groups if area_of(r) == area])
                for area in dict.fromkeys(area_of(r) for r, _ in groups)],

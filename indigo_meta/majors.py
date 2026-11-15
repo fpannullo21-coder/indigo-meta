@@ -46,6 +46,8 @@ def build(out: Path, handle: str, today: dt.date | None = None) -> tuple[list[Pa
                 italy=pick(lambda e: e["country"] == "Italia"), euic=pick(lambda e: e["name"].startswith("EUIC")))
     out.mkdir(parents=True, exist_ok=True)
     env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True)
+    from .heroes import meta_heroes
+    view.setdefault("heroes", meta_heroes(3))
     (out / "majors.html").write_text(env.get_template("majors.html.j2").render(**view), encoding="utf-8")
     slides = render_png(out / "majors.html", out)
     caption = "\n".join(

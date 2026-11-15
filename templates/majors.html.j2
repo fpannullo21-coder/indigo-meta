@@ -28,10 +28,11 @@
 </head>
 <body>
 {% set logo %}<svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>{% endset %}
-<section class="slide">
+<section class="slide{% if heroes %} with-fan{% endif %}">
   <div class="brand">{{ logo }}INDIGO META<span class="wk">STAGIONE 2027</span></div>
   <div class="m-h1">Calendario<span>dei major</span></div>
   <div class="m-sub">Regional, Special, Internazionali e Mondiali: tutte le date fino ad agosto.</div>
+  {% include "_cover_fan.html.j2" %}
   <div class="hl">
     <div class="stat"><em>Il prossimo</em><b>{{ nxt.name }}</b><i>{{ nxt.when }}</i></div>
     <div class="stat"><em>In Italia</em><b>Bologna</b><i>{{ italy.when }}</i></div>

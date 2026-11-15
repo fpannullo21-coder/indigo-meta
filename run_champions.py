@@ -66,7 +66,8 @@ def build(tid: int, out_root: Path, cc: str = "", top8_only: bool = False) -> Pa
     out = out_root / (f"top8-{tid}" if top8_only else f"campioni-{tid}")
     out.mkdir(parents=True, exist_ok=True)
     env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True)
-    html = env.get_template("champions.html.j2").render(
+    from indigo_meta.heroes import deck_hero
+    html = env.get_template("champions.html.j2").render(champ_card=deck_hero(m.top[0].deck) if m.top else None,
         m=m, decks=decks, deck_counts=deck_counts, italians=italians, swiss=swiss, date_it=date_it(m.date),
         num=num, brand_right=(m.name.upper()[:24] + (" " + venue["flag"] if venue["flag"] else "")), venue=venue,
         category=CATEGORY, only_top8=top8_only, n_slides=2 if top8_only else 2 + len(decks))

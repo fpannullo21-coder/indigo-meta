@@ -44,6 +44,7 @@ body { background: #000; font-family: "Inter", sans-serif; color: var(--ink); }
 .row .w { min-width: 0; }
 .row .w b { display: block; font-size: 25px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .row .w small { display: block; font-size: 19px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+{% include "_fan.css.j2" %}
 </style>
 </head>
 <body>
@@ -51,6 +52,7 @@ body { background: #000; font-family: "Inter", sans-serif; color: var(--ink); }
 <section class="slide cover">
   <div class="brand"><svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>INDIGO META<span class="wk">SETTIMANA {{ week }}</span></div>
   <h1>League<span>Cup</span></h1>
+  {% set fan_side = true %}{% set fan_cap = "I mazzi da aspettarsi" %}{% include "_cover_fan.html.j2" %}
   <div class="dates">{{ dates }} · {{ total }} Cup in Italia</div>
   <div class="areas">
   {% for area, regs in areas %}
@@ -60,7 +62,7 @@ body { background: #000; font-family: "Inter", sans-serif; color: var(--ink); }
   {% endfor %}
   </div>
   <div class="swipe">Trova la tua →</div>
-  <div class="foot"><span>Solo League Cup del Pokémon TCG</span><span class="page">1/{{ n_slides }}</span></div>
+  <div class="foot"><span>Solo League Cup del Pokémon TCG{% if heroes %} · carte: i mazzi più giocati online{% endif %}</span><span class="page">1/{{ n_slides }}</span></div>
 </section>
 
 {% for page in pages %}
