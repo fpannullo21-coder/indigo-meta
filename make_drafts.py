@@ -124,7 +124,7 @@ def main():
 
     site = ROOT / "_site"
     posts = [(w, "benvenuto"), (meta, f"meta-{meta.name}"), (cup, f"cup-{cup.name.replace('-cup', '')}"),
-             (lente, f"lente-{lente.name.replace('-lente', '')}"), (cal, "calendario-2027"), (cl, "city-league")]
+             (lente, f"lente-{lente.name.replace('-lente', '')}"), (cal, "calendario-2027"), (cl, "city-league-2")]
     posts += [(d, f"lente{d.name[-1]}-{d.name.split('-lente')[0]}") for d in extra]
     # 9. City League Report (stessa settimana del Meta Report)  ·  10+. I mazzi dei campioni, dal più recente
     import datetime as _dt
