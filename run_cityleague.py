@@ -44,7 +44,7 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True)
     from indigo_meta.heroes import deck_heroes
-    html = env.get_template("cityleague_report.html.j2").render(heroes=deck_heroes([w for w, _ in s["wins"]], 3),
+    html = env.get_template("cityleague_report.html.j2").render(heroes=deck_heroes([w for w, _ in s["wins"]], 3, jp=True),
         s=s, top4=dict(s["top4"]), cmp=cmp, cmp_max=max([max(j, e) for _, j, e in cmp] or [1]) * 1.05,
         dates=dates, week=week, handle=a.handle, pct=pct, num=num, n_slides=5 if cmp else 4)
     (out / "report.html").write_text(html, encoding="utf-8")

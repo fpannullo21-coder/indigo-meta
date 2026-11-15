@@ -77,10 +77,10 @@ def build_city_explainer(cl: Path, env) -> None:
     top16 = dict(s["top16"])
     winners = []
     for name, n in s["wins"][:3]:
-        h = deck_hero(name) or {}
+        h = deck_hero(name, jp=True) or {}
         winners.append(dict(deck=name, wins=n, src=h.get("src"), name=h.get("name", name),
                             top16=pct(top16.get(name, 0) / s["slots16"])))
-    heroes = deck_heroes([w for w, _ in s["wins"]], 3)
+    heroes = deck_heroes([w for w, _ in s["wins"]], 3, jp=True)
     (cl / "c.html").write_text(env.get_template("cityleague.html.j2").render(
         handle=HANDLE, s=s, dates=dates, winners=winners, heroes=heroes, n=4), encoding="utf-8")
     render_png(cl / "c.html", cl)
