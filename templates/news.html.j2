@@ -14,6 +14,8 @@
 .n-pic img.cut { box-shadow: none; border-radius: 0; height: auto; max-height: 540px; max-width: 420px; min-width: 0; flex: 0 1 auto;
   filter: drop-shadow(0 22px 40px rgba(0,0,0,.6)); }
 .n-pic img.photo { height: 470px; width: 470px; max-width: none; object-fit: cover; border-radius: 22px; }
+.n-pic.full { height: 560px; padding: 0; }
+.n-pic.full img.photo { width: 100%; height: 100%; max-width: none; border-radius: 0; box-shadow: none; object-fit: cover; }
 .n-pic .ph { width: 330px; height: 460px; border-radius: 18px; border: 2px dashed var(--accent); display: flex; flex-direction: column;
   align-items: center; justify-content: center; text-align: center; padding: 30px; box-sizing: border-box; color: var(--ink-2); font-size: 22px; line-height: 1.35; }
 .n-pic .ph b { color: var(--ink); font-size: 30px; margin-bottom: 12px; font-family: "Grotesk"; }
@@ -71,15 +73,16 @@
 <body>
 {% set logo %}<svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>{% endset %}
 
-{% set tot = 2 + (n.focus or [])|length + (1 if n.trainers else 0) + (1 if n.gallery else 0) %}
+{% set tot = 3 + (n.focus or [])|length + (1 if n.trainers else 0) + (1 if n.gallery else 0) %}
 <section class="slide">
   <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ n.where }}</span></div>
   <div class="kicker">News · {{ n.category }}</div>
   <div class="n-title">{{ n.title | safe }}</div>
   <div class="n-lead">{{ n.lead | safe }}</div>
-  <div class="n-pic">
+  {% set full = n.images|length == 1 and n.images[0].photo %}
+  <div class="n-pic{% if full %} full{% endif %}">
     {% for im in n.images %}
-      {% if im.src %}<img src="{{ im.src }}" alt="{{ im.label }}"{% if im.cut %} class="cut"{% elif im.photo %} class="photo"{% endif %}>
+      {% if im.src %}<img src="{{ im.src }}" alt="{{ im.label }}"{% if im.cut %} class="cut"{% elif im.photo %} class="photo"{% if im.pos %} style="object-position:{{ im.pos }}"{% endif %}{% endif %}>
       {% else %}<div class="ph"><b>{{ im.label }}</b>immagine ufficiale<br>della carta</div>{% endif %}
     {% endfor %}
   </div>
@@ -140,7 +143,7 @@
   <h2 style="font-size:64px">{{ n.gallery.title }}</h2>
   <div class="gal">{% for c in n.gallery.cards %}<div class="it">{% if c.src %}<img src="{{ c.src }}" alt="{{ c.label }}">{% else %}<div class="ph">{{ c.label }}</div>{% endif %}<b>{{ c.year }}</b><i>{{ c.label }}</i></div>{% endfor %}</div>
   <div class="gal-text">{{ n.gallery.text | safe }}</div>
-  <div class="foot"><span>{{ n.gallery.note or ("Fonte: " ~ n.source) }}</span><span class="page">{{ tot }}/{{ tot }}</span></div>
+  <div class="foot"><span>{{ n.gallery.note or ("Fonte: " ~ n.source) }}</span><span class="page">{{ tot - 1 }}/{{ tot }}</span></div>
 </section>
 {% endif %}
 </body>

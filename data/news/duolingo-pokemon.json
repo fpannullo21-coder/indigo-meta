@@ -2,38 +2,39 @@
  "key": "news-duolingo-pokemon",
  "where": "POKÉMON × DUOLINGO",
  "category": "Collaborazione · Annuncio",
- "title": "Pikachu arriva su <em>Duolingo</em>: si parte domani",
- "lead": "Duolingo e The Pokémon Company hanno annunciato una collaborazione che parte <b style='color:var(--ink)'>martedì 17 novembre</b>. I dettagli non sono ancora usciti.",
+ "title": "Pikachu sbarca su <em>Duolingo</em>",
+ "lead": "La collaborazione tra Duolingo e The Pokémon Company parte <b style='color:var(--ink)'>martedì 17 novembre</b>. I dettagli non sono ancora usciti.",
  "images": [
   {
    "url": "https://pokemonblog.com/wp-content/uploads/2026/11/duolingo_pokemon_pikachu_tail.jpeg",
-   "file": "duolingo-pikachu.jpeg",
+   "file": "duolingo_pokemon_pikachu_tail.jpeg",
    "label": "Il teaser di Duolingo",
-   "photo": true
+   "photo": true,
+   "pos": "20% 75%"
   }
  ],
- "swipe": "Cosa sappiamo (e cosa no) →",
- "short": "Cosa sapere",
+ "swipe": "Cosa sappiamo →",
+ "short": "Cosa sappiamo finora",
  "points": [
   [
    "⚡",
-   "Il <b>14 novembre</b> Duolingo ha pubblicato il teaser: la <b>coda di Pikachu</b> su sfondo verde e la data <b>17.11.26</b>. L'account ufficiale Pokémon ha risposto con un post a tema fulmini."
+   "<b>14 novembre</b>: Duolingo pubblica il teaser con la <b>coda di Pikachu</b> e la data <b>17.11.26</b>. Pokémon risponde con un post a tema fulmini."
   ],
   [
    "🇯🇵",
-   "Il <b>16 novembre</b> Duolingo Giappone l'ha confermato con un annuncio in anticipo a Shibuya: <b>la collaborazione parte il 17</b>."
+   "<b>16 novembre</b>: Duolingo Giappone lo conferma con un annuncio a Shibuya. <b>Si parte il 17.</b>"
   ],
   [
    "🌍",
-   "Il teaser è uscito anche sugli account di Duolingo in <b>Germania, Spagna, Francia e Corea</b>: non sembra un'iniziativa solo giapponese."
+   "Il teaser è uscito anche in <b>Germania, Spagna, Francia e Corea</b>: non è solo giapponese."
   ],
   [
    "❓",
-   "<b>Non si sa ancora</b> cosa conterrà: lezioni, personaggi nell'app, premi o oggetti. Nessuna delle due aziende l'ha detto."
+   "<b>Ancora segreto</b>: cosa ci sarà nell'app, se ci sono premi e se arriva anche in Italia."
   ]
  ],
  "why_label": "E per chi gioca al TCG?",
- "why": "Per ora <b>nessun legame</b> annunciato con il gioco di carte. Domani, appena escono i dettagli, ti diciamo cosa c'è e se arriva anche in Italia.",
+ "why": "Per ora <b>nessun legame</b> con il gioco di carte. Domani ti diciamo cosa c'è davvero.",
  "source": "Duolingo e Duolingo Japan (X), The Pokémon Company · immagine © Duolingo",
  "caption": "⚡ PIKACHU ARRIVA SU DUOLINGO · Duolingo e The Pokémon Company hanno annunciato una collaborazione che parte martedì 17 novembre.\n\n📅 Il 14 novembre Duolingo ha pubblicato il teaser: la coda di Pikachu su sfondo verde e la data 17.11.26. L'account ufficiale Pokémon ha risposto con un post a tema fulmini.\n\n🇯🇵 Il 16 novembre Duolingo Giappone l'ha confermato con un annuncio in anticipo a Shibuya: la collaborazione parte il 17.\n\n🌍 Il teaser è uscito anche sugli account di Duolingo in Germania, Spagna, Francia e Corea.\n\n❓ Cosa conterrà (lezioni, personaggi nell'app, premi) non è ancora stato detto, e per ora non c'è nessun legame annunciato con il Pokémon TCG. Domani, appena escono i dettagli, ti diciamo cosa c'è e se arriva anche in Italia.\n\nTu useresti Duolingo con Pikachu? 👇\n\nFonti: Duolingo e Duolingo Japan (X), The Pokémon Company, GAME Watch · Immagine © Duolingo\n\n#pokemon #duolingo #pikachu #pokemonitalia #pokemontcgitalia",
  "assets": "assets/news/duolingo-pokemon"
