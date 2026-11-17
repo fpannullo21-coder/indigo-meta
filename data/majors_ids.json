@@ -46,5 +46,15 @@
   "name": "Regional Gdańsk",
   "date": "2026-10-31",
   "cc": "PL"
+ },
+ {
+  "tid": 585,
+  "name": "Special Event Buenos Aires",
+  "date": "2026-11-14",
+  "cc": "AR",
+  "players": 553,
+  "top8_done": true,
+  "champions_done": true,
+  "top8_at": "2026-11-17T07:30:00Z"
  }
 ]
