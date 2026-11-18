@@ -1,41 +1,28 @@
 {
- "key": "news-duolingo-pokemon",
- "where": "POKÉMON × DUOLINGO",
- "category": "Collaborazione · Annuncio",
- "title": "Pikachu sbarca su <em>Duolingo</em>",
- "lead": "La collaborazione tra Duolingo e The Pokémon Company parte <b style='color:var(--ink)'>martedì 17 novembre</b>. I dettagli non sono ancora usciti.",
- "images": [
-  {
-   "url": "https://pokemonblog.com/wp-content/uploads/2026/11/duolingo_pokemon_pikachu_tail.jpeg",
-   "file": "duolingo_pokemon_pikachu_tail.jpeg",
-   "label": "Il teaser di Duolingo",
-   "photo": true,
-   "pos": "20% 75%"
-  }
- ],
- "swipe": "Cosa sappiamo →",
- "short": "Cosa sappiamo finora",
+ "key": "news-duolingo-pokemon-go",
+ "assets": "assets/news/duolingo-pokemon",
+ "where": "DUOLINGO × POKÉMON GO",
+ "category": "Pokémon GO · Evento",
+ "title": "Duolingo × Pokémon è partito: <em>studi e catturi</em>",
+ "lead": "Dal <b style='color:var(--ink)'>17 novembre</b> le lezioni su Duolingo sbloccano outfit e una Ricerca a tempo in Pokémon GO con Pikachu, Meowth, Chatot e Lucario.",
+ "images": [{"src": "main-25.png", "label": "Duolingo × Pokémon", "photo": true, "pos": "50% 45%"}],
+ "swipe": "Come si sblocca tutto →",
+ "short": "Come funziona, passo per passo",
  "points": [
-  [
-   "⚡",
-   "<b>14 novembre</b>: Duolingo pubblica il teaser con la <b>coda di Pikachu</b> e la data <b>17.11.26</b>. Pokémon risponde con un post a tema fulmini."
-  ],
-  [
-   "🇯🇵",
-   "<b>16 novembre</b>: Duolingo Giappone lo conferma con un annuncio a Shibuya. <b>Si parte il 17.</b>"
-  ],
-  [
-   "🌍",
-   "Il teaser è uscito anche in <b>Germania, Spagna, Francia e Corea</b>: non è solo giapponese."
-  ],
-  [
-   "❓",
-   "<b>Ancora segreto</b>: cosa ci sarà nell'app, se ci sono premi e se arriva anche in Italia."
-  ]
+  ["1", "Su Duolingo entra nell'evento <b>«Duo's Pokémon Party»</b>: c'è tempo fino al <b>21 dicembre</b>."],
+  ["2", "Fai almeno <b>una lezione al giorno in 7 giorni diversi</b>, entro il <b>29 dicembre</b>. Ogni giorno c'è un premio, fino a <b>4 outfit</b> per l'avatar (Pikachu, Chatot, Poké Ball, Pokémon GO)."],
+  ["3", "L'ultimo premio è un <b>codice</b>: lo riscatti sul <b>Web Store di Pokémon GO</b> (store.pokemongo.com) e sblocchi la Ricerca a tempo."],
+  ["4", "Nella Ricerca scegli <b>la lingua</b> dei compiti. Premi: <b>PE, Polvere di stelle</b> e incontri con <b>Pikachu, Meowth, Chatot e Lucario</b> con sfondo speciale. Scade il <b>31 dicembre</b>."]
  ],
  "why_label": "E per chi gioca al TCG?",
- "why": "Per ora <b>nessun legame</b> con il gioco di carte. Domani ti diciamo cosa c'è davvero.",
- "source": "Duolingo e Duolingo Japan (X), The Pokémon Company · immagine © Duolingo",
- "caption": "⚡ PIKACHU ARRIVA SU DUOLINGO · Duolingo e The Pokémon Company hanno annunciato una collaborazione che parte martedì 17 novembre.\n\n📅 Il 14 novembre Duolingo ha pubblicato il teaser: la coda di Pikachu su sfondo verde e la data 17.11.26. L'account ufficiale Pokémon ha risposto con un post a tema fulmini.\n\n🇯🇵 Il 16 novembre Duolingo Giappone l'ha confermato con un annuncio in anticipo a Shibuya: la collaborazione parte il 17.\n\n🌍 Il teaser è uscito anche sugli account di Duolingo in Germania, Spagna, Francia e Corea.\n\n❓ Cosa conterrà (lezioni, personaggi nell'app, premi) non è ancora stato detto, e per ora non c'è nessun legame annunciato con il Pokémon TCG. Domani, appena escono i dettagli, ti diciamo cosa c'è e se arriva anche in Italia.\n\nTu useresti Duolingo con Pikachu? 👇\n\nFonti: Duolingo e Duolingo Japan (X), The Pokémon Company, GAME Watch · Immagine © Duolingo\n\n#pokemon #duolingo #pikachu #pokemonitalia #pokemontcgitalia",
- "assets": "assets/news/duolingo-pokemon"
+ "why": "Nessuna carta collegata: è un evento di <b>Pokémon GO</b> e Duolingo. Gli outfit restano sull'avatar fino al 31 marzo 2027.",
+ "shots": {
+  "kicker": "Le ricompense in Pokémon GO",
+  "title": "Sfondo Duolingo e nome in un'altra lingua",
+  "images": [{"img": "sub1-27.png", "label": "Pikachu"}, {"img": "sub2-23.png", "label": "Chatot"}],
+  "text": "I Pokémon della Ricerca hanno lo <b>sfondo a tema Duolingo</b> e la nuova <b>etichetta della lingua</b>: toccandola vedi il loro nome in altre lingue.",
+  "note": "Immagini © Duolingo / Niantic / The Pokémon Company · Fonti: Duolingo, Famitsu, GAME Watch"
+ },
+ "source": "Duolingo, The Pokémon Company, Famitsu, GAME Watch · immagine © Duolingo",
+ "caption": "🦉⚡ DUOLINGO × POKÉMON È PARTITO · Dal 17 novembre le lezioni su Duolingo sbloccano premi in Pokémon GO.\n\n📋 Come funziona\n1️⃣ Su Duolingo entra nell'evento «Duo's Pokémon Party», entro il 21 dicembre.\n2️⃣ Fai almeno una lezione al giorno in 7 giorni diversi, entro il 29 dicembre. Ogni giorno c'è un premio, fino a 4 outfit per l'avatar: Pikachu, Chatot, Poké Ball e Pokémon GO (restano fino al 31 marzo 2027).\n3️⃣ L'ultimo premio è un codice: lo riscatti sul Web Store di Pokémon GO (store.pokemongo.com).\n4️⃣ Il codice sblocca una Ricerca a tempo in cui scegli la lingua dei compiti. Premi: PE, Polvere di stelle e incontri con Pikachu, Meowth, Chatot e Lucario con lo sfondo speciale a tema Duolingo. Va completata entro il 31 dicembre.\n\n🏷️ Novità: l'etichetta della lingua. Sui Pokémon della Ricerca, toccandola vedi il loro nome in altre lingue.\n\n🃏 Per il Pokémon TCG non ci sono carte collegate: è un evento di Pokémon GO e Duolingo.\n\nLo fai anche tu? 👇\n\nFonti: Duolingo, The Pokémon Company, Famitsu, GAME Watch, Gaming on Phone · Immagini © Duolingo / Niantic / The Pokémon Company\n\n#pokemon #pokemongo #duolingo #pikachu #pokemonitalia #pokemongoitalia"
 }

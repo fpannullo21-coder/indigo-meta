@@ -67,13 +67,20 @@
 .trx h3 { display: inline; margin-left: 14px; font-size: 32px; }
 .miss { margin-top: 18px; border: 2px dashed var(--accent); border-radius: 22px; padding: 20px 28px; font-size: 24.5px; line-height: 1.36; color: var(--ink-2); position: relative; }
 .miss b { color: var(--ink); }
+/* SCHERMATE (n.shots) */
+.shots { display: flex; justify-content: center; gap: 30px; margin-top: 30px; position: relative; }
+.shots figure { margin: 0; text-align: center; }
+.shots img { height: 640px; border-radius: 26px; display: block; box-shadow: 0 24px 60px rgba(0,0,0,.5); border: 2px solid var(--line); }
+.shots figcaption { font-size: 22px; font-weight: 700; color: var(--ink-2); margin-top: 14px; letter-spacing: .04em; }
+.shots-txt { margin-top: 22px; font-size: 27px; line-height: 1.38; color: var(--ink-2); position: relative; }
+.shots-txt b { color: var(--ink); }
 .n-cta { margin-top: 30px; background: var(--accent-2); border-radius: 22px; padding: 26px 30px; font-size: 28px; line-height: 1.38; color: var(--ink); position: relative; }
 </style>
 </head>
 <body>
 {% set logo %}<svg class="logo" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><rect x="30" y="12" width="56" height="56" rx="13" fill="#9D8CFF"></rect><rect x="14" y="32" width="56" height="56" rx="13" fill="#6C5CE7" stroke="#15122E" stroke-width="5"></rect></svg>{% endset %}
 
-{% set tot = 3 + (n.focus or [])|length + (1 if n.trainers else 0) + (1 if n.gallery else 0) %}
+{% set tot = 3 + (n.focus or [])|length + (1 if n.trainers else 0) + (1 if n.gallery else 0) + (1 if n.shots else 0) %}
 <section class="slide">
   <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ n.where }}</span></div>
   <div class="kicker">News · {{ n.category }}</div>
@@ -136,6 +143,16 @@
   {% if n.cta %}<div class="n-cta">{{ n.cta | safe }}</div>{% endif %}
   <div class="foot"><span>Fonte: {{ n.source }}</span><span class="page">{{ 2 + (n.focus or [])|length + (1 if n.trainers else 0) }}/{{ tot }}</span></div>
 </section>
+{% if n.shots %}{% set sh = n.shots %}
+<section class="slide">
+  <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ n.where }}</span></div>
+  <div class="kicker" style="margin-top:44px">{{ sh.kicker }}</div>
+  <h2 style="font-size:58px">{{ sh.title }}</h2>
+  <div class="shots">{% for im in sh.images %}<figure><img src="{{ im.src }}" alt="{{ im.label }}"><figcaption>{{ im.label }}</figcaption></figure>{% endfor %}</div>
+  <div class="shots-txt">{{ sh.text | safe }}</div>
+  <div class="foot" style="font-size:17px"><span>{{ sh.note or ("Fonte: " ~ n.source) }}</span><span class="page">{{ tot - 1 - (1 if n.gallery else 0) }}/{{ tot }}</span></div>
+</section>
+{% endif %}
 {% if n.gallery %}
 <section class="slide">
   <div class="brand">{{ logo }}INDIGO META<span class="wk">{{ n.where }}</span></div>

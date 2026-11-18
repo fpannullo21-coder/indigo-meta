@@ -31,6 +31,8 @@ for im in n.get("images", []):
         im["src"] = (A / im["src"]).as_uri()
 for f in n.get("focus", []):
     f["src"] = (A / f["img"]).as_uri()
+for im in (n.get("shots") or {}).get("images", []):
+    im["src"] = (A / im["img"]).as_uri()
 for c in (n.get("trainers") or {}).get("cards", []):
     c["src"] = (A / c["img"]).as_uri()
 for c in (n.get("gallery") or {}).get("cards", []):
