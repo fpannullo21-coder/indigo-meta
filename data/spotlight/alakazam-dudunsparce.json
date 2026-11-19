@@ -1,0 +1,56 @@
+{
+  "carte": [
+    {
+      "carta": "Alakazam",
+      "ruolo": "ATTACCANTE",
+      "perche": "Con una sola Energia Psico mette 2 segnalini danno sull'attivo avversario per ogni carta in mano: 10 carte sono 200 danni. Quando evolve dalla mano pesca 3 carte."
+    },
+    {
+      "carta": "Kadabra",
+      "ruolo": "MOTORE",
+      "perche": "4 copie: quando lo giochi per evolvere peschi 2 carte. Evolvere la linea riempie la mano, e la mano piena è il danno di Alakazam."
+    },
+    {
+      "carta": "Dudunsparce",
+      "ruolo": "MOTORE",
+      "perche": "Una volta a turno pesca 3 carte, poi torna nel mazzo con tutto quello che ha addosso: carte in più senza lasciare in panchina un Pokémon da colpire."
+    },
+    {
+      "carta": "Lillie's Clefairy ex",
+      "ruolo": "TECH",
+      "perche": "Rende i Pokémon Drago avversari deboli al Psico (danni ×2). Contro Dragapult ex (320 PS) bastano 8 carte in mano: 160 raddoppiati sono 320."
+    },
+    {
+      "carta": "Battle Cage",
+      "ruolo": "SUPPORTO",
+      "perche": "Stadio: nessun segnalino danno sulla panchina da effetti di attacchi e abilità avversari. Blocca i 6 segnalini che Dragapult ex sparge sulla panchina."
+    },
+    {
+      "carta": "Enriching Energy",
+      "ruolo": "ASSO TATTICO",
+      "perche": "Vale un'Energia Incolore e, quando la assegni dalla mano, peschi 4 carte: in un turno solo sono 80 danni in più per Alakazam."
+    }
+  ],
+  "piano": [
+    {
+      "fase": "Primi turni",
+      "testo": "Abra in panchina: le carte di ricerca dei Base e l'Energia speciale Psico che, assegnata a un Pokémon Psico, ne cerca 2 nel mazzo."
+    },
+    {
+      "fase": "Metà partita",
+      "testo": "Evolvi pescando (2 carte con Kadabra, 3 con Alakazam, la Caramella Rara salta la Fase 1), Dudunsparce aggiunge 3 carte. Poi attacca con una sola Energia."
+    },
+    {
+      "fase": "Chiusura",
+      "testo": "Ordini del Capo sceglie il bersaglio. Contro i Draghi entra Clefairy ex: con il suo Strumento dedicato, se va KO, l'avversario prende un premio in meno."
+    }
+  ],
+  "forza": [
+    "Attacca con una sola Energia, con Pokémon da 1 premio",
+    "Lo Stadio della lista ferma i segnalini di Dragapult ex"
+  ],
+  "occhio": [
+    "Le carte che svuotano la mano tagliano il danno",
+    "Alakazam ha 140 PS: va KO in un colpo"
+  ]
+}

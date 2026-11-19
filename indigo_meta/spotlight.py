@@ -226,12 +226,12 @@ def render_post(out: Path, cover: dict, deck: dict, an: dict | None, handle: str
     senza: copertina e lista."""
     from jinja2 import Environment, FileSystemLoader
     from .render import render_png
-    n_extra = (len(an["pages"]) + (1 if an["piano"] else 0)) if an else 0
+    n_extra = ((len(an["pages"]) + (1 if an["piano"] else 0)) if an else 0) + (1 if cover.get("data") else 0)
     deck_page = 2 + n_extra
     out.mkdir(parents=True, exist_ok=True)
     env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True)
     html = env.get_template("spotlight.html.j2").render(
-        cover=cover, deck=deck, an=an, hero=hero_card(deck, an), handle=handle, brand_right=brand_right,
-        deck_page=deck_page, n_slides=deck_page)
+        cover=cover, deck=deck, an=an, hero=(next((c for c in deck["cards"] if c["name"].lower() == cover.get("hero", "").lower()), None) or hero_card(deck, an)), handle=handle, brand_right=brand_right,
+        deck_page=deck_page, n_slides=deck_page + 1)          # +1: la slide finale comune (to_jpeg)
     (out / "spotlight.html").write_text(html, encoding="utf-8")
     return render_png(out / "spotlight.html", out)

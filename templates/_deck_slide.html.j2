@@ -7,7 +7,7 @@
   {% set champ = deck.kicker is defined %}
   <div class="sub" style="font-size:23px; margin-top:10px; line-height:1.3">{{ deck.place }}° posto su {{ deck.players }} giocatori · {% if champ %}{{ mix }}{% else %}{{ deck.tournament }}{% endif %}<br>
     {{ deck.player }}{% if deck.country is defined and deck.country %} {{ deck.flag }} {{ deck.country }}{% endif %} · {{ deck.record }}{% if deck.price %} · costo indicativo {{ deck.price }}{% endif %}{% if not champ %} · {{ mix }}{% endif %}</div>
-  {% if deck.price %}<div class="pricenote">Costo indicativo: somma dei prezzi «trend» Cardmarket delle 60 carte singole (dati TCGdex, {{ deck.price_date }}). Spedizione esclusa.</div>{% endif %}
+  {% if deck.price %}<div class="pricenote">{% if deck.price_note is defined %}{{ deck.price_note }}{% else %}Costo indicativo: somma dei prezzi «trend» Cardmarket delle 60 carte singole (dati TCGdex, {{ deck.price_date }}). Spedizione esclusa.{% endif %}</div>{% endif %}
   <div class="cards" style="{% if deck.price %}margin-top:12px; {% endif %}grid-template-columns: repeat({{ deck.cols }}, minmax(0, 1fr))">
   {% for c in deck.cards %}
     <div class="card">

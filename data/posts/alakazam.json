@@ -1,0 +1,97 @@
+{
+ "key": "lente-alakazam",
+ "analisi": "alakazam-dudunsparce",
+ "lista": {
+  "tid": 585,
+  "place": 5,
+  "cc": "AR"
+ },
+ "brand_right": "MAZZO SOTTO LA LENTE",
+ "cover": {
+  "kicker": "Mazzo sotto la lente",
+  "title": "Alakazam",
+  "why": "Una sola Energia, danni che crescono con le carte in mano. <b>Come va online e nei major</b>, e come si gioca.",
+  "verdict": "<b>Online è in calo</b> (dal 5,1% al 3,3% in una settimana), <b>ma nei major continua a fare top 8</b>: 4 negli ultimi 8 tornei.",
+  "stats": [
+   [
+    "3,3%",
+    "delle liste online (9–15 nov)"
+   ],
+   [
+    "6,5%",
+    "del day 2 nei major"
+   ],
+   [
+    "4",
+    "top 8 negli ultimi 8 major"
+   ],
+   [
+    "1",
+    "major vinto (Francoforte)"
+   ]
+  ],
+  "closing": "",
+  "source": "Dati: tornei online su Play Limitless + major dal vivo (Limitless TCG)",
+  "data": {
+   "kicker": "I numeri, fonte per fonte",
+   "title": "Online e dal vivo non sono la stessa cosa",
+   "boxes": [
+    {
+     "label": "Tornei online · Play Limitless",
+     "sample": "9–15 novembre · 47 tornei con almeno 32 giocatori · 4.890 liste",
+     "nums": [
+      [
+       "3,3%",
+       "delle liste (8° mazzo)"
+      ],
+      [
+       "11",
+       "top 8"
+      ],
+      [
+       "6,9%",
+       "conversion (media 8,0%)"
+      ],
+      [
+       "2",
+       "tornei vinti"
+      ]
+     ],
+     "note": "Versione Dudunsparce. La settimana prima era al <b>5,1%</b>. Dusknoir: 1,2% delle liste, 2 top 8."
+    },
+    {
+     "label": "Major dal vivo · Regional e Special",
+     "sample": "8 tornei dal 26 settembre al 14 novembre · formato 30th Celebration · giocatori del day 2",
+     "nums": [
+      [
+       "169",
+       "Alakazam al day 2"
+      ],
+      [
+       "6,5%",
+       "dei 2.615 giocatori del day 2"
+      ],
+      [
+       "4",
+       "top 8"
+      ],
+      [
+       "1°",
+       "Francoforte"
+      ]
+     ],
+     "note": "Top 8: <b>1° e 2° Francoforte</b> (Dusknoir), <b>3° Puebla</b> e <b>5° Buenos Aires</b> (Dudunsparce)."
+    },
+    {
+     "label": "Due versioni",
+     "sample": "Al day 2 dei major: 107 Dudunsparce e 60 Dusknoir",
+     "nums": [],
+     "note": "<b>Dudunsparce</b> pesca di più ed è la più giocata. <b>Dusknoir</b> aggiunge segnalini danno ovunque: è la versione che ha vinto Francoforte."
+    }
+   ],
+   "source": "Dati: Limitless TCG · tornei online (Play Limitless) e classifiche dei major · TCG Masters"
+  },
+  "hero": "Alakazam"
+ },
+ "caption": "🔮 MAZZO SOTTO LA LENTE · ALAKAZAM · Numeri dai tornei online e dai major dal vivo, poi carte chiave, piano di gioco e lista.\n\n💥 Come funziona: Alakazam attacca con una sola Energia Psico e mette 2 segnalini danno sull'attivo avversario per ogni carta che hai in mano. Con 10 carte sono 200 danni. Tutto il mazzo serve a pescare: Kadabra (2 carte quando evolve), Alakazam (3), Dudunsparce (3 a turno) e l'asso tattico che ne pesca 4.\n\n📊 Tornei online (Play Limitless, 9–15 novembre, 47 tornei con almeno 32 giocatori, 4.890 liste)\n• Alakazam Dudunsparce: 3,3% delle liste (8° mazzo), 11 top 8, conversion 6,9% (media 8,0%), 2 tornei vinti. Era al 5,1% la settimana prima.\n• Alakazam Dusknoir: 1,2% delle liste, 2 top 8, conversion 3,3%.\n\n🏟️ Major dal vivo (7 Regional e lo Special Event di Buenos Aires, dal 26 settembre al 14 novembre, formato 30th Celebration)\n• 169 Alakazam su 2.615 giocatori del day 2: il 6,5%. Dati dalle classifiche e liste pubblicate da Limitless TCG.\n• 4 top 8: 1° e 2° posto a Francoforte (versione Dusknoir), 3° a Puebla e 5° a Buenos Aires (versione Dudunsparce).\n• La versione Dudunsparce è la più giocata (107 su 169), ma l'unico major vinto è con Dusknoir.\n\n🃏 Le carte chiave: Alakazam (attaccante); Kadabra e Dudunsparce (motori); Clefairy ex di Lylia (tech contro i Draghi: con 8 carte in mano Alakazam mette KO Dragapult ex); lo Stadio che blocca i segnalini sulla panchina; l'asso tattico, un'Energia speciale che fa pescare 4 carte.\n\n📋 Lista: 5° posto allo Special Event di Buenos Aires 🇦🇷 (14–15 novembre, 553 giocatori, TCG Masters), Alejo Antonio Salvador Iturbe 🇦🇷, record 10-2-2. Costo: 36,06 € secondo Limitless TCG (totale Cardmarket delle carte singole, spedizione esclusa; il prezzo reale cambia con versione, lingua e condizioni).\n\nLo porteresti al prossimo torneo? 👇\n\nDa dove vengono i dati: tornei online su Play Limitless (non sono i major) e classifiche dei major dal vivo pubblicate da Limitless TCG e Limitless Labs. L'analisi è di Indigo Meta, sui testi ufficiali delle carte.\nCarte © Pokémon / Nintendo / Creatures / GAME FREAK\n\n#pokemontcg #pokemontcgitalia #ptcg #alakazam #decklist #tcgitalia"
+}

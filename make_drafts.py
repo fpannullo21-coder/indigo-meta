@@ -169,6 +169,13 @@ def main():
             posts.append((out / k, k))
         except subprocess.CalledProcessError as e:
             print("Carte saltate:", f.name, e)
+    for f in sorted((ROOT / "data" / "posts").glob("*.json")):     # «Mazzo sotto la lente» scelti a mano
+        try:
+            run("run_deck_post.py", str(f))
+            k = json.loads(f.read_text())["key"]
+            posts.append((out / k, k))
+        except subprocess.CalledProcessError as e:
+            print("Mazzo saltato:", f.name, e)
     for f in sorted((ROOT / "data" / "stories").glob("*.json")):
         try:
             run("run_story.py", str(f))
