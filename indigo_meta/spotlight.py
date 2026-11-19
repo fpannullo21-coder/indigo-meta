@@ -122,6 +122,11 @@ Lista con i testi ufficiali delle carte:
 Scrivi l'analisi del mazzo per un carosello Instagram. Regole:
 - Usa SOLO quello che dicono i testi delle carte e la lista: non inventare effetti, danni o interazioni.
 - Non citare matchup specifici né percentuali: non hai i dati.
+- SEGNALINI DANNO ≠ DANNI. «Metti/sposta N segnalini danno» è un EFFETTO, non danno: non si applicano Debolezza,
+  Resistenza né effetti che aumentano o riducono i danni. Debolezza (×2) e Resistenza valgono solo per i DANNI di un
+  attacco al Pokémon attivo («This attack does N damage»), mai per la panchina. Prima di dire che una carta raddoppia,
+  aumenta o riduce qualcosa, controlla nel testo se è danno o segnalini. Scrivi «N segnalini», mai «N danni», per
+  gli effetti a segnalini.
 - Nomi delle carte in italiano come nella lista. Frasi brevi, tono diretto, niente emoji, niente maiuscolo.
 - "carte": da 4 a 6 carte, tutte quelle che servono davvero per capire il mazzo, in ordine di importanza: non fermarti
   agli attaccanti, includi le carte tecniche che decidono le partite (es. un Pokémon Base che blocca gli Strumenti).

@@ -3,7 +3,7 @@
     {
       "carta": "Alakazam",
       "ruolo": "ATTACCANTE",
-      "perche": "Con una sola Energia Psico mette 2 segnalini danno sull'attivo avversario per ogni carta che hai in mano: con 10 carte sono 200 danni. E quando evolve pesca 3 carte."
+      "perche": "Con una sola Energia Psico mette 2 segnalini danno sull'attivo avversario per ogni carta che hai in mano: 10 carte, 20 segnalini. È un effetto, non danno. Evolvendo pesca 3 carte."
     },
     {
       "carta": "Kadabra",
@@ -38,11 +38,11 @@
     },
     {
       "fase": "Metà partita",
-      "testo": "Evolvi pescando (2 con Kadabra, 3 con Alakazam; Caramella Rara salta la Fase 1) e attacca con una sola Energia: 20 danni per ogni carta in mano."
+      "testo": "Evolvi pescando (2 con Kadabra, 3 con Alakazam; Caramella Rara salta la Fase 1) e attacca con una sola Energia: 2 segnalini danno per ogni carta in mano."
     },
     {
       "fase": "Chiusura",
-      "testo": "Dusknoir aggiunge 130 danni dove vuoi. Quando l'avversario è a 3 premi o meno, la carta rossa gli lascia 3 carte in mano."
+      "testo": "Dusknoir mette 13 segnalini danno dove vuoi. Quando l'avversario è a 3 premi o meno, la carta rossa gli lascia 3 carte in mano."
     }
   ],
   "forza": [
