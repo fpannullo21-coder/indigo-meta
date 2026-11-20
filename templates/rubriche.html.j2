@@ -89,6 +89,40 @@
 .fav .pl { font-family: "Grotesk"; font-size: 40px; font-weight: 700; color: var(--accent); }
 .fav .n { font-family: "Grotesk"; font-size: 40px; font-weight: 700; text-align: right; }
 .podium .pc small { display: block; font-size: 19px; color: var(--ink-3); margin-top: 2px; }
+
+/* anteprima approfondita */
+.nv { display: grid; grid-template-columns: 330px 1fr; column-gap: 40px; margin-top: 36px; position: relative; }
+.nv .cs { display: flex; flex-direction: column; gap: 22px; }
+.nv .cs .c { position: relative; }
+.nv .cs img, .nv .cs .ph { width: 290px; aspect-ratio: 63/88; border-radius: 14px; object-fit: cover; box-shadow: 0 18px 44px rgba(0,0,0,.5); display: block; }
+.nv .cs { gap: 26px; }
+.tagc { position: absolute; left: 12px; top: 12px; background: var(--accent-2); border-radius: 999px; padding: 5px 13px; font-weight: 700; font-size: 18px; }
+.pts { display: flex; flex-direction: column; gap: 22px; }
+.pts p { font-size: 26px; line-height: 1.38; color: var(--ink-2); background: var(--bg-2); border: 1px solid var(--line); border-radius: 20px; padding: 22px 26px; }
+.pts p b { color: var(--ink); }
+.fv2 { display: grid; grid-template-columns: 50px 84px 1fr 120px 120px 120px; column-gap: 14px; align-items: center; min-height: 122px; border-bottom: 1px solid var(--line); }
+.fv2.h { min-height: 46px; font-size: 18px; font-weight: 700; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; }
+.fv2.h span { text-align: right; } .fv2.h span:first-child { text-align: left; }
+.fv2 img, .fv2 .ph { width: 84px; aspect-ratio: 63/88; border-radius: 7px; object-fit: cover; }
+.fv2 .ph { font-size: 11px; padding: 3px; }
+.fv2 .pl { font-family: "Grotesk"; font-size: 36px; font-weight: 700; color: var(--accent); }
+.fv2 .a { font-size: 28px; font-weight: 700; line-height: 1.15; }
+.fv2 .n { font-family: "Grotesk"; font-size: 32px; font-weight: 700; text-align: right; }
+.fv2 .n.m { color: var(--ink-2); font-size: 28px; }
+.mj { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; margin-top: 30px; position: relative; }
+.mj .m { background: var(--bg-2); border: 1px solid var(--line); border-radius: 16px; padding: 14px 18px; }
+.mj .m .c { font-size: 18px; color: var(--ink-3); font-weight: 600; }
+.mj .m b { display: block; font-size: 25px; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mj .m i { display: block; font-style: normal; font-size: 19px; color: var(--ink-2); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fk { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 30px; position: relative; }
+.fk .k { position: relative; }
+.fk img, .fk .ph { width: 100%; aspect-ratio: 63/88; border-radius: 12px; object-fit: cover; display: block; box-shadow: 0 14px 34px rgba(0,0,0,.45); }
+.fk b { display: block; font-size: 23px; margin-top: 12px; line-height: 1.15; }
+.fk p { font-size: 19.5px; line-height: 1.32; color: var(--ink-2); margin-top: 6px; }
+.fsub { font-size: 23px; color: var(--ink-2); margin-top: 12px; position: relative; }
+.beat { margin-top: 24px; background: linear-gradient(90deg, rgba(108,92,231,.35), rgba(108,92,231,.08)); border-left: 5px solid var(--accent);
+  border-radius: 14px; padding: 18px 24px; font-size: 22px; line-height: 1.38; color: var(--ink-2); position: relative; }
+.beat b { color: var(--ink); }
 </style>
 </head>
 <body>
@@ -212,6 +246,70 @@
   </div>
   <div class="mov"><h4>I prossimi major</h4>{% for e in r.next %}<div class="mrow" style="grid-template-columns: 1fr 260px"><span class="nm">{{ e.flag }} {{ e.label }} {{ e.name }}</span><span class="d">{{ e.when }}</span></div>{% endfor %}</div>
   {{ foot(3) }}
+</section>
+{% endif %}
+
+{# ======================= ANTEPRIMA APPROFONDITA ======================= #}
+{% if r.kind == "anteprima_pro" %}
+<section class="slide">
+  {{ head("Questo weekend · " ~ r.category) }}
+  <div class="r-title" style="font-size:92px">{{ r.e.label }}<br><em>{{ r.e.name }}</em></div>
+  <div class="r-lead" style="font-size:32px">{{ r.flag }} {{ r.e.country }} · {{ r.when }} · il primo major con <b>{{ r.new_set }}</b></div>
+  <div class="fan3">{% for d in r.hero[:3] %}<div class="fc">{{ img(d) }}</div>{% endfor %}</div>
+  <div class="stats" style="margin-top:10px">
+    <div class="stat"><b>{{ r.lead_w }}/{{ r.n_majors }}</b><i>major vinti da {{ r.lead }}</i></div>
+    <div class="stat"><b>{{ r.lead_top8 }}/{{ r.n_top8 }}</b><i>posti in top 8 di {{ r.lead }}</i></div>
+    <div class="stat"><b>{{ r.favs[0].top8 if r.favs else "–" }}</b><i>top 8 online: {{ r.favs[0].name if r.favs else "" }}</i></div>
+  </div>
+  <div class="swipe">Cosa sapere →</div>
+  {{ foot(1, "Major del formato " ~ r.format_name ~ " e tornei online · Limitless TCG") }}
+</section>
+<section class="slide">
+  {{ head("Cosa cambia") }}
+  <h2 style="font-size:66px">{{ r.novita.title | safe }}</h2>
+  <div class="nv">
+    <div class="cs">{% for c in r.novita.cards %}<div class="c">{{ img(c) }}<span class="tagc">{{ c.tag }}</span></div>{% endfor %}</div>
+    <div class="pts">{% for p in r.novita.points %}<p>{{ p | safe }}</p>{% endfor %}</div>
+  </div>
+  {{ foot(2, "Date: Pokémon · testi delle carte: Limitless TCG") }}
+</section>
+<section class="slide">
+  {{ head("I favoriti online") }}
+  <h2 style="font-size:60px">Chi arriva in forma</h2>
+  <div class="tbl">
+    <div class="fv2 h"><span>#</span><span></span><span style="text-align:left">Mazzo</span><span>Gioc.</span><span>Top 8</span><span>Vitt.</span></div>
+    {% for d in r.favs %}<div class="fv2"><span class="pl">{{ loop.index }}</span>{{ img(d) }}<span class="a">{{ d.name }}</span><span class="n m">{{ d.share }}</span><span class="n">{{ d.top8 }}</span><span class="n m">{{ d.wr }}</span></div>{% endfor %}
+  </div>
+  <div class="beat">Ordinati per <b>quota di posti in top 8</b>. «Gioc.» = quota dei giocatori, «Vitt.» = partite vinte. Se la top 8 supera i giocatori, il mazzo rende più di quanto è giocato.</div>
+  {{ foot(3, r.week_note) }}
+</section>
+<section class="slide">
+  {{ head("Cosa dicono i major") }}
+  <h2 style="font-size:60px">{{ r.n_majors }} major, {{ r.lead_w }} vinti da {{ r.lead }}</h2>
+  <div class="mj">{% for m in r.majors %}<div class="m"><span class="c">{{ m.flag }} {{ m.city }}</span><b>{{ m.deck }}</b><i>{{ m.wflag }} {{ m.who }}</i></div>{% endfor %}</div>
+  <div class="mov" style="margin-top:26px"><h4>Posti in top 8 (su {{ r.n_top8 }})</h4>
+  <div class="bars">{% set mx = r.top_fam[0][1] %}{% for n, v in r.top_fam %}<div class="br"><span class="nm">{{ n }}{% if n == r.lead %} (tutte le versioni){% endif %}</span><span class="tr"><div class="bar" style="width: {{ (v / mx * 100) | round }}%"></div></span><span class="v">{{ v }}</span></div>{% endfor %}</div></div>
+  {{ foot(4, "Major del formato " ~ r.format_name ~ ", senza " ~ r.new_set ~ " · Limitless TCG") }}
+</section>
+{% for f in r.focus %}
+<section class="slide">
+  {{ head("Mazzo da vicino · " ~ loop.index ~ "/" ~ r.focus|length) }}
+  <h2 style="font-size:58px">{{ f.title }}</h2>
+  <div class="fsub">{{ f.sub }}</div>
+  <div class="fk">{% for c in f.cards %}<div class="k">{{ img(c) }}<span class="tagc">{{ c.role }}</span><b>{{ c.name }}</b><p>{{ c.why }}</p></div>{% endfor %}</div>
+  <div class="beat">{{ f.beat | safe }}</div>
+  {{ foot(4 + loop.index, f.list) }}
+</section>
+{% endfor %}
+<section class="slide">
+  {{ head("Da guardare") }}
+  <h2 style="font-size:60px">Le domande del weekend</h2>
+  <div class="pts" style="margin-top:30px">{% for p in r.watch %}<p>{{ p | safe }}</p>{% endfor %}</div>
+  <div class="mov"><h4>Su Indigo Meta</h4>
+    <div class="mrow" style="grid-template-columns: 220px 1fr"><span class="nm" style="color:var(--accent)">Domenica</span><span class="d" style="text-align:left">Top 8 in diretta</span></div>
+    <div class="mrow" style="grid-template-columns: 220px 1fr"><span class="nm" style="color:var(--accent)">Lunedì</span><span class="d" style="text-align:left">I mazzi dei campioni e le liste</span></div>
+    <h4>I prossimi major</h4>{% for x in r.next %}<div class="mrow" style="grid-template-columns: 1fr 260px"><span class="nm">{{ x.flag }} {{ x.label }} {{ x.name }}</span><span class="d">{{ x.when }}</span></div>{% endfor %}</div>
+  {{ foot(r.n_slides - 1) }}
 </section>
 {% endif %}
 

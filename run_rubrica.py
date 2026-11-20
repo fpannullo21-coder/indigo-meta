@@ -267,6 +267,9 @@ def anteprima(a) -> str | None:
                  f"<b>{win_name}</b> {flag(win_cc)} con <b>{last_deck}</b>." if win_name else "")
     nxt = [dict(x, flag=flag(x["cc"]), when=dates_it(dt.date.fromisoformat(x["start"]), dt.date.fromisoformat(x["end"])))
            for x in R.next_majors(en, 3)]
+    cfg_p = ROOT / "data" / "anteprima" / f"{e['start']}.json"
+    if cfg_p.exists() and rep:
+        return anteprima_pro(json.loads(cfg_p.read_text(encoding="utf-8")), e, s, en, rep, nxt)
     r = {"kind": "anteprima", "category": "TCG Masters", "brand_right": f"{e['name'].upper()} {flag(e['cc'])}",
          "n_slides": 3, "e": e, "flag": flag(e["cc"]), "when": dates_it(s, en), "days": (en - s).days + 1,
          "top_deck_short": short(favs[0]["name"], 11) if favs else "–", "last_winner_short": short(last_deck, 11) or "–",
@@ -280,6 +283,86 @@ def anteprima(a) -> str | None:
         "📅 Domenica sera: la Top 8 in diretta", "📅 Lunedì: i mazzi dei campioni, con tutte le liste", "",
         "Chi vince secondo te? Scrivi il tuo pronostico 👇", "", TAGS + " #regionals"])
     key = f"anteprima-{e['start']}"
+    render(r, key, cap)
+    return key
+
+
+def anteprima_pro(cfg: dict, e: dict, s: dt.date, en: dt.date, rep: dict, nxt: list) -> str:
+    """Anteprima approfondita di un major, con contenuti scelti a mano in data/anteprima/<inizio>.json:
+    novità del formato, favoriti online (con la carta simbolo di ogni mazzo), cosa dicono i major dello stesso
+    formato, 3 mazzi da vicino (carte chiave con immagine ufficiale), cosa guardare e il calendario."""
+    def cards(lst):
+        imgs = card_images([dict(c, section="trainer" if c.get("trainer") else "pokemon", name=c.get("name", "")) for c in lst])
+        return [dict(c, name=c.get("name") or i["name"], src=i["src"]) for c, i in zip(lst, imgs)]
+
+    pct = lambda x: f"{it_num(x * 100, 1)}%"
+    n_pl = f"{rep['players']:,}".replace(",", ".")
+    dk = {d["name"]: d for d in rep["decks"]}
+    ds = sorted(rep["decks"], key=lambda d: -d["top8_share"])[:6]
+    fixed = cfg.get("deck_cards", {})
+    auto = mascots([d["name"] for d in ds if d["name"] not in fixed])
+    fav_imgs = cards([dict(fixed[d["name"]], name=d["name"]) for d in ds if d["name"] in fixed])
+    by_name = {d["name"]: i for d, i in zip([d for d in ds if d["name"] in fixed], fav_imgs)}
+    favs = [{"name": d["name"], "share": pct(d["share"]), "top8": pct(d["top8_share"]), "wr": pct(d["winrate"]),
+             "src": (by_name.get(d["name"]) or auto.get(d["name"]) or {}).get("src")} for d in ds]
+
+    # major dello stesso formato
+    fam = cfg.get("family", {})
+    def family(name):
+        return next((v for k, v in fam.items() if k.lower() in name.lower()), name)
+    majors, top8 = [], {}
+    for m in R.majors_list():
+        if m.get("date", "") < cfg["format_since"]:
+            continue
+        p = R.major_players(m["tid"], CACHE)
+        if not p:
+            continue
+        w = p[0]
+        city = m["name"].replace("Regional ", "").replace("Special Event ", "")
+        majors.append({"city": city, "flag": flag(m.get("cc", "")), "who": w["name"].strip(), "wflag": flag(w.get("cc", "")),
+                       "deck": w["deck"], "date": m["date"]})
+        for x in p[:8]:
+            top8[family(x["deck"])] = top8.get(family(x["deck"]), 0) + 1
+    win_fam = {}
+    for m in majors:
+        win_fam[family(m["deck"])] = win_fam.get(family(m["deck"]), 0) + 1
+    top_fam = sorted(top8.items(), key=lambda kv: -kv[1])[:5]
+    n_top8 = 8 * len(majors)
+    lead, lead_w = max(win_fam.items(), key=lambda kv: kv[1]) if win_fam else ("–", 0)
+
+    focus = []
+    for f in cfg["focus"]:
+        d = dk.get(f["deck"], {})
+        fmt = {"share": pct(d.get("share", 0)), "top8": pct(d.get("top8_share", 0)), "wr": pct(d.get("winrate", 0))}
+        focus.append(dict(f, sub=f["sub"].format(**fmt), cards=cards(f["cards"])))
+
+    nov = dict(cfg["novita"], cards=cards(cfg["novita"]["cards"]))
+    hero = cards(cfg["hero"])
+    week_note = (f"Tornei online del {dates_it(dt.date.fromisoformat(rep['start']), dt.date.fromisoformat(rep['end']))}: "
+                 f"{rep['tournaments']} tornei, {n_pl} giocatori · Limitless TCG")
+    n_sl = 8
+    r = {"kind": "anteprima_pro", "category": "TCG Masters", "brand_right": f"{e['name'].upper()} {flag(e['cc'])}",
+         "n_slides": n_sl + 1, "e": e, "flag": flag(e["cc"]), "when": dates_it(s, en), "hero": hero,
+         "lead": lead, "lead_w": lead_w, "n_majors": len(majors), "lead_top8": top8.get(lead, 0), "n_top8": n_top8,
+         "novita": nov, "favs": favs, "week_note": week_note, "majors": majors, "top_fam": top_fam,
+         "focus": focus, "watch": cfg.get("watch", []), "next": nxt, "format_name": cfg.get("format_name", ""),
+         "new_set": cfg.get("new_set", ""),
+         "source": "Calendario ufficiale Play! Pokémon · dati: Limitless TCG"}
+    first, last = majors[0], majors[-1]
+    cap = "\n".join([
+        f"🏟️ QUESTO WEEKEND · {e['label']} {e['name']} {flag(e['cc'])} ({dates_it(s, en)}) · TCG Masters", "",
+        f"Il primo major con {cfg.get('new_set', 'il nuovo set')}. Cosa sapere prima di seguirlo:", "",
+        f"🐉 {lead}: ha vinto {lead_w} major su {len(majors)} del formato {cfg.get('format_name', '')} "
+        f"e ha preso {top8.get(lead, 0)} posti in top 8 su {n_top8}.",
+        f"🆕 Mega Rayquaza: online è il mazzo più giocato ({favs[[f['name'] for f in favs].index('Mega Rayquaza')]['share'] if 'Mega Rayquaza' in [f['name'] for f in favs] else '–'} dei giocatori), ma non ha mai giocato un major.", "",
+        "I favoriti secondo i tornei online (quota di posti in top 8):",
+        *[f"{i}. {d['name']} – {d['top8']}" for i, d in enumerate(favs[:5], 1)], "",
+        "Dentro il post: le carte chiave di Dragapult, Mega Rayquaza e Basic Box, assi tattici compresi, e come batterli.", "",
+        f"📊 Fonti: tornei online della settimana {dates_it(dt.date.fromisoformat(rep['start']), dt.date.fromisoformat(rep['end']))} ({rep['tournaments']} tornei, {n_pl} giocatori) "
+        f"e gli {len(majors)} major da {first['city']} a {last['city']}, dati Limitless TCG.", "",
+        "📅 Domenica sera: la Top 8 in diretta", "📅 Lunedì: i mazzi dei campioni, con tutte le liste", "",
+        "Chi vince secondo te? Scrivi il tuo pronostico 👇", "", TAGS + " #regionals #LAIC"])
+    key = cfg.get("key") or f"anteprima-{e['start']}"
     render(r, key, cap)
     return key
 

@@ -1,0 +1,175 @@
+{
+  "key": "anteprima-2026-11-20-2",
+  "format_since": "2026-09-26",
+  "format_name": "30th Celebration",
+  "new_set": "Dominio Delta",
+  "family": {
+    "Dragapult": "Dragapult"
+  },
+  "hero": [
+    {
+      "set": "TWM",
+      "number": "130",
+      "name": "Dragapult-ex"
+    },
+    {
+      "set": "DLR",
+      "number": "84",
+      "name": "Mega Rayquaza-ex"
+    },
+    {
+      "set": "MEG",
+      "number": "104",
+      "name": "Mega Kangaskhan-ex"
+    }
+  ],
+  "deck_cards": {
+    "Dragapult": {
+      "set": "TWM",
+      "number": "130"
+    },
+    "Mega Rayquaza": {
+      "set": "DLR",
+      "number": "84"
+    },
+    "Basic Box": {
+      "set": "MEG",
+      "number": "104"
+    },
+    "Dragapult Dudunsparce": {
+      "set": "JTG",
+      "number": "121"
+    },
+    "Ogerpon Meganium Hydrapple": {
+      "set": "MEG",
+      "number": "10"
+    },
+    "N's Zoroark": {
+      "set": "JTG",
+      "number": "98"
+    },
+    "Ogerpon Meganium": {
+      "set": "MEG",
+      "number": "10"
+    }
+  },
+  "novita": {
+    "title": "Si gioca con <em>Dominio Delta</em>",
+    "cards": [
+      {
+        "set": "DLR",
+        "number": "84",
+        "name": "Mega Rayquaza-ex",
+        "tag": "La star del set"
+      },
+      {
+        "set": "DLR",
+        "number": "94",
+        "name": "Tunnel Lavico Leggendario",
+        "tag": "Stadio Leggendario"
+      }
+    ],
+    "points": [
+      "<b>Dominio Delta è legale dal 20 novembre</b>: il LAIC è il primo major che lo usa. Gli 8 major del formato «30th Celebration» si sono giocati senza.",
+      "Online c'è già dal 5 novembre (Pokémon TCG Live): nella settimana 9–15 novembre <b>Mega Rayquaza è il mazzo più giocato</b>, ma va in top 8 meno spesso di quanto lo si giochi.",
+      "<b>Stadi Leggendari</b>: due metà (n. 94 e 95), servono entrambe in mano e si giocano insieme come un solo Stadio. Il Tunnel Lavico toglie le abilità ai Pokémon Evoluzione in gioco, di tutti e due i giocatori: Drakloak, Dudunsparce, Meganium e Zoroark-ex di N restano senza."
+    ]
+  },
+  "focus": [
+    {
+      "deck": "Dragapult",
+      "title": "Dragapult, il mazzo da battere",
+      "sub": "Ha vinto 4 major su 8 di questo formato · online: {share} dei giocatori, {top8} delle top 8",
+      "cards": [
+        {
+          "set": "TWM",
+          "number": "130",
+          "role": "Attaccante",
+          "why": "Picchiata Spettrale: 200 danni e 6 segnalini danno sulla panchina avversaria, distribuiti come vuoi.",
+          "name": "Dragapult-ex"
+        },
+        {
+          "set": "ASC",
+          "number": "16",
+          "role": "Tech",
+          "why": "Polline Urticante: nel turno dopo l'avversario non può giocare carte Strumento. Ferma il setup nei primi turni (2 copie).",
+          "name": "Budew"
+        },
+        {
+          "set": "TWM",
+          "number": "165",
+          "role": "Asso tattico",
+          "why": "Dopo un tuo Pokémon messo KO: tutti rimescolano la mano, tu peschi 5, l'avversario 2.",
+          "name": "Timbro Ingiusto"
+        }
+      ],
+      "beat": "<b>Come batterlo</b>: Clefairy-ex di Lylia rende i Pokémon Drago deboli al Psichico. Il Tunnel Lavico spegne Ordine di Ricognizione di Drakloak. Panchina corta = meno bersagli per i segnalini. Variante con Dudunsparce: la percentuale di vittorie più alta tra i favoriti online (53,9%).",
+      "list": "Lista di riferimento: Grant Manley, 1° all'AOB's Team Challenge (192 giocatori), 7-1"
+    },
+    {
+      "deck": "Mega Rayquaza",
+      "title": "Mega Rayquaza, l'incognita",
+      "sub": "Mai visto in un major · online: {share} dei giocatori, {top8} delle top 8, {wr} di vittorie",
+      "cards": [
+        {
+          "set": "DLR",
+          "number": "84",
+          "role": "Attaccante",
+          "why": "Base da 280 PS. Tempesta di Smeraldo: 50 danni per ogni Energia Fuoco e Lampo su tutti i tuoi Pokémon. Vale 3 premi.",
+          "name": "Mega Rayquaza-ex"
+        },
+        {
+          "set": "DRI",
+          "number": "39",
+          "role": "Motore",
+          "why": "Fiamma Dorata: assegna 2 Energie Fuoco dalla mano a un Pokémon di Armonio in panchina. Ogni Energia in più alza il danno.",
+          "name": "Ho-Oh-ex di Armonio"
+        },
+        {
+          "set": "DLR",
+          "number": "94",
+          "role": "Stadio",
+          "why": "Toglie le abilità ai Pokémon Evoluzione in gioco. Il mazzo è quasi tutto di Base: colpisce soprattutto l'avversario.",
+          "name": "Tunnel Lavico Leggendario"
+        }
+      ],
+      "beat": "<b>Come batterlo</b>: ogni KO su Mega Rayquaza-ex vale 3 premi. Il danno dipende dalle Energie in gioco: colpire gli Ho-Oh-ex in panchina e togliere Energie lo rallenta. Asso tattico: Timbro Ingiusto.",
+      "list": "Lista di riferimento: bulu, 1° al Moujii's Dojo (194 giocatori), 11-3"
+    },
+    {
+      "deck": "Basic Box",
+      "title": "Basic Box, la risposta",
+      "sub": "Ha vinto il Regional di Nizza · online: {share} dei giocatori, {top8} delle top 8",
+      "cards": [
+        {
+          "set": "MEG",
+          "number": "104",
+          "role": "Attaccante",
+          "why": "Sbrigare Commissioni: se è attivo peschi 2 carte. Combinazione a Raffica: 200 danni + 50 per ogni testa finché esce croce.",
+          "name": "Mega Kangaskhan-ex"
+        },
+        {
+          "set": "JTG",
+          "number": "56",
+          "role": "Anti-Drago",
+          "why": "Area Folletto: i Pokémon Drago avversari diventano deboli al Psichico. Contro Dragapult-ex i suoi attacchi fanno il doppio.",
+          "name": "Clefairy-ex di Lylia"
+        },
+        {
+          "set": "SCR",
+          "number": "131",
+          "role": "Stadio",
+          "why": "Con un Pokémon Teracristal in gioco (Ogerpon) la panchina sale a 8: più opzioni e Rondò Luna Piena più forte.",
+          "name": "Grande Abisso Zero"
+        }
+      ],
+      "beat": "<b>Come batterlo</b>: gioca quasi solo Pokémon-ex, quindi Dudunsparce-ex (Coda Tenace: 60 danni per ogni Pokémon-ex avversario in gioco) lo punisce. Asso tattico: Mantello dell'Eroe, Oggetto da +100 PS.",
+      "list": "Lista di riferimento: HenryGao, 1° al Tournament of Doom (454 giocatori), 11-1-1"
+    }
+  ],
+  "watch": [
+    "<b>Dragapult tiene?</b> 31 posti in top 8 su 64 negli ultimi 8 major. Il Tunnel Lavico è la prima vera carta contro il suo motore.",
+    "<b>Mega Rayquaza regge su 2 giorni?</b> Online è il più giocato, ma ha il 45,6% di vittorie: il LAIC è il primo test dal vivo.",
+    "<b>Il Brasile in casa</b>: a Recife ha vinto Victor Carreira Rodrigues con Ogerpon Meganium."
+  ]
+}
