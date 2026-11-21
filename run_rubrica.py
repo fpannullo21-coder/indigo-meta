@@ -81,10 +81,21 @@ def mascots(names: list[str], lists: list[dict] | None = None) -> dict:
     for name in names:
         words = name.replace("'s", "").split()
         token = " ".join(words[:2]) if words and words[0] == "Mega" else (words[-1] if words and words[0] in ("N", "Team") else words[0] if words else "")
+        own = [p for p in lists if p["deck"]["name"].lower() == name.lower()]
         if not token or token.lower() in ("basic", "festival", "other", "altro"):
+            # Mazzi senza un Pokémon nel nome (Basic Box, Festival Lead): la carta simbolo è il Pokémon
+            # con più copie nelle liste di quel mazzo (preferendo gli ex). Es. Basic Box → Mega Kangaskhan ex.
+            tot = {}
+            for p in own:
+                for c in p["decklist"].get("pokemon", []):
+                    k = (c["name"], c.get("set", ""), c.get("number", ""))
+                    tot[k] = tot.get(k, 0) + c["count"]
+            if tot:
+                (n, s, num), _ = max(tot.items(), key=lambda kv: (" ex" in kv[0][0], kv[1]))
+                out[name] = {"section": "pokemon", "name": n, "set": s, "number": num}
             continue
         best = None
-        own = [p for p in lists if p["deck"]["name"].lower() == name.lower()] or lists
+        own = own or lists
         for p in own:
             for c in p["decklist"].get("pokemon", []):
                 if token.lower() in c["name"].lower():
